@@ -1,0 +1,106 @@
+# Litigación laboral España
+
+Plugin de litigación laboral y de Seguridad Social para despachos de abogados en España
+(LRJS - Ley 36/2011, ET, normativa de Seguridad Social). Todas sus skills se apoyan en el
+conector **Jurisprudenciator**, que viene incluido en el plugin.
+
+## Conector incluido (`.mcp.json`)
+
+- **Jurisprudenciator** (conector remoto) — fuentes oficiales para el despacho. **¿Ya tienes Jurisprudenciator en Claude?** Lo normal es tenerlo conectado con tu URL personal (https://jurisprudenciator.lexiaipro.org/instalacion): las skills usan ese. Si no, conecta el que trae el plugin e inicia sesión con tu cuenta.
+  Endpoint: `https://mcp.jurisprudenciator.lexiaipro.org/mcp`
+  - Jurisprudencia oficial (Sala Cuarta del TS, Salas de lo Social de la AN y de los TSJ,
+    juzgados de lo social, TC y TJUE) con párrafo literal y ECLI: `buscar_sentencias`,
+    `opciones_busqueda`, `buscar_por_cita`, `leer_sentencias`, `continuar_lectura`.
+  - Legislación vigente y verificación de citas: `buscar_articulo`, `verificar_escrito`.
+  - Convenios colectivos (salarios, categorías, jornada, pluses, vigencia): `buscar_convenio`,
+    `leer_convenio`, `vigencia_convenio`.
+  - Registro Mercantil, BOE y BORME (empresa demandada, concurso, edictos):
+    `buscar_empresa_mercantil`, `buscar_boe`, `leer_boe`, `sumario_boe`, `novedades_boe`,
+    `sumario_borme`.
+  - Además: criterios de Hacienda y doctrina del TEAC, ordenanzas municipales, Catastro, guías
+    de redacción (`escritos_disponibles`, `guia_escrito`) y diagnóstico (`estado`).
+
+**Sin Jurisprudenciator no se trabaja.** Cada skill empieza comprobando el conector (`estado`) y saca de él todos los datos jurídicos. Si no está conectado, falla o no devuelve lo que la tarea necesita (sentencias, el artículo, el convenio...), la skill se detiene y pide conectarlo: nunca sigue de memoria ni con citas pendientes.
+
+**Conectores del despacho (opcionales).** El plugin trae también Google Drive, Gmail, Google Calendar, Microsoft 365 (Outlook, OneDrive, SharePoint), Dropbox, Box y DocuSign. Conecta solo los que uses; en la app de Claude están en la pestaña Conectores del plugin. Sirven para los documentos, el correo, los señalamientos y la firma, nunca como fuente de jurisprudencia o legislación.
+
+## Skills
+
+### Requisitos de procedibilidad
+
+- `/papeleta-conciliacion` — papeleta de conciliación/mediación previa (SMAC, arts. 63-68 LRJS).
+- `/reclamacion-previa-seguridad-social` — reclamación previa frente al INSS/TGSS/mutua
+  (art. 71 LRJS).
+
+### Demandas (basadas en plantillas reales del despacho, anonimizadas)
+
+- `/redactar-demanda-despido` — demanda por despido disciplinario/objetivo/nulo/improcedente.
+- `/reclamacion-cantidad` — reclamación de salarios, extras, finiquito y otras cantidades
+  (con FOGASA cuando procede).
+- `/extincion-contrato-trabajador` — extinción del contrato a instancia del trabajador
+  (art. 50 ET), incluido acoso laboral/mobbing.
+- `/reclamacion-trade` — resolución de contrato TRADE y reclamación de cantidad.
+- `/incapacidad-permanente` — demanda de incapacidad permanente (total/absoluta/gran
+  invalidez) frente al INSS.
+- `/seguridad-social-contingencia` — determinación de contingencia (accidente de
+  trabajo/enfermedad profesional vs. común), incluido burnout.
+
+### Procedimientos especiales
+
+- `/tutela-derechos-fundamentales` — tutela de derechos fundamentales y libertades
+  públicas (arts. 177-184 LRJS).
+- `/conflicto-colectivo` — proceso de conflicto colectivo (arts. 153-162 LRJS).
+- `/impugnacion-despido-colectivo` — impugnación colectiva e individual del despido
+  colectivo (art. 124 LRJS).
+
+### Recursos y ejecución
+
+- `/recurso-suplicacion` — recurso de suplicación ante la Sala de lo Social del TSJ.
+- `/recurso-casacion-unificacion-doctrina` — RCUD ante el Tribunal Supremo (con el
+  requisito de interés casacional objetivo introducido por la LO 1/2025).
+- `/ejecucion-laboral` — ejecución dineraria, ejecución de sentencias de despido
+  (incidente de no readmisión) y ejecución provisional.
+
+### Gestión del asunto y transversales (adaptadas al orden social)
+
+`asunto-intake`, `cold-start-interview`, `briefing-asunto`, `actualizar-asunto`,
+`cerrar-asunto`, `portfolio-status`, `matter-workspace`, `colaboradores-status`,
+`hoja-encargo`, `customize`, `estilo-escritos-judiciales`, `subsuncion-juridica`,
+`cronologia`, `cuadro-elementos`, `preparacion-interrogatorio`, `conservacion-documental`,
+`redactor-escrito-seccion`, `revision-secreto-profesional`, `requerimiento-judicial-triage`.
+
+La configuración del despacho se hace con `/cold-start-interview` y `/customize`.
+
+## Marco normativo
+
+Todas las skills citan la LRJS en su redacción vigente (incluidas las reformas del
+RD-ley 6/2023 y de la LO 1/2025: Tribunales de Instancia con Sección de lo Social,
+interés casacional objetivo en el RCUD, redacción actual del art. 65 sobre suspensión
+de caducidad). El requisito MASC de la LO 1/2025 rige en el orden civil, **no** en el
+social: aquí la procedibilidad se cumple con conciliación previa (SMAC) o reclamación
+previa de Seguridad Social.
+
+## Aviso sobre datos sensibles
+
+Varias skills (incapacidad permanente, determinación de contingencia, reclamación previa
+de Seguridad Social) tratan datos de salud, categoría especial de datos personales.
+Estas skills incluyen avisos explícitos para no reproducir diagnósticos ni datos
+identificativos reales de terceros en ningún ejemplo o plantilla.
+
+## Pendiente / próximos pasos
+
+Posibles ampliaciones futuras: modalidades de vacaciones y materia electoral,
+clasificación profesional, movilidad geográfica y modificación sustancial (arts. 137-138
+LRJS como skills propias), demandas de prestaciones distintas a incapacidad (jubilación,
+viudedad), impugnación de sanciones (arts. 114-115 LRJS) y procedimiento de oficio.
+
+## Instalación
+
+Añade el marketplace de Jurisprudenciator: https://jurisprudenciator.lexiaipro.org/plugins
+
+- En Claude Code: `/plugin marketplace add https://jurisprudenciator.lexiaipro.org/plugins`
+  y después `/plugin install litigacion-laboral-espana@jurisprudenciator`.
+- En la app de Claude: añade el marketplace con esa misma dirección desde la gestión de plugins
+  e instala «litigacion-laboral-espana».
+
+Ver `COMO-PROBARLO.md` para el plan de pruebas completo.

@@ -1,0 +1,20 @@
+{
+  "name": "litigacion-penal-espana",
+  "description": "Litigación penal española para defensa y acusación: instrucción, juicio oral, recursos y ejecución, con jurisprudencia verificada.",
+  "version": "0.2.0+codex.20260717155857",
+  "author": {
+    "name": "DerechoVirtual"
+  },
+  "interface": {
+    "displayName": "Litigación Penal España",
+    "shortDescription": "Flujos y escritos para litigación penal española.",
+    "longDescription": "Asistencia estructurada para defensa y acusación penal: asistencia al detenido, instrucción, audiencia preliminar y conformidad, juicio rápido, delitos leves, recursos y ejecución, con jurisprudencia verificable.",
+    "developerName": "DerechoVirtual",
+    "category": "Productivity",
+    "capabilities": [
+      "Legal workflow",
+      "Document drafting"
+    ],
+    "defaultPrompt": "Ayúdame a preparar un asunto de litigación penal española."
+  }
+}

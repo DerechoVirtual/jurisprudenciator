@@ -1,0 +1,40 @@
+{
+  "name": "jurisprudenciator",
+  "owner": {
+    "name": "Derecho Virtual",
+    "url": "https://jurisprudenciator.lexiaipro.org"
+  },
+  "description": "Plugins de Jurisprudenciator para Claude: el conector de jurisprudencia y legislación española y un plugin por orden jurisdiccional (civil, penal, contencioso-administrativo y laboral), con cada skill conectada a Jurisprudenciator.",
+  "plugins": [
+    {
+      "name": "jurisprudenciator",
+      "source": "./plugins/jurisprudenciator",
+      "description": "Conector Jurisprudenciator: jurisprudencia oficial con párrafo literal y ECLI, artículos vigentes, verificación de citas, BOE, BORME, Catastro, convenios, TEAC y ordenanzas.",
+      "category": "legal"
+    },
+    {
+      "name": "litigacion-civil-espana",
+      "source": "./plugins/litigacion-civil-espana",
+      "description": "Litigación civil, mercantil y de familia (LEC, LO 1/2025) con Jurisprudenciator.",
+      "category": "legal"
+    },
+    {
+      "name": "litigacion-penal-espana",
+      "source": "./plugins/litigacion-penal-espana",
+      "description": "Litigación penal (LECrim, CP): detenido, instrucción, juicio, recursos y ejecución, con Jurisprudenciator.",
+      "category": "legal"
+    },
+    {
+      "name": "litigacion-contencioso-espana",
+      "source": "./plugins/litigacion-contencioso-espana",
+      "description": "Litigación contencioso-administrativa (LJCA, Leyes 39 y 40/2015) con Jurisprudenciator.",
+      "category": "legal"
+    },
+    {
+      "name": "litigacion-laboral-espana",
+      "source": "./plugins/litigacion-laboral-espana",
+      "description": "Litigación laboral y de Seguridad Social (LRJS, ET, LGSS) con Jurisprudenciator.",
+      "category": "legal"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "litigacion-laboral-espana",
+  "description": "Litigación laboral y de Seguridad Social española: conciliación previa, demandas, procedimientos especiales, recursos y ejecución, con jurisprudencia verificada.",
+  "version": "1.0.0+codex.20260717155857",
+  "author": {
+    "name": "DerechoVirtual"
+  },
+  "interface": {
+    "displayName": "Litigación Laboral España",
+    "shortDescription": "Flujos y escritos para litigación laboral y de Seguridad Social española.",
+    "longDescription": "Asistencia estructurada para papeleta de conciliación, reclamación previa de Seguridad Social, demandas (despido, cantidad, extinción art. 50 ET, TRADE, incapacidad permanente), tutela de derechos fundamentales, conflicto colectivo, recursos de suplicación y casación para unificación de doctrina, y ejecución laboral, con jurisprudencia verificable.",
+    "developerName": "DerechoVirtual",
+    "category": "Productivity",
+    "capabilities": [
+      "Legal workflow",
+      "Document drafting"
+    ],
+    "defaultPrompt": "Ayúdame a preparar un asunto de litigación laboral española."
+  }
+}

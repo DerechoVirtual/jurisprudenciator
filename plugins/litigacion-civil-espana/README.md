@@ -1,0 +1,38 @@
+# Litigación civil España
+
+Plugin de litigación civil, mercantil y de familia para despachos de abogados en España (LO 1/2025, LEC vigente, EGA). Gestiona la cartera de asuntos y redacta los escritos del proceso civil apoyándose en el conector **Jurisprudenciator** para la jurisprudencia, la legislación vigente, la verificación de citas, el Catastro y el Registro Mercantil.
+
+## Conector principal: Jurisprudenciator
+
+**¿Ya tienes Jurisprudenciator en Claude?** Lo normal es tenerlo conectado con tu URL personal (https://jurisprudenciator.lexiaipro.org/instalacion): las skills usan ese. Si no, conecta el que trae el plugin e inicia sesión con tu cuenta. Endpoint del plugin: `https://mcp.jurisprudenciator.lexiaipro.org/mcp`.
+
+- **Jurisprudencia oficial** del Tribunal Supremo, la Audiencia Nacional, los TSJ, las Audiencias Provinciales y los juzgados, además del Tribunal Constitucional y del TJUE, con el párrafo literal para citar y su ECLI o ROJ.
+- **Artículos vigentes** de leyes españolas y normas de la UE (LEC, CC, LAU, LPH, LSC, TRLGDCU, LO 1/2025, Directiva 93/13/CEE...) y **verificación de las citas** de un borrador antes de presentarlo.
+- **BOE y BORME**, **Registro Mercantil** (estado, domicilio y administradores de una sociedad), **Catastro**, criterio de **Hacienda y del TEAC**, **ordenanzas municipales** y **convenios colectivos**.
+
+Cada skill explica, en su apartado «Jurisprudenciator en esta skill», qué dato sale de qué herramienta.
+
+**Sin Jurisprudenciator no se trabaja.** Cada skill empieza comprobando el conector (`estado`) y saca de él todos los datos jurídicos. Si no está conectado, falla o no devuelve lo que la tarea necesita (sentencias, el artículo, el convenio...), la skill se detiene y pide conectarlo: nunca sigue de memoria ni con citas pendientes.
+
+## Documentación del despacho
+
+**Conectores del despacho (opcionales).** El plugin trae también Google Drive, Gmail, Google Calendar, Microsoft 365 (Outlook, OneDrive, SharePoint), Dropbox, Box y DocuSign. Conecta solo los que uses; en la app de Claude están en la pestaña Conectores del plugin. Sirven para los documentos, el correo, los señalamientos y la firma, nunca como fuente de jurisprudencia o legislación. Los asuntos pueden guardarse en una carpeta local o en cualquiera de esos servicios. Se indica en `/cold-start-interview` y se cambia con `/customize`.
+
+## Instalación
+
+Añade el marketplace de Jurisprudenciator: https://jurisprudenciator.lexiaipro.org/plugins
+
+- En Claude Code:
+
+  ```
+  claude plugin marketplace add https://jurisprudenciator.lexiaipro.org/plugins
+  claude plugin install litigacion-civil-espana@jurisprudenciator
+  ```
+
+- En la app: `+` → «Añadir plugins...» → pega la URL del marketplace y elige **litigacion-civil-espana**.
+
+Después, configura el despacho con `/cold-start-interview`.
+
+## Skills
+
+Incluye las skills de cartera de asuntos y de redacción de escritos: intake y briefing de asuntos, demandas, contestaciones, recursos (reposición, apelación, casación y queja), ejecución y oposición a la ejecución, declinatoria, medidas cautelares, nulidad de cláusulas abusivas, conclusiones y prueba, incidente de nulidad, terminación anticipada, MASC, cronologías, cuadros de elementos, interrogatorios, tasaciones de costas, burofax, hoja de encargo y más. La configuración del despacho se hace con `/cold-start-interview` y `/customize`.

@@ -1,0 +1,20 @@
+{
+  "name": "litigacion-contencioso-espana",
+  "description": "Litigación contencioso-administrativa española: vía previa, recurso contencioso, cautelares, casación por interés casacional objetivo y ejecución de sentencias.",
+  "version": "0.2.0+codex.20260717155857",
+  "author": {
+    "name": "DerechoVirtual"
+  },
+  "interface": {
+    "displayName": "Litigación Contencioso-Administrativa España",
+    "shortDescription": "Flujos y escritos para litigación contencioso-administrativa española.",
+    "longDescription": "Asistencia estructurada para recursos administrativos, expediente administrativo, interposición y demanda contencioso-administrativa, procedimiento abreviado, cautelares, derechos fundamentales, casación y ejecución de sentencias contra la Administración, con jurisprudencia verificable.",
+    "developerName": "DerechoVirtual",
+    "category": "Productivity",
+    "capabilities": [
+      "Legal workflow",
+      "Document drafting"
+    ],
+    "defaultPrompt": "Ayúdame a preparar un asunto de litigación contencioso-administrativa española."
+  }
+}
