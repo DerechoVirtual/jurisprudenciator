@@ -161,3 +161,11 @@ Recoge las **dos reformas recientes** que cambian la práctica:
   vencimiento del art. 324, avisa y recomienda verificación humana.
 - **No anticipa la ley futura.** Describe el Derecho vigente. La reforma del fiscal instructor
   (prevista para 2028) no está en el plugin, y es deliberado.
+
+## Perfil y privacidad
+
+El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente como contexto. La skill `/cold-start-interview` lo lee para crear un perfil privado y `/customize` permite modificarlo. No guardes datos reales del despacho o de clientes en el repositorio público.
+
+Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
+
+[Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)

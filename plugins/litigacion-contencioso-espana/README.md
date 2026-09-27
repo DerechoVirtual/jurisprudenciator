@@ -141,3 +141,11 @@ Recoge, entre otras, las tres reformas recientes de la LJCA que cambian la prác
   Te las pedirá.
 - **No calcula plazos que no puedas comprobar.** Ante la duda sobre una caducidad, avisa y
   recomienda verificación humana: el coste de equivocarse es la pérdida irreversible de la acción.
+
+## Perfil y privacidad
+
+El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente como contexto. La skill `/cold-start-interview` lo lee para crear un perfil privado y `/customize` permite modificarlo. No guardes datos reales del despacho o de clientes en el repositorio público.
+
+Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
+
+[Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)
