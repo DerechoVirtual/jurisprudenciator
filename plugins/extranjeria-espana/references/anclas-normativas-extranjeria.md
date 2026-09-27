@@ -76,8 +76,8 @@ anuló, lee el fallo con `leer_boe` e `identificador="BOE-A-2026-19632"`) y **mo
 127, 130, 132, 172.2, 190 y 191, y las disposiciones adicionales segunda y novena; deroga la disposición transitoria quinta y añade
 las disposiciones adicionales vigésima y vigesimoprimera (arraigo de solicitantes de protección
 internacional y arraigo extraordinario, con plazo de solicitud hasta el 30/06/2026). `buscar_articulo`
-no devuelve esas disposiciones adicionales; `leer_boe` con `identificador="BOE-A-2026-8284"` las trae
-casi completas. `buscar_articulo`
+no devuelve esas disposiciones adicionales; `leer_boe` con `identificador="BOE-A-2026-8284"` trae la
+vigésima completa y la vigesimoprimera hasta su apartado 5. `buscar_articulo`
 devuelve el texto con notas que empiezan por «Téngase en cuenta que se declara la nulidad…»: léelas
 siempre. Lo anulado no se aplica ni se cita como requisito, y muchas sentencias de TSJ recientes
 aplican aún el Reglamento anterior (Real Decreto 557/2011, con otra numeración): comprueba qué
@@ -191,6 +191,16 @@ reglamento aplicó cada sentencia antes de trasladar su doctrina.
 - `leer_convenio` suele devolver la publicación original del convenio y no las tablas salariales
   vigentes (van en anexos o en revisiones registradas aparte, que `vigencia_convenio` sí lista). Si la
   tabla vigente no aparece, pídesela al abogado o deja marcador: no afirmes que un salario la cumple.
+- El **Tratado de Funcionamiento de la Unión Europea** no está disponible: `buscar_articulo` no lo
+  encuentra ni por sigla ni por nombre, y `verificar_escrito` atribuye sus artículos a otra norma. Para
+  la ciudadanía europea del menor (art. 20 TFUE), apóyate en la jurisprudencia del TJUE y del Supremo
+  leída con `leer_sentencias`, que transcribe el precepto, y no cites el Tratado de memoria.
+- **Real Decreto 316/2026**: `verificar_escrito` lo confunde con el Real Decreto 68/2026 y `buscar_boe`
+  no lo encuentra por su número. Cítalo por su identificador (BOE-A-2026-8284), léelo con `leer_boe` e
+  ignora el veredicto de `verificar_escrito` sobre él.
+- Jurisprudencia de un TSJ: usa en `provincia` la **sede de la Sala** (Granada, Sevilla o Málaga en
+  Andalucía; Las Palmas o Santa Cruz de Tenerife en Canarias…), no la provincia del cliente: con una
+  provincia que no es sede, el buscador responde «Sin resultados» y cae al Supremo.
 - Si una consulta devuelve «no localizado» para un artículo que debería existir, repítela antes de
   concluir nada: ha habido caídas temporales de unos minutos.
 - Durante caídas de la base de normativa de la Unión, `buscar_articulo` puede devolver el artículo de

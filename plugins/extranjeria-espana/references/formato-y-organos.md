@@ -75,12 +75,19 @@ Justicia**.
     siempre la norma junto al artículo. En una enumeración («artículos 50, 51 o 52»), el verificador solo enlaza
     el último: nombra la norma con cada artículo o cítalos por separado.
   - Artículos «bis»: «apartado 3 del artículo 31 bis de la Ley Orgánica 4/2000» (con «31 bis.3» no enlaza).
+  - La letra o el apartado **pegados al número** («53.1.a», «53.1 a)», «63 bis.2», «84.2.h») rompen el
+    enlace con la norma que sigue: el verificador comprueba ese artículo en la norma citada antes y
+    puede dar por buena una cita equivocada. Escribe «la letra a) del artículo 53.1 de la Ley Orgánica
+    4/2000» o «apartado 2 del artículo 63 bis de la Ley Orgánica 4/2000».
   - LOPJ: «Ley Orgánica del Poder Judicial» (con «Ley Orgánica 6/1985» el verificador no la identifica).
     Evita «de la misma ley»: repite el nombre de la norma.
   - `verificar_escrito` no identifica los reglamentos ni las directivas de la Unión ni las ordenanzas
     municipales: atribuye su artículo a la norma española más cercana y puede darlo por existente, por
     no localizado o con «disonancia». Ignora su veredicto sobre esas normas y comprueba cada artículo con
     `buscar_articulo` (o `leer_ordenanza`).
+- Revisa **una por una** las alertas de `verificar_escrito` («NO localizado», «disonancia», «mal
+  atribuida»): cada una se resuelve comprobando el artículo con `buscar_articulo` o corrigiendo cómo
+  se nombra la norma. No entregues con alertas sin explicar.
 - Si aun así `verificar_escrito` marca un artículo como no localizado, compruébalo con
   `buscar_articulo` y el valor de `ley` de las anclas: si lo devuelve, la cita es correcta y el aviso
   se debe a cómo está nombrada la norma; corrige el nombre en el escrito.

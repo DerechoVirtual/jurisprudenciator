@@ -32,7 +32,7 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 1. Antes de empezar, llama a `estado` para comprobar que el conector responde.
 2. Si no está conectado o falla, detén la tarea en ese punto: no redactes, no calcules y no entregues nada. Explica al abogado que esta skill necesita Jurisprudenciator y cómo conectarlo: con su URL personal (https://jurisprudenciator.lexiaipro.org/instalacion) o desde la pestaña Conectores del plugin, iniciando sesión con su cuenta.
-3. Si una consulta imprescindible no devuelve lo que la tarea necesita (ninguna sentencia aplicable, el artículo que hay que citar o el requisito que hay que comprobar), reformúlala como máximo dos veces; si sigue sin resultado, detén la tarea y dile al abogado qué consulta ha fallado.
+3. Si una consulta imprescindible no devuelve lo que la tarea necesita (el artículo que hay que citar, el requisito que hay que comprobar o la jurisprudencia que exige el apartado 8 de `references/formato-y-organos.md`), reformúlala como máximo dos veces; si sigue sin resultado, detén la tarea y dile al abogado qué consulta ha fallado.
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
@@ -100,7 +100,7 @@ Si una solicitud del cliente se presentó antes del 20/05/2025, lee con `leer_bo
 - **Denegación**: qué se pierde si se deniega (tasa, tiempo, visibilidad ante la Administración) y qué vía queda después.
 - **Incompatibilidades y bloqueos**: arts. 126.a, 126.h y 191.7 del Reglamento.
 - **Mantenimiento**: condiciones de prórroga (art. 132.2), causas de extinción (art. 200) y la del socioformativo por falta de matrícula (art. 127.d).
-- **Preceptos no disponibles**: si una vía depende de una disposición adicional o transitoria (por ejemplo, las adicionales vigésima y vigesimoprimera del Reglamento añadidas por el Real Decreto 316/2026, o la transitoria quinta del Real Decreto 1155/2024), el conector no devuelve su texto: aplica la puerta, no valores esa vía y explica al abogado qué precepto falta.
+- **Preceptos no disponibles**: si una vía depende de una disposición adicional o transitoria que el conector no devuelve (por ejemplo, la transitoria quinta del Real Decreto 1155/2024), aplica la puerta, no valores esa vía y explica al abogado qué precepto falta. Las adicionales vigésima y vigesimoprimera del Reglamento (arraigo de solicitantes de protección internacional y arraigo extraordinario, añadidas por el Real Decreto 316/2026) sí se leen con `leer_boe` (`identificador="BOE-A-2026-8284"`): la vigésima completa y la vigesimoprimera hasta su apartado 5; el plazo de solicitud de ambas terminó el 30/06/2026, así que solo importan si el cliente ya presentó una de esas solicitudes (en ese caso, además, está en curso y bloquea otras vías por el art. 126.h).
 
 ### Paso 4. Calendario
 
