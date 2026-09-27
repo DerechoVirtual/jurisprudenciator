@@ -165,3 +165,25 @@ Recoge las **dos reformas recientes** que cambian la práctica:
   vencimiento del art. 324, avisa y recomienda verificación humana.
 - **No anticipa la ley futura.** Describe el Derecho vigente. La reforma del fiscal instructor
   (prevista para 2028) no está en el plugin, y es deliberado.
+
+## Perfil y privacidad
+
+El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente como contexto. La skill `/cold-start-interview` lo lee para crear un perfil privado y `/customize` permite modificarlo. No guardes datos reales del despacho o de clientes en el repositorio público.
+
+Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
+
+[Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)
+
+## Ejemplos para la revisión
+
+Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
+
+1. Configura el plugin para un despacho penal ficticio y comprueba Jurisprudenciator.
+2. Ayúdame a preparar la asistencia a un detenido en un caso ficticio; pregunta los hechos que falten y consulta las fuentes vigentes.
+3. Prepara el esquema de un recurso de reforma contra una resolución ficticia, sin inventar hechos ni citas.
+
+## Resolución de problemas
+
+Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
+
+[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.

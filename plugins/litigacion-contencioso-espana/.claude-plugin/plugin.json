@@ -1,8 +1,24 @@
 {
   "name": "litigacion-contencioso-espana",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Plugin de litigación contencioso-administrativa para despachos en España. Cubre el ciclo completo: plazos de caducidad y silencio, vía previa y recursos administrativos, recurso contencioso, demanda, procedimientos abreviado y sancionador, responsabilidad patrimonial, medidas cautelares, apelación, casación y ejecución contra la Administración. Conforme a la LJCA y a las Leyes 39/2015 y 40/2015 (reformas del RD-ley 5/2023, el RD-ley 6/2023 y la LO 1/2025). Se apoya en el conector Jurisprudenciator para la jurisprudencia con párrafo literal y ECLI, la legislación vigente, las ordenanzas municipales, el Catastro y la doctrina del TEAC.",
   "author": {
     "name": "Derecho Virtual"
-  }
+  },
+  "displayName": "Litigación Contencioso-Administrativa España",
+  "icon": "./.claude-plugin/icon.png",
+  "privacyPolicyUrl": "https://github.com/DerechoVirtual/jurisprudenciator/blob/main/plugins/litigacion-contencioso-espana/PRIVACY.md",
+  "supportUrl": "https://jurisprudenciator.lexiaipro.org/incidencias",
+  "homepage": "https://jurisprudenciator.lexiaipro.org/plugins",
+  "repository": "https://github.com/DerechoVirtual/jurisprudenciator",
+  "documentationUrl": "https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/litigacion-contencioso-espana",
+  "termsOfServiceUrl": "https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones",
+  "keywords": [
+    "jurisprudenciator",
+    "legal",
+    "españa",
+    "litigación",
+    "contencioso",
+    "escritos"
+  ]
 }

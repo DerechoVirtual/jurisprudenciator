@@ -1,21 +1,24 @@
 {
   "name": "jurisprudenciator",
   "displayName": "Jurisprudenciator",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Conector Jurisprudenciator para Claude: jurisprudencia oficial española (TS, AN, TSJ, AP, juzgados, TC y TJUE) con párrafo literal y ECLI, artículos de ley vigentes, verificación de citas de escritos, BOE y BORME, Registro Mercantil, doctrina de Hacienda y del TEAC, ordenanzas municipales, Catastro y convenios colectivos. Incluye la guía de uso de todas sus herramientas.",
   "author": {
-    "name": "Derecho Virtual",
-    "url": "https://jurisprudenciator.lexiaipro.org"
+    "name": "Derecho Virtual"
   },
-  "homepage": "https://jurisprudenciator.lexiaipro.org",
+  "homepage": "https://jurisprudenciator.lexiaipro.org/plugins",
   "keywords": [
+    "jurisprudenciator",
+    "legal",
+    "españa",
     "jurisprudencia",
-    "legislacion",
-    "abogados",
-    "espana",
-    "sentencias",
-    "ECLI",
-    "catastro",
-    "convenios"
-  ]
+    "legislación",
+    "abogados"
+  ],
+  "icon": "./.claude-plugin/icon.png",
+  "privacyPolicyUrl": "https://github.com/DerechoVirtual/jurisprudenciator/blob/main/plugins/jurisprudenciator/PRIVACY.md",
+  "supportUrl": "https://jurisprudenciator.lexiaipro.org/incidencias",
+  "repository": "https://github.com/DerechoVirtual/jurisprudenciator",
+  "documentationUrl": "https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/jurisprudenciator",
+  "termsOfServiceUrl": "https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones"
 }

@@ -59,3 +59,17 @@ Jurisprudenciator (`https://mcp.jurisprudenciator.lexiaipro.org/mcp`) con tu cue
 la cuestión jurídica, nunca por el nombre, el NIE o el pasaporte del cliente. Los conectores opcionales
 solo se usan si los conectas tú, con tu cuenta de cada servicio. Lo que redacta Claude son borradores
 para revisión del abogado; no es asesoramiento jurídico.
+
+## Ejemplos para la revisión
+
+Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
+
+1. Configura el plugin para un despacho de extranjería ficticio y comprueba la conexión con Jurisprudenciator.
+2. Caso ficticio: mujer colombiana en España desde hace dos años y medio, sin antecedentes, con una hermana residente. Estudia si puede pedir arraigo social y prepara la solicitud.
+3. Prepara las alegaciones a un acuerdo de iniciación de expulsión ficticio por estancia irregular, pidiendo multa en lugar de expulsión, sin inventar hechos ni citas.
+
+## Resolución de problemas
+
+Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
+
+[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.

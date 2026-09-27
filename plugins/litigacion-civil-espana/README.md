@@ -40,3 +40,25 @@ Después, configura el despacho con `/cold-start-interview`.
 ## Skills
 
 Incluye las skills de cartera de asuntos y de redacción de escritos: intake y briefing de asuntos, demandas, contestaciones, recursos (reposición, apelación, casación y queja), ejecución y oposición a la ejecución, declinatoria, medidas cautelares, nulidad de cláusulas abusivas, conclusiones y prueba, incidente de nulidad, terminación anticipada, MASC, cronologías, cuadros de elementos, interrogatorios, tasaciones de costas, burofax, hoja de encargo y más. La configuración del despacho se hace con `/cold-start-interview` y `/customize`.
+
+## Perfil y privacidad
+
+El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente como contexto. La skill `/cold-start-interview` lo lee para crear un perfil privado y `/customize` permite modificarlo. No guardes datos reales del despacho o de clientes en el repositorio público.
+
+Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
+
+[Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)
+
+## Ejemplos para la revisión
+
+Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
+
+1. Configura el plugin para un despacho civil ficticio y comprueba la conexión con Jurisprudenciator.
+2. Prepara un borrador de demanda de reclamación de cantidad: factura ficticia de 3.000 euros impagada. Pregunta los hechos y documentos que falten y verifica las citas.
+3. Revisa las citas de este borrador civil de ejemplo con Jurisprudenciator e identifica lo que no se puede verificar.
+
+## Resolución de problemas
+
+Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
+
+[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.

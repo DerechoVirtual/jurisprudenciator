@@ -25,3 +25,17 @@ Microsoft 365, Dropbox, Box y DocuSign.
 Las consultas jurídicas se envían al conector de Jurisprudenciator
 (`https://mcp.jurisprudenciator.lexiaipro.org/mcp`) con tu cuenta. Busca por la cuestión jurídica, nunca
 por los datos personales del cliente. Los conectores opcionales solo se usan si los conectas tú.
+
+## Ejemplos para la revisión
+
+Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
+
+1. Comprueba que Jurisprudenciator responde y explícame qué herramientas tengo.
+2. Busca jurisprudencia del Tribunal Supremo sobre la cláusula de gastos hipotecarios y cítame el párrafo clave con su ECLI.
+3. ¿Qué dice hoy el artículo 394 de la Ley de Enjuiciamiento Civil?
+
+## Resolución de problemas
+
+Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
+
+[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.
