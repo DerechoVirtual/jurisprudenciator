@@ -1,0 +1,9 @@
+{
+  "name": "extranjeria-espana",
+  "displayName": "Extranjería España",
+  "version": "1.0.0",
+  "description": "Derecho de extranjería español para despachos: arraigos, reagrupación, residencia y trabajo, familiares de españoles y de ciudadanos de la UE, estudiantes, nacionalidad, protección internacional, expulsiones e internamiento, y los recursos administrativos y contencioso-administrativos. Conforme al Reglamento aprobado por el Real Decreto 1155/2024 y la Ley Orgánica 4/2000. Cada skill trabaja con Jurisprudenciator: artículos vigentes, jurisprudencia con párrafo literal y ECLI, y verificación de citas.",
+  "author": { "name": "Derecho Virtual", "url": "https://jurisprudenciator.lexiaipro.org" },
+  "homepage": "https://jurisprudenciator.lexiaipro.org/plugins",
+  "keywords": ["extranjeria", "arraigo", "nacionalidad", "asilo", "expulsion", "abogados", "espana"]
+}

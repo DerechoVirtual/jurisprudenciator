@@ -2,6 +2,10 @@
 
 Plugin de litigación civil, mercantil y de familia para despachos de abogados en España (LO 1/2025, LEC vigente, EGA). Gestiona la cartera de asuntos y redacta los escritos del proceso civil apoyándose en el conector **Jurisprudenciator** para la jurisprudencia, la legislación vigente, la verificación de citas, el Catastro y el Registro Mercantil.
 
+## Primer uso: tu estilo
+
+La primera vez que el plugin vaya a redactar, te pedirá entre 3 y 5 escritos tuyos de referencia y aprenderá tu forma de escribir: fórmulas, estructura, tono, forma de citar y maquetación. El perfil se guarda una sola vez y lo usan todos los plugins de Jurisprudenciator. Puedes actualizarlo cuando quieras con la skill `perfil-de-estilo`.
+
 ## Conector principal: Jurisprudenciator
 
 **¿Ya tienes Jurisprudenciator en Claude?** Lo normal es tenerlo conectado con tu URL personal (https://jurisprudenciator.lexiaipro.org/instalacion): las skills usan ese. Si no, conecta el que trae el plugin e inicia sesión con tu cuenta. Endpoint del plugin: `https://mcp.jurisprudenciator.lexiaipro.org/mcp`.
@@ -29,32 +33,10 @@ Añade el marketplace de Jurisprudenciator: https://jurisprudenciator.lexiaipro.
   claude plugin install litigacion-civil-espana@jurisprudenciator
   ```
 
-- En la app: `+` → «Añadir plugins...» → pega `https://github.com/DerechoVirtual/jurisprudenciator` y elige **litigacion-civil-espana**.
+- En la app: `+` → «Añadir plugins...» → pega la URL del marketplace y elige **litigacion-civil-espana**.
 
 Después, configura el despacho con `/cold-start-interview`.
 
 ## Skills
 
 Incluye las skills de cartera de asuntos y de redacción de escritos: intake y briefing de asuntos, demandas, contestaciones, recursos (reposición, apelación, casación y queja), ejecución y oposición a la ejecución, declinatoria, medidas cautelares, nulidad de cláusulas abusivas, conclusiones y prueba, incidente de nulidad, terminación anticipada, MASC, cronologías, cuadros de elementos, interrogatorios, tasaciones de costas, burofax, hoja de encargo y más. La configuración del despacho se hace con `/cold-start-interview` y `/customize`.
-
-## Perfil y privacidad
-
-El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente como contexto. La skill `/cold-start-interview` lo lee para crear un perfil privado y `/customize` permite modificarlo. No guardes datos reales del despacho o de clientes en el repositorio público.
-
-Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
-
-[Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)
-
-## Ejemplos para la revisión
-
-Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
-
-1. Configura el plugin para un despacho civil ficticio y comprueba la conexión con Jurisprudenciator.
-2. Prepara un borrador de demanda de reclamación de cantidad: factura ficticia de 3.000 euros impagada. Pregunta los hechos y documentos que falten y verifica las citas.
-3. Revisa las citas de este borrador civil de ejemplo con Jurisprudenciator e identifica lo que no se puede verificar.
-
-## Resolución de problemas
-
-Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
-
-[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.

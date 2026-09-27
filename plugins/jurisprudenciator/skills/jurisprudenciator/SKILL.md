@@ -23,6 +23,8 @@ conector, que pide iniciar sesión con la cuenta de Jurisprudenciator la primera
    si sigue sin resultado, detén la tarea y dile al abogado qué consulta ha fallado.
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas pendientes.
 
+**Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
 ## Mapa de herramientas
 
 | Necesidad | Herramienta | Notas de uso |

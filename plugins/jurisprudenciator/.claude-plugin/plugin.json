@@ -1,7 +1,7 @@
 {
   "name": "jurisprudenciator",
   "displayName": "Jurisprudenciator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Conector Jurisprudenciator para Claude: jurisprudencia oficial española (TS, AN, TSJ, AP, juzgados, TC y TJUE) con párrafo literal y ECLI, artículos de ley vigentes, verificación de citas de escritos, BOE y BORME, Registro Mercantil, doctrina de Hacienda y del TEAC, ordenanzas municipales, Catastro y convenios colectivos. Incluye la guía de uso de todas sus herramientas.",
   "author": {
     "name": "Derecho Virtual",

@@ -16,6 +16,10 @@ supletoria (DF 1.ª LJCA).
 
 ---
 
+## Primer uso: tu estilo
+
+La primera vez que el plugin vaya a redactar, te pedirá entre 3 y 5 escritos tuyos de referencia y aprenderá tu forma de escribir: fórmulas, estructura, tono, forma de citar y maquetación. El perfil se guarda una sola vez y lo usan todos los plugins de Jurisprudenciator. Puedes actualizarlo cuando quieras con la skill `perfil-de-estilo`.
+
 ## Instalación y primer uso
 
 1. Añade el marketplace de Jurisprudenciator: https://jurisprudenciator.lexiaipro.org/plugins
@@ -141,25 +145,3 @@ Recoge, entre otras, las tres reformas recientes de la LJCA que cambian la prác
   Te las pedirá.
 - **No calcula plazos que no puedas comprobar.** Ante la duda sobre una caducidad, avisa y
   recomienda verificación humana: el coste de equivocarse es la pérdida irreversible de la acción.
-
-## Perfil y privacidad
-
-El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente como contexto. La skill `/cold-start-interview` lo lee para crear un perfil privado y `/customize` permite modificarlo. No guardes datos reales del despacho o de clientes en el repositorio público.
-
-Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
-
-[Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)
-
-## Ejemplos para la revisión
-
-Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
-
-1. Configura un despacho contencioso ficticio y comprueba Jurisprudenciator.
-2. Prepara un borrador de recurso administrativo contra una sanción ficticia de 600 euros, preguntando por la notificación y el expediente.
-3. Analiza qué documentación y datos faltan para solicitar una medida cautelar en un caso administrativo ficticio.
-
-## Resolución de problemas
-
-Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
-
-[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.

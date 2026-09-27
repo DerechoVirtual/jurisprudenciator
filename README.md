@@ -2,7 +2,7 @@
 
 Plugins de Jurisprudenciator para la app de Claude (chat y Cowork): el conector de jurisprudencia y
 legislación española y un plugin por orden jurisdiccional (civil, penal, contencioso-administrativo y
-laboral), con más de 150 skills de litigación. Cada skill consulta Jurisprudenciator antes de escribir una cita: sentencias con su párrafo
+laboral) y otro de extranjería. Cada skill consulta Jurisprudenciator antes de escribir una cita: sentencias con su párrafo
 literal y su ECLI, artículos vigentes, verificación de citas, Catastro, Registro Mercantil, convenios
 colectivos, doctrina del TEAC y ordenanzas municipales. Si Jurisprudenciator no responde, la skill se
 detiene: nunca cita de memoria.
@@ -16,14 +16,19 @@ detiene: nunca cita de memoria.
    https://github.com/DerechoVirtual/jurisprudenciator
    ```
 
-3. Instala **Jurisprudenciator** y los plugins de los órdenes en los que trabajes: civil, penal,
-   contencioso-administrativo o laboral.
+3. Instala **Jurisprudenciator** y los plugins de las materias en las que trabajes: civil, penal,
+   contencioso-administrativo, laboral o extranjería.
 4. Si ya tienes Jurisprudenciator conectado en Claude con tu URL personal, no hace falta nada más. Si
    no, en la pestaña **Conectores** del plugin conecta Jurisprudenciator e inicia sesión con tu cuenta
    (gratis en https://jurisprudenciator.lexiaipro.org).
 
 En esa misma pestaña puedes conectar, si los usas, Google Drive, Gmail, Google Calendar,
 Microsoft 365 (Outlook, OneDrive, SharePoint), Dropbox, Box y DocuSign.
+
+## Primer uso: tu estilo
+
+La primera vez que un plugin vaya a redactar, te pedirá entre 3 y 5 escritos tuyos de referencia y
+aprenderá tu forma de escribir (skill `perfil-de-estilo`). El perfil se guarda una vez y lo usan todos.
 
 ## Plugins
 
@@ -34,6 +39,7 @@ Microsoft 365 (Outlook, OneDrive, SharePoint), Dropbox, Box y DocuSign.
 | `litigacion-penal-espana` | Penal (LECrim, CP). |
 | `litigacion-contencioso-espana` | Contencioso-administrativo (LJCA, Leyes 39 y 40/2015). |
 | `litigacion-laboral-espana` | Laboral y Seguridad Social (LRJS, ET, LGSS). |
+| `extranjeria-espana` | Extranjería: arraigos, reagrupación, residencia y trabajo, nacionalidad, asilo, expulsiones y recursos (LO 4/2000 y RD 1155/2024). |
 
 ## Qué datos envía
 

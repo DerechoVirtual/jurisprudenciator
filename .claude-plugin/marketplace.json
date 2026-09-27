@@ -4,7 +4,7 @@
     "name": "Derecho Virtual",
     "url": "https://jurisprudenciator.lexiaipro.org"
   },
-  "description": "Plugins de Jurisprudenciator para Claude: el conector de jurisprudencia y legislación española y un plugin por orden jurisdiccional (civil, penal, contencioso-administrativo y laboral), con cada skill conectada a Jurisprudenciator.",
+  "description": "Plugins de Jurisprudenciator para Claude: el conector de jurisprudencia y legislación española, los plugins de litigación civil, penal, contencioso-administrativa y laboral, y el de extranjería, con cada skill conectada a Jurisprudenciator.",
   "plugins": [
     {
       "name": "jurisprudenciator",
@@ -34,6 +34,12 @@
       "name": "litigacion-laboral-espana",
       "source": "./plugins/litigacion-laboral-espana",
       "description": "Litigación laboral y de Seguridad Social (LRJS, ET, LGSS) con Jurisprudenciator.",
+      "category": "legal"
+    },
+    {
+      "name": "extranjeria-espana",
+      "source": "./plugins/extranjeria-espana",
+      "description": "Extranjería (LO 4/2000 y Reglamento del RD 1155/2024): arraigos, reagrupación, residencia y trabajo, nacionalidad, asilo, expulsiones y recursos, con Jurisprudenciator.",
       "category": "legal"
     }
   ]

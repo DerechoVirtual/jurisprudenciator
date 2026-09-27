@@ -1,0 +1,57 @@
+{
+  "mcpServers": {
+    "jurisprudenciator": {
+      "type": "http",
+      "url": "https://mcp.jurisprudenciator.lexiaipro.org/mcp",
+      "title": "Jurisprudenciator",
+      "description": "Jurisprudencia oficial con párrafo literal y ECLI, artículos vigentes, verificación de citas, BOE, BORME, Catastro, convenios, TEAC y ordenanzas. Si ya lo tienes conectado en Claude con tu URL personal, no hace falta conectar este."
+    },
+    "Google Drive": {
+      "type": "http",
+      "url": "https://drivemcp.googleapis.com/mcp/v1",
+      "title": "Google Drive",
+      "description": "Buscar y leer los documentos del despacho en Google Drive."
+    },
+    "Gmail": {
+      "type": "http",
+      "url": "",
+      "title": "Gmail",
+      "description": "Leer y preparar correos con clientes, procuradores y contrarios."
+    },
+    "Google Calendar": {
+      "type": "http",
+      "url": "",
+      "title": "Google Calendar",
+      "description": "Señalamientos, plazos y citas en el calendario."
+    },
+    "Microsoft 365": {
+      "type": "http",
+      "url": "https://microsoft365.mcp.claude.com/mcp",
+      "title": "Microsoft 365",
+      "description": "Outlook (correo y calendario), OneDrive, SharePoint y Teams con cuenta de trabajo."
+    },
+    "Dropbox": {
+      "type": "http",
+      "url": "https://mcp.dropbox.com/mcp",
+      "title": "Dropbox",
+      "description": "Documentación del despacho en Dropbox."
+    },
+    "Box": {
+      "type": "http",
+      "url": "https://mcp.box.com/mcp",
+      "title": "Box",
+      "description": "Documentación del despacho en Box."
+    },
+    "DocuSign": {
+      "type": "http",
+      "url": "https://mcp.docusign.com/mcp",
+      "title": "DocuSign",
+      "description": "Firma electrónica de hojas de encargo y documentos."
+    }
+  },
+  "recommendedCategories": [
+    "legal-research",
+    "case-law",
+    "documents"
+  ]
+}
