@@ -19,8 +19,14 @@ conector, que pide iniciar sesión con la cuenta de Jurisprudenciator la primera
 2. Si no está conectado o falla, detén la tarea: no redactes, no calcules y no entregues nada. Explica
    al abogado cómo conectarlo (URL personal o pestaña Conectores del plugin).
 3. Si una consulta imprescindible no devuelve lo que la tarea necesita (ninguna sentencia aplicable,
-   el artículo que hay que citar, el convenio o el dato registral), reformúlala como máximo dos veces;
-   si sigue sin resultado, detén la tarea y dile al abogado qué consulta ha fallado.
+   el artículo que hay que citar, el convenio o el dato registral), reformúlala como máximo dos veces.
+   Si Jurisprudenciator no tiene ese dato (no lo cubre o no lo encuentra), búscalo en internet, en
+   fuentes oficiales siempre que existan (BOE y boletines oficiales, EUR-Lex, sedes electrónicas de las
+   Administraciones, Tribunal Constitucional, TJUE, OIT), y cítalo con su enlace y la fecha de consulta;
+   en el resumen, di qué datos salen de internet y no de Jurisprudenciator. Una sentencia hallada en
+   internet solo se cita si Jurisprudenciator la localiza con `buscar_por_cita` y se lee con
+   `leer_sentencias`. Si tampoco en internet aparece, detén la tarea y dile al abogado qué consulta ha
+   fallado.
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas pendientes.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.

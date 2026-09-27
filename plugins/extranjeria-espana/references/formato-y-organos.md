@@ -99,7 +99,8 @@ Justicia**.
   preceptos. Si no lo es, afina `terminos` o elige otra resolución.
 - La jurisprudencia se atribuye a Jurisprudenciator o a «la base oficial de jurisprudencia».
 - Ningún escrito contiene un ECLI, un artículo o un plazo que no se haya obtenido en esta
-  conversación con una herramienta de Jurisprudenciator.
+  conversación con una herramienta de Jurisprudenciator o, cuando Jurisprudenciator no lo tenga, de una
+  fuente de internet citada con su enlace (punto 3 de la puerta).
 
 ## 5. Datos del cliente
 
@@ -133,7 +134,9 @@ La puerta de cada skill se aplica siempre a `estado` y a los artículos: sin el 
 devuelva Jurisprudenciator no se redacta nada.
 
 - **Recursos, demandas y escritos que discuten una interpretación**: la jurisprudencia es
-  imprescindible. Si tras dos reformulaciones no hay ninguna resolución aplicable, la tarea se detiene.
+  imprescindible. Si tras dos reformulaciones no hay ninguna resolución aplicable, se aplica el punto 3
+  de la puerta (búsqueda en internet y localización en Jurisprudenciator); si tampoco así aparece, la
+  tarea se detiene.
 - **Solicitudes, alegaciones y escritos urgentes** (frontera, CIE, requerimientos) que se sostienen en
   el texto de la norma: se busca doctrina y se cita si la hay; si no existe todavía (pasa con muchos
   preceptos del Real Decreto 1155/2024), se redacta sin ese fundamento y el resumen lo dice.

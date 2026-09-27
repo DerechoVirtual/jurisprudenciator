@@ -194,7 +194,8 @@ reglamento aplicó cada sentencia antes de trasladar su doctrina.
 - El **Tratado de Funcionamiento de la Unión Europea** no está disponible: `buscar_articulo` no lo
   encuentra ni por sigla ni por nombre, y `verificar_escrito` atribuye sus artículos a otra norma. Para
   la ciudadanía europea del menor (art. 20 TFUE), apóyate en la jurisprudencia del TJUE y del Supremo
-  leída con `leer_sentencias`, que transcribe el precepto, y no cites el Tratado de memoria.
+  leída con `leer_sentencias`, que transcribe el precepto, o lee el artículo en EUR-Lex por internet y
+  cítalo con su enlace; nunca de memoria.
 - **Real Decreto 316/2026**: `verificar_escrito` lo confunde con el Real Decreto 68/2026 y `buscar_boe`
   no lo encuentra por su número. Cítalo por su identificador (BOE-A-2026-8284), léelo con `leer_boe` e
   ignora el veredicto de `verificar_escrito` sobre él.
@@ -206,5 +207,7 @@ reglamento aplicó cada sentencia antes de trasladar su doctrina.
 - Durante caídas de la base de normativa de la Unión, `buscar_articulo` puede devolver el artículo de
   otra norma sin avisar. Comprueba siempre que el título de la norma devuelta es el que pediste.
 
-Si el asunto depende de uno de esos preceptos y Jurisprudenciator no devuelve su texto, se aplica
-la puerta obligatoria de la skill: la tarea se detiene y se explica al abogado qué precepto falta.
+Si el asunto depende de uno de esos preceptos y Jurisprudenciator no devuelve su texto, se aplica el
+punto 3 de la puerta de la skill: se busca en internet en la fuente oficial (BOE, EUR-Lex, sede
+electrónica) y se cita con su enlace y la fecha de consulta; solo si tampoco así aparece, la tarea se
+detiene y se explica al abogado qué precepto falta.
