@@ -1,13 +1,13 @@
 {
   "name": "litigacion-penal-espana",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Plugin de litigación penal para despachos en España. Cubre el ciclo completo: asistencia al detenido, plazos (art. 324 LECrim, prescripción), denuncia y querella, acusación particular, recursos de reforma y apelación, acusación y defensa, prueba ilícita, conformidad, juicio rápido, violencia de género, medidas cautelares, personas jurídicas, jurado, casación y ejecución. Conforme a LECrim y CP (reformas LO 1/2025 y LO 1/2026). Se apoya en el conector Jurisprudenciator para la jurisprudencia (Sala Segunda del TS, TC y TJUE, con párrafo literal y ECLI), la legislación vigente y la verificación de citas.",
   "author": {
     "name": "Derecho Virtual"
   },
   "displayName": "Litigación Penal España",
   "icon": "./.claude-plugin/icon.png",
-  "privacyPolicyUrl": "https://jurisprudenciator.lexiaipro.org/politica-de-privacidad",
+  "privacyPolicyUrl": "https://github.com/DerechoVirtual/jurisprudenciator/blob/main/plugins/litigacion-penal-espana/PRIVACY.md",
   "supportUrl": "https://jurisprudenciator.lexiaipro.org/incidencias",
   "homepage": "https://jurisprudenciator.lexiaipro.org/plugins",
   "repository": "https://github.com/DerechoVirtual/jurisprudenciator",

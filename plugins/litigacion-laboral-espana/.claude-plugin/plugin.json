@@ -1,13 +1,13 @@
 {
   "name": "litigacion-laboral-espana",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Plugin de litigación laboral y de Seguridad Social para despachos en España. Gestiona la cartera y redacta escritos: papeleta de conciliación, reclamación previa, demandas (despido, cantidad, art. 50 ET, TRADE, incapacidad, contingencia), procedimientos especiales (tutela, conflicto y despido colectivo), recursos (suplicación y casación para la unificación de doctrina) y ejecución laboral. Cumple LRJS, ET y LGSS (RD-ley 6/2023, LO 1/2025). Se apoya en el conector Jurisprudenciator para la jurisprudencia, la legislación vigente, los convenios colectivos y el Registro Mercantil.",
   "author": {
     "name": "Derecho Virtual"
   },
   "displayName": "Litigación Laboral España",
   "icon": "./.claude-plugin/icon.png",
-  "privacyPolicyUrl": "https://jurisprudenciator.lexiaipro.org/politica-de-privacidad",
+  "privacyPolicyUrl": "https://github.com/DerechoVirtual/jurisprudenciator/blob/main/plugins/litigacion-laboral-espana/PRIVACY.md",
   "supportUrl": "https://jurisprudenciator.lexiaipro.org/incidencias",
   "homepage": "https://jurisprudenciator.lexiaipro.org/plugins",
   "repository": "https://github.com/DerechoVirtual/jurisprudenciator",

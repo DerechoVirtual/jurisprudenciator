@@ -149,3 +149,17 @@ El `CLAUDE.md` incluido es una plantilla vacía: no se carga automáticamente co
 Los conectores de documentos, correo, calendario y firma son opcionales y requieren la autorización del usuario. Gmail y Google Calendar se seleccionan entre los conectores nativos de Claude; sus entradas no anuncian una URL MCP pública.
 
 [Política de privacidad](https://jurisprudenciator.lexiaipro.org/politica-de-privacidad) · [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias) · [Términos del servicio](https://jurisprudenciator.lexiaipro.org/terminos-y-condiciones)
+
+## Ejemplos para la revisión
+
+Usar datos ficticios y una cuenta de Jurisprudenciator autorizada. No utilizar expedientes reales para pruebas.
+
+1. Configura un despacho contencioso ficticio y comprueba Jurisprudenciator.
+2. Prepara un borrador de recurso administrativo contra una sanción ficticia de 600 euros, preguntando por la notificación y el expediente.
+3. Analiza qué documentación y datos faltan para solicitar una medida cautelar en un caso administrativo ficticio.
+
+## Resolución de problemas
+
+Si no aparecen las herramientas, conecta Jurisprudenciator en Claude y comprueba `estado`. Si la cuenta no tiene acceso o ha agotado su cuota, revisa su estado en la web. Si falta una fuente imprescindible, la skill se detiene: no se completa con citas inventadas. Los conectores del despacho son opcionales. Para un problema persistente, usa [Soporte](https://jurisprudenciator.lexiaipro.org/incidencias), indicando el plugin y el error sin adjuntar credenciales ni datos de clientes.
+
+[Privacidad de este plugin](PRIVACY.md): datos tratados, conectores opcionales y conservación.
