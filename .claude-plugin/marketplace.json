@@ -4,7 +4,7 @@
     "name": "Derecho Virtual",
     "url": "https://jurisprudenciator.lexiaipro.org"
   },
-  "description": "Plugins de Jurisprudenciator para Claude: el conector de jurisprudencia y legislación española, los plugins de litigación civil, penal, contencioso-administrativa y laboral, y el de extranjería, con cada skill conectada a Jurisprudenciator.",
+  "description": "Plugins de Jurisprudenciator para Claude: el conector de jurisprudencia y legislación española, los plugins de litigación civil, penal, contencioso-administrativa y laboral, el de extranjería y los de contratos civiles y mercantiles y contratos laborales y asesoría empresarial, con cada skill conectada a Jurisprudenciator.",
   "plugins": [
     {
       "name": "jurisprudenciator",
@@ -40,6 +40,18 @@
       "name": "extranjeria-espana",
       "source": "./plugins/extranjeria-espana",
       "description": "Extranjería (LO 4/2000 y Reglamento del RD 1155/2024): arraigos, reagrupación, residencia y trabajo, nacionalidad, asilo, expulsiones y recursos, con Jurisprudenciator.",
+      "category": "legal"
+    },
+    {
+      "name": "contratos-civiles-mercantiles",
+      "source": "./plugins/contratos-civiles-mercantiles",
+      "description": "Contratos civiles y mercantiles (Código Civil, Código de Comercio, LAU, LSC, TRLGDCU): redacción, revisión, negociación e incumplimiento, con Jurisprudenciator.",
+      "category": "legal"
+    },
+    {
+      "name": "contratos-laborales-asesoria-empresarial",
+      "source": "./plugins/contratos-laborales-asesoria-empresarial",
+      "description": "Asesoría laboral de empresa, contratos de trabajo, cartas de despido y finiquitos, y despidos y reclamaciones (ET, LRJS, convenios), con Jurisprudenciator.",
       "category": "legal"
     }
   ]
