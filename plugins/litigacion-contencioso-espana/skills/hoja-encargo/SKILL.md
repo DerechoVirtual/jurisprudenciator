@@ -24,6 +24,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ---
 
 Documento contractual entre letrado y cliente que formaliza el encargo y blinda al despacho frente a impagos, reclamaciones por costas inesperadas o impugnaciones de minuta.
@@ -59,7 +61,9 @@ Documento contractual entre letrado y cliente que formaliza el encargo y blinda 
 - Tras intake del asunto (`asunto-intake`), antes de iniciar trabajo facturable
 - Cuando se acepta un asunto nuevo sin documento previo de provisión o presupuesto cerrado
 
-## Flujo — siete fases
+## Contenido y datos del encargo
+
+Los bloques 1 a 4 son los datos del encargo: se cierran con la documentación y el perfil del despacho antes de redactar (pasos 2 y 3 de `redaccion-rapida`). Los bloques 5 a 8 son el contenido obligatorio del documento, que redacta el equipo.
 
 ### 1. Datos del despacho (auto-rellenar desde el perfil)
 
@@ -72,11 +76,11 @@ Leer de `~/.claude/plugins/config/derecho-virtual/litigacion-contencioso-espana/
 - NIF del despacho (exigido por el art. 48.1 EGA)
 - Logo: `[logo del despacho, si se aporta]`
 
-Si algún campo aparece como `[PLACEHOLDER]` o `[PENDIENTE]`, parar y pedir **solo ese dato** (no re-lanzar el cold-start completo).
+Si algún campo aparece como `[PLACEHOLDER]` o `[PENDIENTE]`, inclúyelo en la única ronda de preguntas (**solo ese dato**, sin re-lanzar el cold-start completo) o déjalo como `[PENDIENTE: dato]`.
 
-### 2. Datos del cliente — batería mínima
+### 2. Datos del cliente
 
-Mediante `AskUserQuestion` (datos que NO se inventan). En el documento se vuelcan como marcadores hasta que el usuario los facilite:
+Sácalos de la documentación aportada (datos que NO se inventan). Los que falten se vuelcan como marcadores hasta que el usuario los facilite; solo se preguntan, en la única ronda, los que bloqueen el documento:
 
 - Nombre completo o razón social → `[CLIENTE]`
 - DNI / NIE / CIF → `[DNI]`
@@ -89,7 +93,7 @@ Mediante `AskUserQuestion` (datos que NO se inventan). En el documento se vuelca
 
 ### 3. Objeto del encargo — en términos contenciosos
 
-Batería de preguntas:
+Comprobaciones, que se responden con la documentación del asunto:
 
 - **Acto o disposición que se impugna:** órgano autor, fecha de la resolución, nº de expediente administrativo, fecha de **notificación** (¡es el dies a quo!)
 - **Vía administrativa:** ¿está agotada? ¿queda alzada o reposición pendiente? ¿es acto expreso o presunto?
@@ -127,7 +131,7 @@ Variantes del órgano según el asunto: `Sala de lo Contencioso-Administrativo d
 
 ### 4. Honorarios — modalidad
 
-`AskUserQuestion` con las modalidades:
+Si el abogado no ha indicado la modalidad, pregúntala en la única ronda. Modalidades:
 
 1. **Presupuesto cerrado** — cantidad fija acordada
 2. **Por hora** — tarifa horaria con estimación
@@ -202,6 +206,8 @@ Bloque RGPD, no suprimible:
 - Doble firma: letrado + cliente, con DNI debajo → `[LETRADO]` / `[DNI LETRADO]` y `[CLIENTE]` / `[DNI]`
 - Fecha y lugar
 
+**Reparto para la redacción rápida:** tres secciones: partes, objeto, alcance y honorarios (bloques 1 a 4) · advertencias obligatorias (bloque 5, con la de plazos de caducidad la primera y en negrita) · RGPD, secreto profesional, jurisdicción y firmas (bloques 6 a 8).
+
 ## Maquetación del Word
 
 **Diseño corporativo del despacho:**
@@ -222,7 +228,7 @@ Bloque RGPD, no suprimible:
 
 **Generación:**
 
-- Librería: `docx` (Node.js) o `python-docx` (Python)
+- El Word lo genera el ensamblado de `redaccion-rapida` (rótulos, tablas y firmas en dos columnas). El diseño corporativo de arriba (logo, paleta, cuadro de advertencias) solo se aplica si el abogado lo pide o aporta logo, retocando después el Word con `docx` (Node.js) o `python-docx` (Python)
 - Logo cargado desde `~/.claude/plugins/config/derecho-virtual/litigacion-contencioso-espana/brand/logo-despacho.jpg` (si se aporta)
 - Si el logo no existe en esa ruta, fallback a cabecera de texto plano y flag en la nota del revisor
 
@@ -253,7 +259,7 @@ Bloque RGPD, no suprimible:
 6. **NUNCA incluir MASC.** Si una plantilla heredada o el usuario lo mencionan, explicar que es requisito del orden civil y que no aplica aquí; sustituir por el bloque de agotamiento de la vía administrativa.
 7. **NUNCA prometer resultado ni plazo de resolución.** El expediente y los tiempos de la Administración no dependen del despacho.
 8. **Asunto en cartera.** Tras generar la hoja, ofrecer `/asunto-intake` si no se ha hecho — la hoja firmada es el detonante natural de creación de asunto.
-9. **Aplicar el estilo de la casa.** Pasada final con `estilo-escritos-judiciales` para el lenguaje (no para la estructura, que es la del modelo).
+9. **Aplicar el estilo de la casa.** Los redactores aplican `estilo-escritos-judiciales` al escribir, para el lenguaje (no para la estructura, que es la del modelo).
 10. **Plazos y cifras:** ninguno que no esté en `references/anclas-normativas-ca.md` o verificado en el momento con `buscar_articulo`. En su defecto, `[verificar]`.
 
 ## Handoffs

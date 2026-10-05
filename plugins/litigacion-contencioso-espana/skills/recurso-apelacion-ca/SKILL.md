@@ -13,7 +13,7 @@ description: Redacta el recurso de apelación contencioso-administrativo contra 
 - **Criterio de la Sala ad quem sobre el punto discutido** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"`, `tipo_organo="TSJ"`, `provincia` de la Sala) + `leer_sentencias` (`parrafos=3`).
 - **Doctrina del TS para los motivos de fondo** → `buscar_sentencias` (`base="TS"`) + `leer_sentencias`.
 - **Citas de la sentencia apelada** → `buscar_por_cita` para comprobar que dicen lo que la sentencia les atribuye.
-- **Antes de presentar** → `verificar_escrito` sobre el escrito completo.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -213,6 +215,8 @@ motivos **numerados, autónomos y ordenados por fuerza**, no con una relectura d
 7. **OTROSÍES:** recibimiento a prueba (art. 85.3); vista o conclusiones (art. 85.7); **tope de costas
    del art. 139.4**; designación electrónica.
 
+**Reparto para la redacción rápida:** encabezamiento, identificación de la sentencia, justificación de la apelabilidad y antecedentes (una sección) · una sección por motivo, cada una con el fundamento de la sentencia que combate y su propia investigación (si se apela una inadmisión, una sección más con el fondo subsidiario del art. 85.10) · cierre con suplico y otrosíes (prueba del art. 85.3, vista o conclusiones, tope de costas del art. 139.4).
+
 ## 9. SUPLICO — modelo (art. 31 LJCA)
 
 > **SUPLICO AL JUZGADO** que, teniendo por presentado este escrito, se sirva admitirlo, tener por
@@ -249,4 +253,4 @@ motivos **numerados, autónomos y ordenados por fuerza**, no con una relectura d
   verificación → `[verificar]` y decirlo. Prohibido inventar ECLI/ROJ/ponente.
 - **Normativa autonómica y local:** el conector no la cubre. Pedírsela al usuario; no citarla de memoria.
 - **Nada de MASC:** requisito del orden civil; no existe aquí.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

@@ -1,6 +1,6 @@
 {
   "name": "litigacion-civil-espana",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Plugin de litigación civil, mercantil y de familia para despachos de abogados en España. Gestiona la cartera de asuntos y redacta escritos: demandas, contestaciones, recursos (reposición, apelación, casación y queja), ejecución forzosa y oposición a la ejecución, declinatoria, medidas cautelares, nulidad de cláusulas abusivas, conclusiones y prueba, incidente de nulidad de actuaciones, terminación anticipada, impugnación de tasación de costas, MASC, cronologías, cuadros de elementos, interrogatorios y tasaciones de costas. Cumple la LO 1/2025 (Tribunal de Instancia y MASC), la LEC vigente y el EGA. Se apoya en Jurisprudenciator para la jurisprudencia (con párrafo literal y ECLI), la legislación vigente, la verificación de citas, el Catastro y el Registro Mercantil.",
   "author": {
     "name": "Derecho Virtual"

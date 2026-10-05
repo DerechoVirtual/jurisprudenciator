@@ -13,7 +13,7 @@ description: Redacta escritos del procedimiento especial para la protección de 
 - **Contenido del derecho fundamental invocado** → `buscar_sentencias` (`base="TC"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la facultad concreta vulnerada).
 - **Puente causal del art. 121.2 e inadecuación del procedimiento** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`).
 - **Derechos con dimensión europea** (extranjería, protección de datos, igualdad) → `buscar_sentencias` (`base="TJUE"`).
-- **Antes de presentar** → `verificar_escrito` sobre el escrito de interposición.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -152,7 +154,7 @@ La sentencia estima **solo si concurren las dos cosas**: (i) infracción del ord
    restablecer o preservar el derecho. Ver § 6.
 8. **Olvidar el art. 45.2.d)** en personas jurídicas (acuerdo corporativo) y morir en la subsanación.
 9. **Descuidar el expediente tardío**: solo hay **48 horas** para alegar (art. 116.5) y no se suspende
-   nada. Tener el escrito preparado.
+   nada. Tenerlo previsto desde la interposición.
 10. **No pedir cautelar** en un asunto cuya lesión se consuma por el mero paso del tiempo.
 
 ## 6. Estructura del escrito y SUPLICO
@@ -175,6 +177,8 @@ La sentencia estima **solo si concurren las dos cosas**: (i) infracción del ord
 7. **SUPLICO.**
 8. **OTROSÍES:** medida cautelar / cautelarísima (arts. 129-135); **habilitación de días inhábiles**
    (art. 128.3); designación electrónica.
+
+**Reparto para la redacción rápida:** escrito corto, dos o tres secciones: encabezamiento, acto, justificación del plazo (con agosto como hábil) y documentos del art. 45.2 · derecho fundamental invocado y argumentos sustanciales, con el puente causal del art. 121.2 · suplico y otrosíes (cautelar o cautelarísima, habilitación de días inhábiles).
 
 **SUPLICO — modelo (ajustado al art. 31 LJCA y al límite del art. 114.2):**
 
@@ -212,7 +216,7 @@ La sentencia estima **solo si concurren las dos cosas**: (i) infracción del ord
   expresamente** la alegación complementaria a resultas del expediente.
 - Si falta un documento decisivo en poder de la Administración, **decirlo y pedirlo**; el apercibimiento
   del **art. 48** respalda la petición.
-- Preparar de antemano el escrito de **48 horas** del art. 116.5 por si el expediente llega tarde.
+- Avisar del escrito de **48 horas** del art. 116.5 por si el expediente llega tarde; prepararlo solo si el abogado lo pide.
 
 ## 8. Reglas de la casa
 
@@ -225,4 +229,4 @@ La sentencia estima **solo si concurren las dos cosas**: (i) infracción del ord
   verificación, `[verificar]` y decirlo.
 - **Normativa autonómica y local:** el conector no la cubre. Pedírsela al usuario; no citarla de memoria.
 - **Nada de MASC:** requisito del orden civil; no existe aquí.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

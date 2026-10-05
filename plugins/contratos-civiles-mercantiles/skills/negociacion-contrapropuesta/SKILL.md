@@ -4,7 +4,7 @@ description: >-
   Prepara la respuesta a un borrador de contrato que envía la otra parte: tabla Cláusula | Texto
   actual | Texto propuesto | Motivo, versión limpia de las cláusulas cambiadas, prioridades de
   negociación (imprescindible, deseable, cedible) con posiciones de repliegue en una nota interna, y
-  carta o correo de remisión. Pregunta primero a quién defiende el abogado y qué margen tiene, y ajusta
+  carta o correo de remisión. Parte de a quién defiende el abogado y de su margen (pregunta solo lo que falte, en una única ronda) y ajusta
   cada cambio a la posición del cliente. Úsala con «contrapropuesta», «contraoferta», «devuélveles el
   contrato con nuestros cambios», «qué les pedimos», «marca los cambios», «redline», «segunda
   vuelta del borrador». Si antes hay que diagnosticar los riesgos del borrador, empieza por
@@ -25,7 +25,7 @@ description: >-
 - **Doctrina que sostiene cada cambio imprescindible** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; consultas de la tabla de cláusulas) + `leer_sentencias` (`parrafos=3`, `terminos` con la cláusula).
 - **Responsabilidad por romper la negociación** → `buscar_sentencias` (`consulta="ruptura injustificada de las negociaciones responsabilidad precontractual confianza"`, `base="TS"`, `jurisdiccion="CIVIL"`).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (denominación o CIF); **inmuebles** → `consultar_catastro`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -57,7 +59,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes la contrapropuesta al primer mensaje. Si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado y qué posición ocupa el cliente en el contrato.
 2. ★ Borrador íntegro de la otra parte, con versión o fecha y anexos; si es una vuelta posterior, también la versión anterior y los cambios ya aceptados o rechazados.
@@ -133,6 +135,8 @@ Si la otra parte responde, compara su nueva versión con la anterior cláusula p
 3. **Carta o correo de remisión**: en el formato que pida el abogado (texto para correo o Word `remision-<tipo>-<destinatario>-<AAAAMMDD>.docx`). Contenido: referencia al borrador recibido; que se adjunta la contrapropuesta; que el resto del texto se acepta en principio sujeto al acuerdo global; que la propuesta no constituye aceptación y que no habrá contrato hasta la firma del documento definitivo; confidencialidad de la documentación intercambiada; anexos o datos pendientes; plazo deseado de respuesta. Sin prioridades ni margen del cliente.
 4. **Versión íntegra del contrato con los cambios incorporados**, solo si el abogado la pide.
 
+**Reparto para la redacción rápida:** tú cierras en el plan el diagnóstico y las prioridades (paso 1 del método); el equipo, un bloque de cláusulas del borrador cada uno (pasos 2 a 4 del método), con su propia tabla `Cláusula | Texto actual | Texto propuesto | Motivo` (motivo externo, sin prioridades ni repliegues), y una última sección con el texto íntegro de las cláusulas modificadas en limpio y el pie «sujeto a contrato». Conserva la numeración del borrador: usa `###` simples, nunca `### [CLAUSULA]`, que renumeraría. La nota interna, según el apartado 11 del formato; la carta de remisión la redactas tú.
+
 Cita como indica el apartado 6 del formato; formas comprobadas con `verificar_escrito`: «artículo 1262 del Código Civil», «artículo 54 del Código de Comercio», «artículo 1 de la Ley 1/2019, de 20 de febrero, de Secretos Empresariales», «artículo 9 de la Ley Orgánica 1/2025», «artículo 4 de la Ley 3/2004, de 29 de diciembre», «artículo 20 de la Ley 12/1992, de 27 de mayo, sobre Contrato de Agencia».
 
 Si en el entorno no se pueden crear archivos, entrega los textos completos con esos títulos y avisa de que hay que pasarlos a Word.
@@ -140,13 +144,13 @@ Si en el entorno no se pueden crear archivos, entrega los textos completos con e
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
-- [ ] Posición del cliente, líneas rojas y margen confirmados con el abogado antes de redactar.
+- [ ] Posición del cliente, líneas rojas y margen tomados de la documentación o confirmados con el abogado en la única ronda de preguntas, antes de redactar.
 - [ ] Cada cambio tiene prioridad, texto completo, motivo externo y motivo interno; cada imprescindible sobre una cláusula de validez discutida tiene jurisprudencia leída con `leer_sentencias` (decisión de la Sala, no motivos ni hechos del pleito).
 - [ ] Cada artículo citado se leyó con `buscar_articulo` en esta conversación.
 - [ ] Ningún texto propuesto contradice una norma imperativa; definiciones, numeración y remisiones coherentes con el resto del borrador.
 - [ ] La contrapropuesta y la remisión no revelan prioridades, repliegues ni margen; llevan la reserva de «sujeto a contrato».
 - [ ] En segundas vueltas, comparado el texto nuevo con el anterior y señalados los cambios no anunciados.
 - [ ] Cada ECLI citado leído o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre la contrapropuesta, la nota y la remisión; avisos revisados uno a uno.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); avisos revisados uno a uno.
 - [ ] Sin datos personales inventados: marcadores donde falten.
 - [ ] Resumen en el chat según el apartado 10 del formato: qué se ha preparado y para quién, cambios imprescindibles y cómo se han resuelto, datos que faltan y riesgos (ejecución antes de firmar, ruptura, confidencialidad), tabla de jurisprudencia citada y próximo paso (envío y fecha prevista de respuesta).

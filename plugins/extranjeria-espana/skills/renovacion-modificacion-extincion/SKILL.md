@@ -16,7 +16,7 @@ description: >-
 - **Procedimiento, silencio y cómputo** → `buscar_articulo` (`ley="LPAC"`, artículos `"21"`, `"22"` (suspensión del plazo para resolver), `"24"`, `"25"` (caducidad de los procedimientos de oficio), `"30"`, `"68"`, `"82"` y `"124"` (plazo de la reposición)) y `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"193"` y `"197"`).
 - **Alternativa si la renovación ya no es posible** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"126"` y `"127"`: arraigo de segunda oportunidad).
 - **Doctrina sobre silencio, plazo, antecedentes, requisitos de cada renovación y extinción** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"` o `base="AN"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). La letra va detrás de la norma («la letra b) del artículo 52 de la Ley Orgánica 4/2000», «artículo 80.2 del Real Decreto 1155/2024, letra b)»), nunca pegada al número («52.b) de la…» se atribuye a otra norma), y cada mención de un artículo lleva su norma; en una cita literal que nombre un artículo sin norma (o con «la Ley Orgánica» o «el Reglamento» a secas), añádela entre corchetes.
 
@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -156,6 +158,8 @@ En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024�
 
 **D) Alegaciones en el procedimiento de extinción** — `alegaciones-extincion-<apellido-cliente>-<AAAAMMDD>.docx`. Encabezamiento al órgano que incoó, con el número de expediente `[NÚMERO DE EXPEDIENTE]`; HECHOS: autorización y vigencia, acuerdo de incoación y su notificación, circunstancias personales; ALEGACIONES numeradas con el orden del apartado de estrategia; SOLICITA el archivo o la no declaración de extinción y, en su caso, la declaración de caducidad; OTROSÍ: prueba propuesta; RELACIÓN DE DOCUMENTOS.
 
+**Reparto para la redacción rápida:** A y B: 01 encabezamiento, comparecencia y hechos; 02 fundamentos y doctrina; 03 solicita, otrosí, firma y relación de documentos. C (silencio), de una o dos páginas: el director sin equipo. D: 01 encabezamiento y hechos; una sección por alegación, en el orden del apartado de estrategia; cierre con solicita, prueba y documentos.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -163,6 +167,6 @@ En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024�
 - [ ] Fechas calculadas y escritas con su precepto: caducidad, ventana de dos meses antes y tres después, vencimiento del silencio (con y sin la suspensión del art. 22.1.a LPAC si hubo requerimiento), audiencia (días hábiles) y caducidad de la extinción (art. 202.2; art. 25.1.b LPAC).
 - [ ] Sentido del silencio afirmado solo si lo dice el artículo leído o la doctrina obtenida con Jurisprudenciator.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; doctrina del Reglamento anterior identificada como tal.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregido lo que señale.
 - [ ] Marcadores para lo que falta (`[NÚMERO DE EXPEDIENTE]`, `[NIE]`, fechas no facilitadas); sin importes.
 - [ ] Resumen para el abogado según el apartado 7 del formato: qué se ha preparado y para qué órgano, plazos con fecha y precepto, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

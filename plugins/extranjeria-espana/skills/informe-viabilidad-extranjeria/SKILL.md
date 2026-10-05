@@ -24,7 +24,7 @@ description: >-
 - **Jurisprudencia de TSJ sobre cada requisito dudoso** → `buscar_sentencias` (`base="AN"`, `jurisdiccion="CONTENCIOSO"`, `tipo_organo="TSJ"`, `provincia` del cliente y, para requisitos nuevos, `fecha_desde="20/05/2025"`) + `leer_sentencias` (`parrafos=3`, `terminos` del requisito). En `provincia` va la sede de la Sala del TSJ que conoce de la provincia del cliente, no la provincia misma cuando no coinciden (por ejemplo, para Almería, «Granada»; ocurre en las comunidades con varias sedes de Sala, como Andalucía, Canarias o Castilla y León): si la respuesta dice «Sin resultados en [provincia]», repite con la sede antes de caer al Supremo.
 - **Doctrina del Supremo sobre antecedentes y sobre la sanción de la estancia irregular** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CONTENCIOSO"`) + `leer_sentencias`.
 - **Qué inciso anuló exactamente el Tribunal Supremo** → `leer_boe` (`identificador="BOE-A-2026-19632"`): devuelve el fallo de la sentencia de 8 de julio de 2026 y el auto de rectificación de 1 de septiembre de 2026 con el texto literal de cada inciso anulado. Úsalo siempre que `buscar_articulo` traiga una nota de nulidad de un «inciso destacado»: el conector no conserva el resaltado y, sin el fallo, no se sabe qué palabras se anularon.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Las letras y los apartados de un artículo «bis» se escriben delante: «letra a) del artículo 53.1 de la Ley Orgánica 4/2000», «apartado 2 del artículo 63 bis de la Ley Orgánica 4/2000», nunca «artículo 53.1.a» ni «63 bis.2»: con la letra pegada al número, `verificar_escrito` no enlaza la norma que sigue y comprueba el artículo en la norma citada antes (da por buena una cita equivocada o por inexistente una correcta).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo usarla
 
 - Después de la ficha de `extranjeria-intake`, cuando hay dos o más vías posibles o hay que decidir cuándo presentar.
@@ -47,7 +49,7 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 ## Datos que hay que reunir antes de redactar
 
-Si existe ficha del caso, léela y pregunta solo lo que falte. Los datos con ★ son imprescindibles.
+Si existe ficha del caso, léela y pregunta solo lo que falte y bloquee el informe, todo a la vez y en una única ronda (paso 2 de `redaccion-rapida`); lo demás queda como `[PENDIENTE: dato]`. Los datos con ★ son imprescindibles.
 
 1. ★ **Destinatario del informe**: cliente (lenguaje claro) o despacho (técnico). Cambia el registro, no el análisis.
 2. ★ **Objetivo del cliente** y horizonte: trabajar cuanto antes, traer a la familia, estabilidad a largo plazo, nacionalidad.
@@ -159,6 +161,8 @@ Cita las normas en el documento como indica el apartado 4 de `references/formato
 11. **Límites del informe**: preceptos no disponibles en el conector; tasas, modelos y cita previa se comprueban en la sede oficial.
 12. **Normativa consultada**: artículo, norma y «vigente desde».
 
+**Reparto para la redacción rápida:** 01 cabecera y conclusión y 03 tabla «Vías estudiadas» (las escribe el director con Write cuando el equipo termina y antes de ensamblar, sobre las valoraciones de las demás secciones); 02 hechos tenidos en cuenta; desde la 04, una sección por cada vía que el Paso 1 deja como candidata (tabla de requisitos del Paso 2 y doctrina sobre los dudosos), una de riesgos y calendario y una final con la comparativa, los siguientes pasos, los límites y la normativa consultada.
+
 En la versión para el cliente, sustituye las tablas técnicas por frases cortas y deja los artículos en notas al pie; conserva la conclusión, los riesgos y el calendario. Si el documento no admite notas al pie, numera las remisiones en el texto ([1], [2]…) y pon las notas en el último apartado, cada una con el artículo y su norma completos para que `verificar_escrito` los compruebe. Los párrafos de jurisprudencia se mantienen literales, seguidos de una explicación en lenguaje sencillo.
 
 ## Comprobación final
@@ -169,5 +173,5 @@ En la versión para el cliente, sustituye las tablas técnicas por frases cortas
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`, y se verificó qué reglamento aplica la resolución.
 - [ ] Permanencia, antecedentes y plazos calculados con fechas probadas; lo que falta figura con marcador.
 - [ ] Sin importes de tasas ni códigos de modelos: remitidos a la sede oficial.
-- [ ] `verificar_escrito` pasado sobre el informe completo; cada aviso revisado uno a uno (un «no localizado» o una norma que no es la citada suele venir de una letra pegada al número o de un artículo sin su norma: corrige la forma de citar y vuelve a pasarlo).
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas; cada aviso revisado uno a uno (un «no localizado» o una norma que no es la citada suele venir de una letra pegada al número o de un artículo sin su norma: corrige la forma de citar y vuelve a pasarlo).
 - [ ] Resumen en el chat según el apartado 7 del formato: qué se ha preparado y para quién, fechas clave con su precepto, documentos que faltan y riesgos, tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y próximo paso.

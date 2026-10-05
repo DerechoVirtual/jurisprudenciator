@@ -4,7 +4,7 @@ description: >-
   Prepara para la empresa la carta de despido por causas objetivas (arts. 52 y 53 ET): ineptitud, falta de
   adaptación, causas económicas, técnicas, organizativas o de producción por debajo de los umbrales del despido
   colectivo, o insuficiencia de consignación en entidades sin ánimo de lucro; con la puesta a disposición de la
-  indemnización, el preaviso, la copia a la representación y una nota con el cálculo. Úsala con «despido objetivo»,
+  indemnización, el preaviso, la copia a la representación y, si la pides, una nota con el cálculo. Úsala con «despido objetivo»,
   «despido por causas económicas», «amortizar el puesto», «carta de despido por pérdidas», «20 días por año». Revisa
   también, para el trabajador, una carta recibida. Si se alcanzan los umbrales, usa despido-colectivo-empresa; si la
   medida es temporal, erte-suspension-reduccion; si la causa es la conducta, carta-despido-disciplinario.
@@ -24,7 +24,7 @@ description: >-
 - **Plazo del trabajador, inhábiles y desempleo** → `buscar_articulo` (`ley="LRJS"`, artículos `"121"`, `"103"`, `"43"`, `"63"` y `"65"`), (`ley="ET"`, `articulo="59"`: el art. 121 LRJS dice «veinte días» y el carácter hábil lo dan el art. 59.3 ET y el art. 103.1 LRJS) y (`ley="LGSS"`, `articulo="267"`). Los festivos autonómicos y locales de la sede del órgano no los da el conector: léelos en internet en el boletín oficial (decreto de fiestas de la comunidad y resolución de fiestas locales de la provincia) y cítalos con enlace.
 - **Convenio aplicable y sus artículos** → `buscar_convenio` (`consulta` con el nombre del sector tal como lo usa el registro y `territorio` = provincia del centro) + `leer_convenio` (`buscar_en="despido"` o `buscar_en="preaviso"` para localizar exigencias propias; después `articulo="N"`). Después, `vigencia_convenio` de cada convenio que uses: **`leer_convenio` devuelve el texto publicado originalmente, no las modificaciones posteriores**. Si `vigencia_convenio` registra un **texto nuevo del convenio** (sustituye entero al que has leído), una modificación, un acuerdo parcial o un pronunciamiento de tribunal posterior a esa publicación y anterior a la decisión, búscalo en internet en el boletín oficial (BOE, boletín autonómico o BOP) y comprueba si cambia los artículos que aplicas; cítalo con su enlace (punto 3 de la puerta). `buscar_boe`, `sumario_boe` y `novedades_boe` no localizan los convenios (sección III): búscalo en internet por su denominación y el periodo de vigencia en el dominio del boletín y lee el texto directamente. Si no lo localizas, dilo en la nota.
 - **Empresa y grupo** → `buscar_empresa_mercantil` (denominación, CIF y vínculos que obliguen a contar la plantilla o las extinciones del grupo).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,13 +37,15 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
 Primera pregunta: **¿a quién defiende el abogado?**
 
-- **Empresa**: quiere extinguir uno o pocos contratos por una causa objetiva. Entregas carta, justificante de la puesta a disposición, copia para la representación y nota con el cálculo y los riesgos.
+- **Empresa**: quiere extinguir uno o pocos contratos por una causa objetiva. Entregas carta, justificante de la puesta a disposición y copia para la representación, con el cálculo y los riesgos en el resumen (y una nota, si la pides).
 - **Trabajador**: ha recibido la carta y quiere saber si aguanta. Entregas una nota de revisión con los defectos, su efecto (improcedencia o nulidad), las diferencias que se reclaman y el plazo; la papeleta y la demanda, con `papeleta-conciliacion` y `redactar-demanda-despido`.
 
 | Situación | Skill que procede |
@@ -58,7 +60,7 @@ Primera pregunta: **¿a quién defiende el abogado?**
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado.
 2. ★ Causa y hechos concretos:
@@ -119,7 +121,7 @@ Lee cada artículo con `buscar_articulo` en esta conversación antes de afirmarl
 
 Lee con `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión) solo lo que cites; transcribe párrafos de fundamentos, nunca los hechos ni datos de las partes. La jurisprudencia va en la nota, nunca en la carta.
 
-## Cálculo (en la nota, con cada operación visible)
+## Cálculo (con cada operación visible; en la nota si se entrega, si no en el resumen)
 
 | Concepto | Dato | Fuente |
 |---|---|---|
@@ -147,8 +149,9 @@ Todo en Word según `references/formato-y-organos-laboral.md`.
    - Preaviso: fecha de extinción a quince días o más de la entrega, o abono de los días de preaviso; licencia de seis horas semanales.
    - Fecha de efectos, liquidación y documentación para el desempleo.
    - Firma, recibí fechado o constancia de negativa ante dos testigos.
+   - **Reparto para la redacción rápida:** carta de 2-4 páginas: una sola sección, sin equipo; si la causa económica lleva muchas cifras, dos: encabezamiento, causa y conexión con el puesto / indemnización, preaviso, efectos y firma. El justificante y la copia a la representación, una sección cada uno.
 2. **Justificante de la puesta a disposición** (orden de transferencia del mismo día o recibí del cheque) — `justificante-puesta-disposicion-<apellido-trabajador>-<AAAAMMDD>.docx` — y **copia para la representación legal** con acuse, en la causa c) — `carta-copia-representacion-<apellido-trabajador>-<AAAAMMDD>.docx`, con la información que exija el convenio (muchos piden informar de los despidos a la representación).
-3. **Nota para el abogado** — `nota-despido-objetivo-<empresa>-<AAAAMMDD>.docx`: tabla de umbrales en 90 días; acreditación de la causa (tabla trimestral si es económica); comprobación de cada requisito del art. 53.1; riesgos de nulidad e improcedencia; cálculo en tabla; jurisprudencia literal sobre la concreción de la carta y la que sostenga la causa; plazo del trabajador con fechas.
+3. **Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-despido-objetivo-<empresa>-<AAAAMMDD>.docx`: tabla de umbrales en 90 días; acreditación de la causa (tabla trimestral si es económica); comprobación de cada requisito del art. 53.1; riesgos de nulidad e improcedencia; cálculo en tabla; jurisprudencia literal sobre la concreción de la carta y la que sostenga la causa; plazo del trabajador con fechas.
 
 Para el trabajador: **nota de revisión** — `nota-revision-despido-objetivo-<apellido-trabajador>-<AAAAMMDD>.docx`, con defectos, efecto, jurisprudencia literal, diferencias reclamables en tabla y plazo (fecha de extinción, precepto, fecha final).
 
@@ -162,6 +165,6 @@ Para el trabajador: **nota de revisión** — `nota-revision-despido-objetivo-<a
 - [ ] Preaviso de quince días o su abono; copia a la representación en la causa c).
 - [ ] Doctrina sobre concreción de la carta, error excusable y liquidez leída cuando se usa.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; la carta no lleva jurisprudencia.
-- [ ] `verificar_escrito` pasado sobre cada documento; citas con «la letra c) del artículo 52 del Estatuto de los Trabajadores», no «52.c)».
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); citas con «la letra c) del artículo 52 del Estatuto de los Trabajadores», no «52.c)».
 - [ ] Marcadores en vez de datos inventados; cálculo visible.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

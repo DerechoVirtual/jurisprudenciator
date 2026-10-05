@@ -15,7 +15,7 @@ description: >-
 - **Sanción de tráfico** → `buscar_articulo` (`ley="Ley de Tráfico"` —RDL 6/2015—, artículos 94, 95 y 112).
 - **Criterio del juzgado o de la Sala en personal y extranjería** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"`, `provincia`, `tipo_organo="TSJ"`) + `leer_sentencias` (`parrafos=3`).
 - **Extranjería con Derecho de la UE** → `buscar_articulo` (`ley="LOEX"`) y `buscar_sentencias` (`base="TJUE"`).
-- **Antes de presentar la demanda** → `verificar_escrito`.
+- **Comprobación de las citas de la demanda** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -77,7 +79,7 @@ cauce, de los asuntos de su competencia que se susciten:
   a) representación; b) legitimación por transmisión; c) copia del acto o indicación del expediente;
   **d) personas jurídicas: el ACUERDO CORPORATIVO** — documento acreditativo del cumplimiento de los
   requisitos para entablar acciones según sus normas o estatutos. **No basta el poder.** Es la causa
-  de inadmisión más frecuente y evitable; **pregunta siempre por el acuerdo**;
+  de inadmisión más frecuente y evitable; **comprueba siempre el acuerdo** (en la documentación y, si no consta, en la única ronda de preguntas);
   **e) sindicatos** ex art. 19.1.k) (**LO 1/2025**, vigente 3-4-2025): **afiliación**, **comunicación
   al afiliado** de la voluntad de iniciar el proceso y **autorización expresa** del afiliado.
 - **Subsanación: 10 días** (art. 45.3).
@@ -86,13 +88,13 @@ cauce, de los asuntos de su competencia que se susciten:
 
 ## 3. Bloque de admisibilidad — antes de redactar
 
-Mismo control que en el ordinario. **No redactes hasta contestarlo:**
+Mismo control que en el ordinario. **Contéstalo con la documentación antes de redactar (paso 2 de `redaccion-rapida`):**
 
 - **Plazo (art. 46):** **2 meses** acto expreso; **6 meses** acto presunto; **2 meses** desde la
   resolución expresa o presunta de la **reposición** (art. 46.4); **vía de hecho: 10 días** si hubo
   requerimiento del art. 30, **20 días** si no lo hubo (art. 46.3); **inactividad (art. 29): 2
   meses** desde el vencimiento; **lesividad: 2 meses**. **Dies a quo = fecha de notificación**:
-  pídela. Son plazos de **CADUCIDAD**: **no los interrumpe** un burofax ni una reclamación
+  búscala en la documentación y, si no consta, pídela en la única ronda. Son plazos de **CADUCIDAD**: **no los interrumpe** un burofax ni una reclamación
   extrajudicial (art. 69.e).
 - **Agosto — art. 128.2 LJCA:** **no corre ningún plazo de la LJCA**, **salvo en el procedimiento de
   derechos fundamentales, donde agosto SÍ es hábil**. **No cites el art. 133 LEC.**
@@ -211,6 +213,8 @@ Como la demanda ordinaria (skill `demanda-contencioso-administrativa`), con esta
    - **Medidas cautelares** (art. 129): pieza separada (art. 131), **periculum in mora** (art. 130.1),
      ponderación (art. 130.2); cautelarísima del art. 135 si hay especial urgencia.
 
+**Reparto para la redacción rápida:** encabezamiento, comparecencia y hechos (una sección) · fundamentos procesales, con la procedencia del abreviado por materia o cuantía (una sección) · una sección por motivo de fondo · cierre con suplico del art. 31 y otrosíes (cuantía, prueba, diligencias de preparación, vista o fallo sin vista con conclusiones, cautelares).
+
 ## 8. Errores que pierden el asunto
 
 - **Decir que el abreviado cubre «tráfico» por materia.** No lo cubre: entra **por cuantía**.
@@ -237,4 +241,4 @@ Como la demanda ordinaria (skill `demanda-contencioso-administrativa`), con esta
 - **Protección de datos:** `[CLIENTE]`, `[ÓRGANO]`, `[FECHA]`, `[IMPORTE]`, `[EXPEDIENTE]`. Nunca
   reproduzcas datos de terceros ni datos de salud (art. 9 RGPD).
 - **Nada de MASC:** es del orden civil.
-- **Entregable:** Word `.docx` maquetado (skill `docx`). Aplica `estilo-escritos-judiciales`.
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`. Los redactores aplican `estilo-escritos-judiciales` al escribir.

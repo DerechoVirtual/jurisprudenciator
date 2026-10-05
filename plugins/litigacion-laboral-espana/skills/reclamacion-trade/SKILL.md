@@ -15,7 +15,7 @@ description: >-
 - **Empresa cliente y cambios societarios que motivan la resolución** (denominación, CIF, domicilio, administradores, venta, fusión o cambio de socio) → `buscar_empresa_mercantil` y, para el acto inscrito concreto, `sumario_borme` → `leer_boe`.
 - **Plazo de prescripción de las facturas impagadas** → `buscar_articulo` (`ley="CC"`, `articulo="1964"`).
 - **Doctrina sobre la condición de TRADE y el incumplimiento del cliente** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; `base="AN"` con `tipo_organo="TSJ"`) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del borrador** → `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Marco normativo
 
@@ -43,7 +45,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Comunicaciones sobre cambios societarios o de condiciones (venta de la empresa, cambio de grupo).
 - Certificado de conciliación.
 
-## Fase 2 — Batería de preguntas
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿Cuál es la causa de la resolución? impago reiterado / incumplimiento de condiciones / modificación unilateral.
 - Relación exacta de facturas impagadas o pagadas con retraso (fecha emisión, fecha de pago real, importe bruto y neto).
@@ -58,9 +62,11 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. **SUPLICO**: declarar resuelto el contrato TRADE por incumplimiento de la empresa, condena al pago de las cantidades adeudadas por servicios prestados y, en su caso, indemnización por daños y perjuicios.
 5. **OTROSÍES**: asistencia letrada, proposición de prueba documental (facturas, contrato) y testifical.
 
+**Reparto para la redacción rápida:** 01 encabezamiento y hechos; 02 fundamentos procesales (jurisdicción, competencia, legitimación, conciliación previa); 03 resolución del contrato TRADE por incumplimiento (Ley 20/2007, RD 197/2009 y doctrina); 04 reclamación de cantidad, daños y perjuicios, suplico y otrosíes.
+
 ## Fase 4 — Verificación y entrega
 
-Pulir con `/estilo-escritos-judiciales`, entregar en Word (.docx).
+El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, sin pasada posterior. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.
 
 ---
 

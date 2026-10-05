@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo activar
 
 - "Iniciar ejecución", "demanda ejecutiva", "despachar ejecución"
@@ -62,7 +64,7 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 ### 1. Identificación del título
 
-Vía `AskUserQuestion`:
+Con el título y la documentación aportados (pregunta al abogado solo lo que falte y bloquee, en una única ronda):
 
 - Tipo de título ejecutivo (sentencia firme / auto / escritura pública / póliza intervenida / letra-cheque-pagaré / laudo / acta MASC con fuerza ejecutiva por art. 6 Ley Orgánica 1/2025, de 2 de enero, si la hay)
 - Datos identificativos del título (número de procedimiento, fecha, notario, número de protocolo, etc.)
@@ -155,9 +157,11 @@ de empresa, ejecución no dineraria — adaptar.]
 [Firmas]
 ```
 
-### 6. Pulido + verificación
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y hechos (título ejecutivo, cantidad reclamada y bienes a embargar); sección 2 = fundamentos de derecho (título y su fuerza ejecutiva, tribunal competente, cantidad líquida y exigible, medidas ejecutivas, costas); sección final = súplica, otrosíes, lugar, fecha y firmas. Si el escrito no pasa de 2 páginas y no cita jurisprudencia, redáctalo tú en un único archivo.
 
-`estilo-escritos-judiciales` + verificación de ECLI/ROJ con `jurisprudenciator` (`buscar_por_cita`, si se citan STS).
+### 6. Estilo y verificación (dentro del método rápido)
+
+El estilo (`estilo-escritos-judiciales`) lo aplica el redactor al escribir, no en una pasada posterior. Los ECLI/ROJ, si se citan STS, los comprueba el ensamblado (solo se admiten las sentencias leídas con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas.
 
 ## Método secuencial de jurisprudencia
 

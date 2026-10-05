@@ -13,7 +13,7 @@ description: Redacta el escrito de PREPARACIÓN del recurso de casación contenc
 - **Doctrina de admisión de la Sección Primera** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`, `tipo_resolucion="AUTO"`, `consulta` con la cuestión de interés casacional) + `opciones_busqueda` para acotar por sección o año.
 - **Jurisprudencia infringida o contradictoria** → `buscar_por_cita` + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
 - **Letra e): carácter estatal o de la UE de la norma infringida** → `buscar_articulo` o `buscar_boe` + `leer_boe`; `buscar_sentencias` (`base="TJUE"`) si se invoca Derecho de la Unión.
-- **Antes de presentar** → `verificar_escrito` sobre los seis apartados.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -100,7 +102,7 @@ concreto, y precisamente por eso nadie lo tiene presente cuando ese supuesto con
   PREPARADO** el recurso (art. 89.4), **denegando el emplazamiento** y la remisión al TS. **Solo queja.**
   Y el art. 93 contempla expresamente, entre las causas de inadmisión, el supuesto de que «siendo
   necesario haber pedido la subsanación de la falta, no hay constancia de que se haya hecho».
-- **Regla operativa:** al preparar cualquier casación, **preguntar siempre**: ¿hay algún motivo
+- **Regla operativa:** al preparar cualquier casación, **comprobar siempre** (en los autos y, si no consta, en la única ronda de preguntas): ¿hay algún motivo
   procesal con indefensión? Si la respuesta es sí —o dudosa—, **abrir el apartado c) igualmente** y
   documentarlo. Un apartado c) sobrante no perjudica; su ausencia es letal.
 - **Trabajo hacia atrás:** esto se prepara **en la instancia**. Si el asunto puede llegar a casación,
@@ -234,6 +236,8 @@ concreto, y precisamente por eso nadie lo tiene presente cuando ese supuesto con
 5. **SUPLICO.**
 6. **OTROSÍES:** opinión del art. 89.5; designación de procurador ante el TS; documentos.
 
+**Reparto para la redacción rápida:** tres secciones: encabezamiento, resolución recurrida, antecedentes y apartados a), b) y c) · apartados d) y e) · apartado f), el del interés casacional, con su propia búsqueda de autos de admisión, más suplico y otrosíes. Los seis apartados se rotulan `### [MOTIVO] <epígrafe expresivo>` (el ensamblado los numera PRIMERO a SEXTO) y cada uno conserva su epígrafe del art. 89.2.
+
 ## 10. SUPLICO — modelo
 
 > **SUPLICO A LA SALA** que, teniendo por presentado este escrito, se sirva admitirlo, tener por
@@ -265,5 +269,5 @@ concreto, y precisamente por eso nadie lo tiene presente cuando ese supuesto con
 - **Normativa autonómica y local:** el conector no la cubre. Pedírsela al usuario; no citarla de
   memoria. Y recordar que el Derecho autonómico **cierra** la vía casacional frente a sentencias de TSJ.
 - **Nada de MASC:** requisito del orden civil; no existe aquí.
-- **Entregable:** Word `.docx` maquetado (skill `docx`), con antecedentes, los **seis apartados con
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`, con antecedentes, los **seis apartados con
   epígrafe** y el suplico.

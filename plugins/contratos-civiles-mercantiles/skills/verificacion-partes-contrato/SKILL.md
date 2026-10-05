@@ -25,7 +25,7 @@ description: >-
 - **Personas físicas: capacidad, apoyos y régimen matrimonial** → `buscar_articulo` (`ley="CC"`, artículos `"250"`, `"287"`, `"1263"`, `"1301"`, `"1302"`, `"1320"`, `"1322"`, `"1375"`, `"1377"` y `"1459"`; si hay separación o divorcio, `"96"` (uso atribuido), `"1392"` (conclusión de los gananciales) y `"397"` (cosa común)); extranjero que contrata en España → (`ley="32008R0593"`, `articulo="13"`).
 - **Doctrina sobre activos esenciales, conflicto de interés, autocontratación, vivienda familiar y apoyos** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`, consultas de «Régimen jurídico y comprobaciones») + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Inmuebles** → `consultar_catastro` (referencia catastral, o dirección y municipio) y `buscar_articulo` (`ley="BOE-A-1946-2453"`, `articulo="34"`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -50,7 +52,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta por cada parte, en este orden. Si falta un dato imprescindible (★), pídelo.
+Reúne estos datos de cada parte con la documentación que aporte el abogado. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ Posición del cliente en el contrato y qué parte hay que verificar (la contraria, la propia o las dos).
 2. ★ Sociedades: denominación exacta y CIF; quién firmará y en qué concepto (administrador único, solidario, mancomunado, consejero delegado, apoderado, liquidador).
@@ -139,6 +141,8 @@ Una parte está en VERDE solo cuando cada comprobación que le afecta lo está. 
 7. **Doctrina aplicada**: solo si se ha usado para un ROJO o para sostener una exigencia (activos esenciales, dispensa, autocontrato, vivienda familiar): párrafo literal entre comillas, órgano, fecha, número y ECLI tal como los devolvió `leer_sentencias`, con una línea sobre qué sostiene.
 8. **Normativa consultada**: artículo, norma y «vigente desde».
 
+**Reparto para la redacción rápida:** una sección por parte, con su color (ficha de cada sociedad con su firmante, de cada persona física y de cada inmueble); una de documentos que hay que pedir y cláusulas que incorporar al contrato; y otra de doctrina aplicada y normativa consultada. El resumen con la recomendación, que va primero (`01`), lo escribes tú al final, cuando ya están fijados los colores.
+
 Si en el entorno no se pueden crear archivos, entrega el texto completo con esos títulos y avisa de que hay que pasarlo a Word.
 
 ## Comprobación final
@@ -151,6 +155,6 @@ Si en el entorno no se pueden crear archivos, entrega el texto completo con esos
 - [ ] Inmuebles: Catastro consultado y nota simple pedida; discrepancias señaladas.
 - [ ] Cada artículo leído con `buscar_articulo` en esta conversación; la capacidad de un extranjero no se ha resuelto por su ley nacional sin haber obtenido el precepto (el art. 9 del Código Civil no sale por `buscar_articulo`).
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (fundamento, no hechos ni datos de aquel pleito) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el informe y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo) y corregido lo que señale.
 - [ ] Ningún dato personal inventado ni búsqueda por el nombre de un particular.
 - [ ] Resumen en el chat según el apartado 10 del formato: qué se verificó y para quién, color de cada parte y motivo, documentos que faltan, tabla de jurisprudencia citada y próximo paso (la skill del contrato con las cláusulas que hay que incorporar).

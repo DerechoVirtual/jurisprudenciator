@@ -24,7 +24,7 @@ description: >-
 - **Recurso de reposición, plazos y documentos nuevos** → `buscar_articulo` (`ley="LPAC"`, artículos `"24"`, `"30"`, `"118"`, `"123"` y `"124"`; si la resolución se firma «por delegación», `ley="Ley 40/2015"`, `articulo="9"`); **recurso contencioso, órgano y plazo** → `buscar_articulo` (`ley="LJCA"`, artículos `"11"`, `"23"`, `"25"`, `"36"`, `"45"`, `"46"`, `"52"` y `"139"`; `ley="LOPJ"`, `articulo="66"`).
 - **Doctrina sobre buena conducta cívica e integración** → `buscar_sentencias` (`consulta="nacionalidad por residencia buena conducta cívica antecedentes policiales"`, `base="AN"`, `jurisdiccion="CONTENCIOSO"`, `fecha_desde` de los dos últimos años) y la misma materia con `base="TS"` sin filtro de fecha; después `leer_sentencias` (`parrafos=3`, `terminos` del motivo de denegación).
 - **Órgano judicial que resuelve hoy las denegaciones** → `buscar_sentencias` (`consulta="denegación nacionalidad española por residencia"`, `base="AN"`, `jurisdiccion="CONTENCIOSO"`, `fecha_desde` de los últimos seis meses) y lectura de una resolución para ver la Sala y el procedimiento.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -56,7 +58,7 @@ La casación ante el Supremo queda fuera: si el abogado la pide, dilo y limita l
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible, pregúntalo y espera.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible, pídelos todos a la vez en una única ronda de no más de cuatro preguntas y espera; lo demás queda como `[PENDIENTE: dato]`.
 
 1. **Qué se prepara** (imprescindible): solicitud, subsanación, reposición o recurso contencioso.
 2. **Fechas** (imprescindible para recursos): fecha de notificación de la resolución o, si no hay resolución, fecha de entrada de la solicitud en el órgano instructor (de ella depende el silencio). Pregunta también si hubo **requerimientos de subsanación o de documentos** (fecha de notificación y fecha en que se atendieron) y si se abrió **trámite de audiencia o de alegaciones**: los requerimientos suspenden el plazo para resolver y, en reposición, de ello depende que se admitan documentos nuevos. Sin la fecha no calcules ningún plazo.
@@ -166,6 +168,8 @@ Formato, destinatarios, citas y datos: `references/formato-y-organos.md`. Todo e
 5. Contra una desestimación presunta, identifica el acto por el expediente (`LJCA`, art. 45.2.c), explica por qué se recurre en plazo y anuncia en otrosí que, si la Administración resuelve durante el proceso, se pedirá la ampliación a la resolución expresa o se desistirá (`LJCA`, art. 36.4).
 6. Si el abogado lo pide, añade el esquema de la demanda en un documento aparte, de uso interno (`esquema-demanda-nacionalidad-<apellido>-<AAAAMMDD>.docx`), para cuando se entregue el expediente (plazo de veinte días y caducidad, `LJCA`, art. 52): hechos, fundamentos por motivo, pretensión de anulación y reconocimiento del derecho (`LJCA`, arts. 31.2 y 71.1.b), prueba y riesgo de costas (`LJCA`, art. 139.1).
 
+**Reparto para la redacción rápida:** A (solicitud y memoria): 01 encabezamiento, comparecencia y supuesto de plazo; 02 residencia legal y continuada (tabla y cómputo); 03 buena conducta cívica e integración; 04 solicita y relación de documentos. B (reposición): 01 encabezamiento, comparecencia y hechos; una sección por motivo de denegación con su doctrina; cierre con solicita y documentos nuevos. C (interposición, una o dos páginas): el director sin equipo.
+
 ## Comprobación final
 
 - [ ] `estado` respondió y la puerta se cumplió en todo el trabajo.
@@ -173,7 +177,7 @@ Formato, destinatarios, citas y datos: `references/formato-y-organos.md`. Todo e
 - [ ] Si el caso dependía de una disposición final o adicional que el conector no devuelve, la tarea se detuvo en ese punto y se explicó al abogado.
 - [ ] El órgano judicial se comprobó con la LJCA, la LOPJ y una resolución reciente leída.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; solo se citan fundamentos jurídicos.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
 - [ ] Marcadores entre corchetes para todo dato no facilitado; ningún dato inventado.
 - [ ] Plazo con fecha inicial, precepto y fecha final; si falta la fecha de notificación, no se da plazo. En el silencio, fecha de entrada más un año y más los días de suspensión por requerimientos (`Orden JUS/1625/2016`, art. 7.3).
 - [ ] Resumen para el abogado según el apartado 7 del formato: documento y órgano, plazo, documentos que faltan y riesgos (en especial si la denegación se funda en orden público o informe reservado), tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y próximo paso.

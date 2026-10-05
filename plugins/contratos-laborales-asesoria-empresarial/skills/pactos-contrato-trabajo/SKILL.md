@@ -24,7 +24,7 @@ description: >-
 - **Naturaleza de lo pagado y plazo para reclamar** → `buscar_articulo` (`ley="ET"`, artículos `"26"` y `"59"`).
 - **Convenio aplicable y sus artículos** → `buscar_convenio` + `leer_convenio` (`buscar_en` con una sola materia: `"competencia"`, `"concurrencia"`, `"permanencia"`, `"dedicación"`, `"pluriempleo"`, `"confidencialidad"`; en muchos convenios «competencia» solo casa con las competencias de la comisión paritaria) + `vigencia_convenio`. `leer_convenio` devuelve el texto publicado originalmente: si `vigencia_convenio` registra un texto nuevo o una modificación posterior, localízala en internet en el boletín oficial y comprueba si toca estos pactos; di en la nota qué publicación rige y si el convenio los regula o no.
 - **Doctrina sobre compensación, renuncia unilateral, devolución e indemnización** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; o `base="AN"` + `tipo_organo="TSJ"` + `provincia` sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Pregunta primero **qué pacto**, **en qué momento** (al contratar, durante la r
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pregunta en este orden; si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado, qué pacto y en qué momento.
 2. ★ Empresa: actividad real, productos o servicios, mercado geográfico, clientes y competidores reales.
@@ -138,7 +140,8 @@ Mucha resolución del Supremo en esta materia es un auto de inadmisión por falt
      - extinción del pacto solo por acuerdo de ambas partes;
      - en permanencia: especialización, coste acreditado, plazo y cálculo de la indemnización a prorrata;
    - firmas en dos columnas.
-2. **Nota para el abogado**: `nota-pacto-<tipo>-<empresa>-<AAAAMMDD>.docx`. Requisito a requisito con su precepto y prueba; tabla de la compensación (salario anual, compensación total, porcentaje, duración, penalidad) para valorar su adecuación; riesgos (nulidad, devolución, renuncia, compensación embebida en el salario); convenio leído; jurisprudencia con párrafo literal y ECLI.
+   - **Reparto para la redacción rápida:** el pacto es corto (2-4 páginas): una sola sección, sin equipo; si reúne varios pactos (no competencia, permanencia, plena dedicación, confidencialidad), una sección por pacto y otra de comparecencia, EXPONEN, extinción y firmas.
+2. **Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega): `nota-pacto-<tipo>-<empresa>-<AAAAMMDD>.docx`. Requisito a requisito con su precepto y prueba; tabla de la compensación (salario anual, compensación total, porcentaje, duración, penalidad) para valorar su adecuación; riesgos (nulidad, devolución, renuncia, compensación embebida en el salario); convenio leído; jurisprudencia con párrafo literal y ECLI.
 3. **Si defiende al trabajador y el pacto ya existe**: nota de validez y de opciones (cumplir, negociar la extinción del pacto, alegar la nulidad y su coste, reclamar la compensación) con el plazo de prescripción calculado.
 
 ## Comprobación final
@@ -150,6 +153,6 @@ Mucha resolución del Supremo en esta materia es un auto de inadmisión por falt
 - [ ] Ninguna cláusula de renuncia unilateral de la empresa.
 - [ ] Permanencia ligada a una especialización real, con coste acreditado y plazo máximo de dos años.
 - [ ] Cada ECLI de la nota leído con `leer_sentencias` o comprobado con `buscar_por_cita`; ninguno en el pacto; ningún auto de inadmisión citado como doctrina.
-- [ ] `verificar_escrito` pasado sobre cada documento y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y corregido lo que señale.
 - [ ] Marcadores en lugar de datos no facilitados; si algún dato no sale de Jurisprudenciator, procede de una fuente oficial con enlace y fecha de consulta, y el resumen lo identifica.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, plazos con su precepto, cálculo de la compensación, riesgos, documentos que faltan, tabla de jurisprudencia y próximo paso.

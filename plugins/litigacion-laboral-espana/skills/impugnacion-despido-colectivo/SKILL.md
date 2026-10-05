@@ -15,7 +15,7 @@ description: >-
 - **Art. 51 ET y art. 124 LRJS en su redacción vigente; reglamento de los procedimientos de despido colectivo (RD 1483/2012)** → `buscar_articulo` y `buscar_boe` → `leer_boe`.
 - **Empresa y grupo** (sociedades vinculadas, administradores comunes, concurso que exige autorización del juez) → `buscar_empresa_mercantil`, y `sumario_borme` o `novedades_boe` para actos societarios y edictos concursales recientes.
 - **Prioridades de permanencia o criterios de selección pactados en el convenio** (vía individual) → `buscar_convenio` + `leer_convenio` (`buscar_en="prioridad de permanencia"`).
-- **Revisión del borrador** → `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Las tres vías — elegir la correcta ANTES de redactar
 
@@ -61,7 +63,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Carta individual de despido (para la vía individual) con criterios de selección aplicados.
 - Datos del ámbito (centros, plantilla, número de afectados) — determina umbral del art. 51.1 ET y órgano competente.
 
-## Fase 2 — Batería de preguntas (AskUserQuestion)
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿Quién es el cliente? (comité/sindicato → colectiva; trabajador → individual; empresa → jactancia o defensa).
 - ¿Fechas exactas?: fin de consultas / notificación de la decisión / carta individual → computar los 20 días de la vía que toque, con las reglas de apertura del 124.13.
@@ -78,12 +82,14 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. **SUPLICO**: declaración de nulidad (con reincorporación) o de no ajustada a derecho, según el motivo.
 5. **OTROSÍES**: prueba (documental sobre consultas, pericial económica, interrogatorio con apercibimiento 91.2 LRJS).
 
+**Reparto para la redacción rápida:** 01 encabezamiento, legitimación y hechos (plantilla, comunicación, periodo de consultas, decisión y cómputo del plazo); 02 fundamentos procesales (competencia, legitimación y vía); una sección de fondo por cada motivo del art. 124.2 LRJS que se invoque (causa; consultas y documentación; fraude o derechos fundamentales), con su doctrina; cierre (suplico y otrosíes).
+
 ## Fase 4 — Verificación y entrega
 
-- Plazo de caducidad recomputado y documentado en `_log.yaml`.
+- Plazo de caducidad recomputado y documentado en `_log.yaml` en la preparación, antes de lanzar al equipo.
 - Motivos alineados con la calificación pedida (la causa insuficiente NO da nulidad en la colectiva: da "no ajustada a derecho").
-- Verificar doctrina con `buscar_por_cita` y `leer_sentencias` de Jurisprudenciator, y el borrador con `verificar_escrito`.
-- Pulir con `/estilo-escritos-judiciales`. Entregar en Word (.docx).
+- Doctrina verificada con `buscar_por_cita` y leída con `leer_sentencias` de Jurisprudenciator por cada redactor en su sección (el ensamblado rechaza las citas que nadie leyó); cada redactor pasa `verificar_escrito` sobre sus frases con normas.
+- El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, sin pasada posterior. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.
 
 ---
 

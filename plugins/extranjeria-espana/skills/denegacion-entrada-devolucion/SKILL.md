@@ -26,7 +26,7 @@ description: >-
 - **Privación de libertad y habeas corpus** → `buscar_articulo` (`ley="CE"`, `articulo="17"`) y (`ley="LO 6/1984"`, artículos `"1"` a `"4"`).
 - **Recursos y plazos** → `buscar_articulo` (`ley="LPAC"`, artículos `"40"`, `"112"`, `"121"`, `"122"`, `"123"` y `"124"`) y (`ley="LJCA"`, artículos `"8"`, `"46"` y `"135"`).
 - **Doctrina** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"` para TSJ y juzgados, `base="TS"` para el Supremo; `base="TC"` para habeas corpus y libertad; fechas en formato `dd/mm/aaaa`) + `leer_sentencias` (`parrafos=3`). La búsqueda se hace siempre, porque tarda segundos; leer y citar puede omitirse en los escritos urgentes A y C (ver «Estrategia», punto 5).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -151,6 +153,8 @@ Word maquetado según `references/formato-y-organos.md`. Si no hay tiempo para e
 - **C. Solicitud de habeas corpus**, al juez de instrucción del lugar de custodia (LO 6/1984 arts. 2 y 4). Nombre: `habeas-corpus-<apellido-cliente>-<AAAAMMDD>.docx`. Estructura breve: solicitante y privado de libertad; lugar, autoridad de custodia y hora de inicio de la privación; motivo concreto con la letra del art. 1 que concurre; SUPLICO: incoación, comparecencia inmediata del privado de libertad y puesta en libertad o a disposición judicial.
 - Recurso contra la devolución: prepáralo con `recurso-administrativo-extranjeria` o `recurso-contencioso-extranjeria`, con la causa de suspensión y la cautelarísima (LJCA art. 135) si la ejecución es inminente.
 
+**Reparto para la redacción rápida:** los escritos A y C, por su urgencia y brevedad (una a tres páginas), los redacta el director sin equipo, con las consultas en paralelo; el recurso de alzada B, si pasa de cuatro páginas, se divide en 01 encabezamiento y hechos, 02 un fundamento por motivo de denegación y 03 súplica y documentos.
+
 Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la LOEX como «artículo N de la Ley Orgánica 4/2000» (formato, apartado 4); nunca «del Reglamento de Extranjería» ni «del Reglamento aprobado por el Real Decreto…», que `verificar_escrito` no identifica. Con letra, escribe «la letra b) del artículo 23.6 del Real Decreto 1155/2024»: con «23.6.b)» el verificador atribuye el artículo a otra ley. `verificar_escrito` **no identifica los Reglamentos (UE)** (2016/399, 2024/1348, 2024/1356): marca sus artículos como «ley no identificada» o, si antes se ha citado una norma española (aunque sea en un fundamento anterior), se los atribuye a esa norma y a veces avisa de «disonancia». Citar la norma de la Unión antes que la española dentro de cada fundamento reduce esas atribuciones, pero no las elimina: compruébalos todos con `buscar_articulo` y explica en el resumen que esos avisos no son errores.
 
 ## Comprobación final
@@ -161,6 +165,6 @@ Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la 
 - [ ] Horas anotadas y cómputo de las setenta y dos horas con su precepto; plazo del recurso con fecha de notificación, precepto y fecha final, o explicación de por qué no puede darse.
 - [ ] Ningún contenido tomado de la disposición adicional décima de la LOEX ni de disposiciones adicionales del Reglamento.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[PASAPORTE]`, `[NIE]`, `[NÚMERO DE EXPEDIENTE]`, horas) en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 7 del formato: órgano; hora límite de las setenta y dos horas y plazo del recurso con su precepto; riesgos (regreso inmediato, recurso sin efecto suspensivo, vulnerabilidad detectada); tabla de jurisprudencia; próximo paso (asilo, habeas corpus, internamiento o recurso).

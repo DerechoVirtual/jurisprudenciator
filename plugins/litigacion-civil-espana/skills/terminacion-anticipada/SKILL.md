@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Marco normativo de referencia — LO 1/2025 (CRÍTICO, comprobar SIEMPRE)
 
 La terminación anticipada del proceso descansa en el **poder de disposición de las partes** (art. 19 LEC). Tras la reforma operada por la **Ley Orgánica 1/2025, de 2 de enero** (en vigor el **3 de abril de 2025**), tener siempre presente:
@@ -212,6 +214,8 @@ corresponda (art. 22 LEC).
 [Firma electrónica del Procurador y del Abogado]
 ```
 
+**Reparto para la redacción rápida:** son escritos breves de trámite (1-2 páginas) que no necesitan equipo: redáctalo tú en un único archivo de `secciones/` (encabezamiento, exposición y súplica), con tus consultas lanzadas en paralelo. Solo si el abogado pide un escrito largo con jurisprudencia, divídelo en 3 secciones: encabezamiento y exposición; fundamentos con su doctrina; costas, súplica, lugar, fecha y firmas.
+
 ### Maquetación
 
 - Times New Roman 12
@@ -238,9 +242,9 @@ corresponda (art. 22 LEC).
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-### Pulido con estilo de la casa
+### Estilo de la casa (dentro del método rápido)
 
-Si el `CLAUDE.md` así lo configura, aplicar `estilo-escritos-judiciales`: estructura tripartita, contrastes "una cosa es X / otra es Y", explicación del por qué antes del qué; cero adjetivos vacíos, cero postureo.
+Si el `CLAUDE.md` así lo configura, el redactor aplica `estilo-escritos-judiciales` al escribir, no en una pasada posterior: estructura tripartita, contrastes "una cosa es X / otra es Y", explicación del por qué antes del qué; cero adjetivos vacíos, cero postureo.
 
 ## Salida
 

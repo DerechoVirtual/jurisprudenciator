@@ -15,7 +15,7 @@ description: >-
 - **Acto tributario (art. 112.4 LPAC): la vía es la económico-administrativa** → `buscar_doctrina_teac` + `leer_resolucion_teac` y `buscar_consultas_hacienda` + `leer_consulta_hacienda` para conocer el criterio vinculante.
 - **Procedimiento de impugnación sustitutivo previsto en una ley sectorial (art. 112.2)** → `buscar_boe` + `leer_boe`.
 - **Doctrina para los motivos de nulidad o anulabilidad** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`).
-- **Antes de presentar** → `verificar_escrito`.
+- **Comprobación de las citas** → `verificar_escrito` sobre las frases del escrito que citan normas (lo pasa quien lo redacta), y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -44,7 +46,7 @@ plazos, letras de artículo ni cifras.
 
 ## 1. Triaje: ¿qué recurso procede? (art. 112.1 LPAC)
 
-Antes de redactar, resuelve estas cinco preguntas **en este orden**:
+Antes de redactar, resuelve estas cinco preguntas **en este orden**, con la documentación (paso 2 de `redaccion-rapida`):
 
 1. **¿El acto pone fin a la vía administrativa?** (art. 114 LPAC — consúltalo si dudas).
    - **NO** → **ALZADA**, ante el órgano superior jerárquico del que dictó el acto (art. 121.1).
@@ -140,6 +142,8 @@ Cuando el acto agota la vía, **razona la opción y explícasela al usuario** �
    verifícalo antes de citarlo).
 7. **Lugar, fecha, firma y medio de notificación** (art. 115.1.c).
 
+**Reparto para la redacción rápida:** escrito corto (2-4 páginas): redáctalo tú en un único archivo de `secciones/`. Si los motivos son varios, dos o tres secciones: encabezamiento, acto recurrido y hechos con folio / una sección por bloque de fundamentos (nulidad, anulabilidad) / suplico y otrosí de suspensión.
+
 **Red de seguridad (art. 115.2):** el error o la ausencia de calificación del recurso no impide su
 tramitación si se deduce su verdadero carácter. Úsalo si hay duda razonable sobre qué recurso
 procede, pero **no lo conviertas en estrategia**: califica bien.
@@ -172,6 +176,6 @@ los causó**. Comprueba que el cliente no provocó el defecto que ahora invoca.
   `[EXPEDIENTE]`. El expediente contiene datos de terceros y, en sanitario, datos de salud
   (art. 9 RGPD, categoría especial): **nunca los reproduzcas**.
 - **Nada de MASC:** es del orden civil. Aquí el equivalente es el agotamiento de la vía.
-- **Entregable:** Word `.docx` maquetado (skill `docx`). Aplica `estilo-escritos-judiciales`.
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`. Aplica `estilo-escritos-judiciales` al escribir.
 - **Cierra siempre con el aviso de plazo:** «Resuelto o desestimado presuntamente este recurso,
   dispone de **2 meses** para el contencioso (art. 46.4 LJCA). Plazo de **caducidad**.»

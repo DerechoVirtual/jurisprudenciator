@@ -3,7 +3,7 @@ name: teletrabajo-acuerdo
 description: >-
   Redacta en Word el acuerdo de trabajo a distancia de la Ley 10/2021 con su contenido mínimo, la
   compensación de gastos, el control empresarial y la reversibilidad, más la política de desconexión digital
-  y una nota de riesgos. Úsala cuando la empresa diga «vamos a teletrabajar dos días a la semana», «¿tengo
+  y, si la pides, una nota de riesgos. Úsala cuando la empresa diga «vamos a teletrabajar dos días a la semana», «¿tengo
   que pagar los gastos de teletrabajo?» o «quiero que vuelva a la oficina», y cuando el trabajador pregunte
   «¿me pueden obligar a volver?», «no me pagan internet ni la luz» o «me han puesto un programa de control».
   Comprueba el umbral de regularidad del art. 1, la voluntariedad, el convenio y la doctrina sobre cláusulas
@@ -24,7 +24,7 @@ description: >-
 - **Reclamación judicial y sanción** → `buscar_articulo` (`ley="LRJS"`, artículos `"138 bis"` y `"139"`) y (`ley="BOE-A-2000-15060"`, `articulo="7"`; la cuantía, del `"40"` en el momento).
 - **Convenio aplicable y sus artículos** → `buscar_convenio` + `leer_convenio` (`buscar_en="teletrabajo"` y, por separado, `"trabajo a distancia"` y `"desconexión"`) + `vigencia_convenio`: el convenio puede fijar la compensación de gastos, la reversibilidad y los criterios de acceso. Los pasajes de `buscar_en` salen cortados: en cuanto localices el artículo que regula el trabajo a distancia, léelo entero con `leer_convenio` (`articulo="N"`), porque los importes, el preaviso y los requisitos suelen estar al final. Elige el convenio por la actividad principal real de la empresa (su ámbito funcional), aunque el cliente crea que es otro. Si `vigencia_convenio` muestra revisiones salariales o actas de la comisión paritaria posteriores al texto, la compensación de gastos puede estar actualizada en ellas y `leer_convenio` no las devuelve: búscalas en el BOE o el boletín oficial (punto 3 de la puerta) y cita el importe vigente con su enlace.
 - **Doctrina sobre cláusulas del acuerdo, gastos, presencialidad, averías y control** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; `base="AN"`, que incluye la Sala de lo Social de la Audiencia Nacional en conflictos colectivos; o `base="AN"` + `tipo_organo="TSJ"` + `provincia` sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). En los documentos, cita «artículo 7 de la Ley 10/2021, de 9 de julio, de trabajo a distancia» y «artículo 88 de la Ley Orgánica 3/2018, de 5 de diciembre»: así los reconoce `verificar_escrito`.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -57,7 +59,7 @@ Pregunta primero **a quién defiende el abogado**:
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pregunta en este orden; si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado.
 2. ★ **Porcentaje de jornada a distancia** en un periodo de tres meses y distribución (días fijos, flexibles, semanas alternas). Con él decides si la Ley 10/2021 es obligatoria.
@@ -157,10 +159,11 @@ Casi toda la doctrina del Supremo en esta materia sale de conflictos colectivos:
    - CLÁUSULAS en ordinales, una por cada letra del art. 7 y en su orden: medios (remite al anexo I), gastos y compensación, horario y disponibilidad, porcentaje y distribución, centro de adscripción, lugar de trabajo, reversibilidad y preaviso, medios de control, dificultades técnicas, protección de datos, seguridad de la información, duración.
    - Cláusulas adicionales: registro de jornada; desconexión digital (remite a la política); prevención (evaluación y, en su caso, autorización de visita); modificación solo por acuerdo escrito (art. 8.1); copia a la RLT.
    - ANEXO I, **inventario** en tabla (elemento, modelo o descripción, número de serie, fecha de entrega, vida útil o plazo de renovación). ANEXO II, **cálculo de la compensación de gastos** en tabla (concepto, criterio, importe o método, periodicidad, fuente: convenio o acuerdo).
+   - **Reparto para la redacción rápida:** tres secciones por bloques de cláusulas: comparecencia, EXPONEN, medios (anexo I), gastos y compensación (anexo II) / horario, porcentaje y distribución, centro de adscripción, lugar, reversibilidad y preaviso / control, dificultades técnicas, protección de datos, seguridad de la información, duración, cláusulas adicionales y firmas. La política de desconexión, una sola sección.
 2. **Política de desconexión digital** si la empresa no la tiene: `politica-desconexion-digital-<empresa>-<AAAAMMDD>.docx`, con el contenido del art. 88.3 de la Ley Orgánica 3/2018 y constancia de la audiencia a la RLT.
-3. **Nota para el abogado**: `nota-teletrabajo-<empresa>-<AAAAMMDD>.docx`. Si supera el umbral (cálculo del porcentaje en tabla); convenio y sus artículos; cláusulas de riesgo y alternativa válida; plazos (copia a la RLT en diez días desde la firma, con fecha; si hay conflicto, el del art. 138 bis LRJS con fecha); jurisprudencia literal.
+3. **Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega): `nota-teletrabajo-<empresa>-<AAAAMMDD>.docx`. Si supera el umbral (cálculo del porcentaje en tabla); convenio y sus artículos; cláusulas de riesgo y alternativa válida; plazos (copia a la RLT en diez días desde la firma, con fecha; si hay conflicto, el del art. 138 bis LRJS con fecha); jurisprudencia literal.
 4. **Si defiende al trabajador**: nota de análisis del acuerdo o de la decisión de la empresa, con la reclamación que procede, su plazo (las dos fechas si el inicio es dudoso), el órgano y la actuación recomendada mientras no haya sentencia.
-5. **Si el trabajo a distancia no alcanza el umbral**: en lugar del acuerdo, `contrato-pacto-trabajo-distancia-ocasional-<apellido-trabajador>-<AAAAMMDD>.docx` (REUNIDOS, INTERVIENEN, EXPONEN con el cálculo que demuestra que no es regular, y CLÁUSULAS: objeto y carácter ocasional; días y tope de seguridad controlado con el registro; horario y registro de jornada; medios; compensación de gastos, voluntaria salvo que el convenio la imponga también al trabajo ocasional; control; protección de datos y seguridad; prevención; desconexión; revocación recíproca con preaviso y razón expresada, y declaración de que el disfrute no consolida un derecho; duración), más la nota del punto 3 con la tabla del cálculo y el trimestre desfavorable.
+5. **Si el trabajo a distancia no alcanza el umbral**: en lugar del acuerdo, `contrato-pacto-trabajo-distancia-ocasional-<apellido-trabajador>-<AAAAMMDD>.docx` (REUNIDOS, INTERVIENEN, EXPONEN con el cálculo que demuestra que no es regular, y CLÁUSULAS: objeto y carácter ocasional; días y tope de seguridad controlado con el registro; horario y registro de jornada; medios; compensación de gastos, voluntaria salvo que el convenio la imponga también al trabajo ocasional; control; protección de datos y seguridad; prevención; desconexión; revocación recíproca con preaviso y razón expresada, y declaración de que el disfrute no consolida un derecho; duración), más la tabla del cálculo y el trimestre desfavorable (en la nota del punto 3 si se entrega; si no, en el resumen).
 
 En las tablas de preceptos de la nota escribe las fechas de vigencia con letra («11 de julio de 2021»): con el formato «11/07/2021» junto a los artículos, `verificar_escrito` toma la fecha por el número de una norma («Ley 12/2018», «Decreto-ley 12/2021») y marca falsos errores.
 
@@ -174,6 +177,6 @@ En las tablas de preceptos de la nota escribe las fechas de vigencia con letra (
 - [ ] Las doce letras del art. 7 tienen cláusula; ninguna deja a la empresa la decisión unilateral sobre porcentaje, presencialidad o gastos.
 - [ ] Inventario y cálculo de gastos en tabla, con la fuente de cada importe; sin cuantías inventadas.
 - [ ] Cada ECLI de la nota leído con `leer_sentencias` o comprobado con `buscar_por_cita`; ninguno en el acuerdo.
-- [ ] `verificar_escrito` pasado sobre cada documento y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y corregido lo que señale.
 - [ ] Marcadores en lugar de datos no facilitados; lo que no sale de Jurisprudenciator (disposiciones de la ley, criterios oficiales) procede de una fuente oficial con enlace y fecha de consulta.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, plazos con su precepto, cálculos de gastos, datos obtenidos de internet, riesgos, documentos que faltan, tabla de jurisprudencia y próximo paso.

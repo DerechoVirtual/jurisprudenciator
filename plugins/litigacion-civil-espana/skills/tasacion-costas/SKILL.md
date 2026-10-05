@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo activar
 
 - "Tasar las costas", "presentar tasación", "minutar costas a favor"
@@ -116,6 +118,8 @@ parte condenada para que en plazo legal manifieste lo que a su derecho convenga.
 [Lugar y fecha]
 [Firmas]
 ```
+
+**Reparto para la redacción rápida:** la solicitud es un escrito de 1-2 páginas que no necesita equipo: haz antes los cálculos (honorarios, derechos del procurador, otros gastos y límite del tercio, pasos 1-5) y déjalos en `caso.md`, y redáctala tú en un único archivo de `secciones/` (encabezamiento, conceptos y cuantías con la justificación del tercio, y súplica).
 
 ### 7. Si impugnamos tasación contraria
 

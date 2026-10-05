@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo activar
 
 - "Declinatoria", "plantear declinatoria", "interponer declinatoria"
@@ -195,6 +197,8 @@ oportunos.
 [Lugar y fecha]
 [Firma electrónica del Procurador y del Abogado]
 ```
+
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y hechos; sección 2 = admisibilidad y tempestividad (arts. 63-64 LEC, plazo y lugar de presentación); sección 3 = el defecto de jurisdicción o competencia que se denuncia, con su jurisprudencia (una sección más por cada defecto distinto si se denuncian varios); sección final = suspensión del procedimiento, costas, súplica, otrosí, lugar, fecha y firmas. Si no hay jurisprudencia y el escrito no pasa de 2 páginas, redáctalo tú en un único archivo.
 
 ### Maquetación
 

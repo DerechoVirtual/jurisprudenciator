@@ -15,7 +15,7 @@ description: >-
 - **Fechar el acto o la disposición que elude la sentencia** → `buscar_boe` + `leer_boe` o `sumario_boe` (disposición estatal); `buscar_ordenanzas` + `leer_ordenanza` (ordenanza municipal).
 - **Tipo del interés legal del dinero de cada año (art. 106.2)** → `buscar_boe` + `leer_boe` (Ley de Presupuestos Generales del Estado de cada ejercicio).
 - **Ejecución sobre un inmueble** (demolición, reposición de la legalidad urbanística) → `consultar_catastro` (referencia catastral y construcciones afectadas).
-- **Escrito de ejecución o de extensión de efectos** → `verificar_escrito` antes de presentarlo.
+- **Comprobación de las citas del escrito de ejecución o de extensión de efectos** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -325,6 +327,8 @@ El incidente **se desestimará, en todo caso**, cuando concurra alguna de estas:
 7. **OTROSÍES:** documentos; designación electrónica; en su caso, **extensión de efectos** por escrito
    separado dirigido al órgano sentenciador (art. 110.2).
 
+**Reparto para la redacción rápida:** encabezamiento, identificación de la sentencia firme, transcripción del fallo y cronología del incumplimiento con folios · una sección por herramienta que se pida (plazo y incidente del art. 109, multas del art. 112, nulidad del art. 103.4-5, intereses del art. 106, oposición a la imposibilidad del art. 105) · cierre con suplico y otrosíes. La extensión de efectos (art. 110) es un escrito separado: encabezamiento y tabla de identidad de situaciones, requisitos y plazo, y suplico.
+
 **SUPLICO — ejecución (modelo):**
 
 > **SUPLICO AL JUZGADO/A LA SALA** que, teniendo por presentado este escrito, se sirva admitirlo, tener
@@ -385,4 +389,4 @@ El incidente **se desestimará, en todo caso**, cuando concurra alguna de estas:
   inventar ECLI/ROJ/fecha/ponente. Sin verificación → `[verificar]` y decirlo.
 - **Normativa autonómica y local:** el conector no la cubre. Pedírsela al usuario; no citarla de memoria.
 - **Nada de MASC:** requisito del orden civil; no existe aquí.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Procedimiento mínimo, plazos mínimos, atención mínima. **Es justo donde se pierden asuntos ganables**:
 por prescripción no alegada, por sobreseimientos no pedidos, por acudir sin abogado y —desde el
 **10-4-2026**— por no mirar los antecedentes antes de asumir que un hurto es leve.
@@ -404,7 +406,9 @@ recurso alguno.**»
 
 ## Entrega
 
-Word `.docx` (skill `docx`): **escrito al Ministerio Fiscal** interesando el sobreseimiento del **963.1.1.ª**
-(con la reparación acreditada); **escrito de alegaciones del art. 970**; **recurso de apelación del art. 976**
-(¡5 días!); o **nota de calificación** con el protocolo del § 5 (fecha de los hechos, antecedentes, ley
-aplicable y comparación de penas).
+Word `.docx`, que genera el ensamblado de `redaccion-rapida`: **escrito al Ministerio Fiscal** interesando
+el sobreseimiento del **963.1.1.ª** (con la reparación acreditada); **escrito de alegaciones del art. 970**;
+**recurso de apelación del art. 976** (¡5 días!); o **nota de calificación** con el protocolo del § 5
+(fecha de los hechos, antecedentes, ley aplicable y comparación de penas).
+
+**Reparto para la redacción rápida:** son documentos breves (1-4 páginas): sin equipo, redáctalo tú en un único archivo de `secciones/` con las comprobaciones de apertura del § 0 ya resueltas. Solo la apelación del art. 976, si pasa de 3 páginas, en dos secciones: encabezamiento, comparecencia y hechos · motivos, suplico y firma.

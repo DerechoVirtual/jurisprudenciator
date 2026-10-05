@@ -28,7 +28,7 @@ description: >-
 - **Familia y menores en expulsiones y denegaciones** → `buscar_articulo` (`ley="CE"`, `articulo="39"`; `ley="Ley Orgánica 1/1996"`, `articulo="2"`; `ley="BOE-A-2024-24099"`, artículos `"94"` (familiares de persona española) y `"244"` (prohibición de entrada); `ley="LOEX"`, `articulo="58"`).
 - **Asistencia jurídica gratuita y voluntad de recurrir** → `buscar_articulo` (`ley="LOEX"`, `articulo="22"`; `ley="BOE-A-2024-24099"`, `articulo="222"`; `ley="Ley 1/1996"`, `articulo="16"`).
 - **Doctrina sobre el fondo y sobre la cautelar** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`; `base="TS"` para doctrina casacional; `base="AN"` con `tipo_organo="TSJ"` y `provincia` para el criterio de apelación; `tipo_resolucion="AUTO"` para cautelares) + `leer_sentencias` (`parrafos=3`, `terminos`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -41,6 +41,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo usarla
 
 - Resolución de extranjería que pone fin a la vía administrativa (denegación, archivo, inadmisión, extinción, expulsión, multa, devolución) y se quiere impugnar ante el juez, directamente o tras la reposición.
@@ -50,7 +52,7 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 ## Datos que hay que reunir antes de redactar
 
-Los datos con ★ son imprescindibles; si falta uno, pregúntalo antes de redactar.
+Los datos con ★ son imprescindibles: sácalos de la documentación aportada (paso 2 de `redaccion-rapida`) y, si falta alguno, pídelos todos a la vez en una única ronda de no más de cuatro preguntas.
 
 1. ★ **Resolución impugnada íntegra**: órgano que la dicta, fecha, número de expediente y pie de recursos.
 2. ★ **Fecha de notificación** (y, si hubo reposición, fecha de su interposición y de su resolución o del vencimiento para entenderla desestimada).
@@ -164,6 +166,8 @@ Cita las normas en el documento como indica el apartado 4 de `references/formato
 6. OTROSÍES: medida cautelar (si no va en escrito aparte); vista y prueba con puntos de hecho y medios (arts. 60 y 78 LJCA) o fallo sin vista; reclamación del expediente administrativo; habilitación de días si procede.
 7. Lugar, fecha, firmas y relación numerada de documentos (representación, resolución impugnada, justificante de notificación, pruebas de arraigo).
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia, resolución impugnada y hechos; 02 fundamentos jurídico-procesales (jurisdicción, competencia, legitimación, postulación, plazo, procedimiento y cuantía); una sección por cada motivo de fondo; última: costas, suplico, otrosíes, firmas y relación de documentos. La solicitud cautelarísima, si va aparte, y la nota de plazo vencido las redacta el director sin equipo.
+
 **Nota de plazo vencido** (para el abogado, no para presentar): encabezamiento con el asunto y la resolución; conclusión en la primera línea (plazo vencido, fecha y consecuencia); cómputo con fechas y preceptos; resultado de las comprobaciones de notificación y suspensión; alternativas con su precepto, plazo y viabilidad; riesgo actual (salida obligatoria o expulsión) y próximo paso.
 
 **Solicitud de medida cautelarísima** (escrito separado o primer otrosí): encabezamiento igual; «SOLICITUD DE MEDIDA CAUTELAR INAUDITA PARTE (ART. 135 LJCA)»; hechos de especial urgencia con fecha y hora; periculum (qué se pierde si se ejecuta); ponderación de intereses (art. 130); apariencia de buen derecho solo si es patente; menores (art. 135.2); habilitación de días (art. 128.3); SUPLICO: suspensión de la ejecución de la expulsión o de la salida obligatoria, comunicación urgente a la autoridad que deba ejecutarla y, subsidiariamente, tramitación por el art. 131.
@@ -177,5 +181,5 @@ Cita las normas en el documento como indica el apartado 4 de `references/formato
 - [ ] Cada artículo citado se leyó con `buscar_articulo` en esta conversación; ninguna disposición adicional o transitoria no disponible se ha suplido con memoria.
 - [ ] Cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`, y aplica el reglamento correcto.
 - [ ] Marcadores en los datos no facilitados; ningún dato del cliente en las consultas.
-- [ ] `verificar_escrito` pasado sobre la demanda y sobre la solicitud cautelar.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas de la demanda y sobre la solicitud cautelar.
 - [ ] Resumen en el chat según el apartado 7 del formato: escritos y órgano, plazo y fecha límite con su precepto, urgencia de la cautelar, documentos que faltan y riesgos, tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y próximo paso (presentación y seguimiento de la pieza cautelar).

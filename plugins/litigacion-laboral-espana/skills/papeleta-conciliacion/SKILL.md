@@ -26,7 +26,7 @@ description: >-
 - **Doctrina sobre la correspondencia entre papeleta y demanda** → `buscar_sentencias` (`consulta="papeleta de conciliación variación sustancial demanda hechos distintos"`, `base="TS"`, `jurisdiccion="SOCIAL"`, `anios=3`) + `leer_sentencias` (`parrafos=3`, `terminos="variación sustancial conciliación previa"`); en despidos disciplinarios, además, la doctrina de audiencia previa (apartado 4 de las anclas).
 - **Convenio aplicable** (categoría, salario, graduación de faltas, órgano propio de solución de conflictos) → `buscar_convenio` + `leer_convenio` (`buscar_en="comisión paritaria"`, `buscar_en="solución extrajudicial"` o el artículo que toque) + `vigencia_convenio`.
 - **Empresa** → `buscar_empresa_mercantil` (denominación exacta, domicilio social, administradores, concurso o disolución).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído; `buscar_por_cita`, solo para localizar o comprobar una sentencia que no salió de las búsquedas.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -39,11 +39,13 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
-Esta skill también está en el plugin Contratos Laborales y Asesoría Empresarial, que añade la asesoría de empresa (convenio aplicable, cálculo de indemnizaciones, cartas de despido, finiquitos…). Si una derivación de esta skill nombra una skill que no está en este plugin, está en aquel. **Pregunta primero a quién defiende el abogado** y bifurca:
+Esta skill también está en el plugin Contratos Laborales y Asesoría Empresarial, que añade la asesoría de empresa (convenio aplicable, cálculo de indemnizaciones, cartas de despido, finiquitos…). Si una derivación de esta skill nombra una skill que no está en este plugin, está en aquel. **Averigua primero a quién defiende el abogado** (si no consta en la documentación, pregúntalo en la ronda única de preguntas) y bifurca:
 
 - **Trabajador (solicitante)**: redacta la papeleta para despido, extinción del art. 50 ET, reclamación de cantidad, impugnación de sanción u otra acción ordinaria frente a la empresa. Objetivo: que suspenda la caducidad o interrumpa la prescripción a tiempo y que la demanda posterior no pueda tacharse de variación sustancial.
 - **Empresa que ha recibido la papeleta**: prepara la postura para el acto (avenencia posible, oferta y su cálculo, reconocimiento o no de la improcedencia, riesgo de costas si no comparece). La empresa no redacta papeleta en respuesta.
@@ -62,7 +64,7 @@ No es esta skill:
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo: si falta un dato imprescindible (★), pregúntalo.
+Cierra estos datos con la documentación antes de redactar (pasos 2 y 3 de `redaccion-rapida`): pregunta solo el dato imprescindible (★) que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]` (más abajo se indica qué cálculos no se hacen sin su dato).
 
 1. ★ A quién defiende el abogado y quién es solicitante y quién citado.
 2. ★ Acción o acciones que se van a ejercitar y, para cada una, su **fecha inicial**: efectos del despido o de la extinción, notificación de la sanción, fecha en que cada cantidad fue exigible. Sin ella no se calcula el plazo (formato, apartado 6).
@@ -142,7 +144,9 @@ Maquetación según el apartado 2 del formato (escrito procesal, con «SOLICITO�
 6. SOLICITO: que se tenga por presentada, se cite a las partes y, en el acto, se reconozca [pretensión completa: nulidad y readmisión con los salarios dejados de percibir (con su importe diario) y, si se alega lesión de derechos fundamentales, la indemnización por daño moral del art. 183 LRJS por `[IMPORTE]`; subsidiariamente, improcedencia con la opción e indemnización de `[IMPORTE]`; o pago de `[TOTAL]` más el interés del art. 29.3 ET].
 7. Lugar, fecha y firma; relación de documentos (carta, nóminas, contrato, cuadro de cantidades).
 
-**2. Nota para el abogado** (`nota-conciliacion-<empresa>-<AAAAMMDD>.docx`), siempre:
+**Reparto para la redacción rápida:** una papeleta de una o dos páginas no necesita equipo: la redacta el director en un único archivo de `secciones/`, con el cuadro de cantidades y el plazo calculados en la preparación. Si es más extensa (varias acciones acumuladas), tres secciones: 01 encabezamiento, partes y hechos; 02 cantidades y fundamento breve; 03 solicito, lugar, fecha, firma y relación de documentos.
+
+**2. Nota para el abogado**: su contenido va siempre en el resumen de la entrega (paso 7 de `redaccion-rapida`) y solo se entrega como Word aparte (`nota-conciliacion-<empresa>-<AAAAMMDD>.docx`) si el abogado lo pide; si defiende a la empresa, es el entregable principal y se entrega en Word. Contenido:
 - Tabla de plazo: fecha inicial · precepto · días hábiles consumidos (incluido el de presentación) · fecha de presentación · reanudación (art. 65.1) · fecha límite de la demanda, en las dos hipótesis (acto en fecha concreta y sin acto en quince días hábiles) · festivos aplicados con su fuente.
 - Riesgos: incomparecencia (art. 66), congruencia (art. 80.1.c), garantía del FOGASA (art. 33 ET), materias que no admiten acumulación.
 - Si defiende a la empresa: valoración de la carta y del procedimiento, cálculo de la oferta en tabla con su origen, propuesta de redacción del acta.
@@ -157,8 +161,8 @@ Maquetación según el apartado 2 del formato (escrito procesal, con «SOLICITO�
 - [ ] Plazo con fecha inicial, precepto, fecha de presentación (contada como consumida), festivos de la sede con su fuente y fecha límite de la demanda en las dos hipótesis (acto celebrado o sin acto en quince días hábiles); si falta la fecha inicial, no se ha dado plazo.
 - [ ] Hechos completos (incluidos indicios de nulidad y falta de audiencia previa) y pretensión cuantificada, para no exponerse al art. 80.1.c LRJS.
 - [ ] Cantidades en tabla, con cada operación visible; diferencias de convenio solo con la tabla salarial citada con su enlace o aportada por el abogado.
-- [ ] Cada ECLI citado leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre la papeleta y la nota; los avisos de «posible disonancia» sobre los arts. 65, 66 u 80 contrastados con el apartado leído (el verificador compara con el título del artículo).
+- [ ] Cada ECLI citado leído con `leer_sentencias` por el redactor de su sección o comprobado con `buscar_por_cita` (el ensamblado rechaza los que nadie leyó).
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas; los avisos de «posible disonancia» sobre los arts. 65, 66 u 80 contrastados con el apartado leído (el verificador compara con el título del artículo).
 - [ ] Marcadores en lugar de datos no facilitados; denominación y forma de presentación del servicio autonómico con enlace a la sede oficial y fecha de consulta, o marcadas como no confirmadas; nada inventado.
 - [ ] Los datos obtenidos en internet (y no de Jurisprudenciator) figuran con su enlace en el documento y en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

@@ -1,6 +1,6 @@
 ---
 name: redactar-contestacion
-description: Redaccion de contestacion a la demanda en juicio ordinario o verbal. Cinco fases con excepciones procesales, contestacion al fondo, reconvencion si procede, jurisprudencia verificada. Plazo de veinte dias habiles. Usar con redactar contestacion o contestar la demanda.
+description: Redaccion de contestacion a la demanda en juicio ordinario o verbal, con un equipo de subagentes en paralelo (Word en 2-3 minutos), con excepciones procesales, contestacion al fondo, reconvencion si procede, jurisprudencia verificada. Plazo de veinte dias habiles. Usar con redactar contestacion o contestar la demanda.
 ---
 
 # Redactar contestación a la demanda
@@ -28,10 +28,12 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
-## Marco normativo de referencia — LO 1/2025
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
+## Marco normativo de referencia — LEC vigente y LO 1/2025
 
 - La **Ley Orgánica 1/2025, de 2 de enero**, de medidas en materia de eficiencia del Servicio Público de Justicia (en vigor el **3 de abril de 2025**), reformó la LEC y reordenó los cauces procesales.
-- **Umbral del juicio verbal por cuantía: 15.000 €.** Asuntos de cuantía **≤ 15.000 €** se tramitan por **juicio verbal** (art. 250.2 LEC); **> 15.000 €**, por **juicio ordinario** (art. 249.2 LEC). La contestación sigue el cauce del procedimiento de la demanda.
+- **Umbral del juicio verbal por cuantía: 15.000 €** (fijado por el **Real Decreto-ley 6/2023**, en vigor desde el 20 de marzo de 2024; no por la LO 1/2025). Asuntos de cuantía **≤ 15.000 €** se tramitan por **juicio verbal** (art. 250.2 LEC); **> 15.000 €**, por **juicio ordinario** (art. 249.2 LEC). La contestación sigue el cauce del procedimiento de la demanda.
 - **Plazo de contestación:** **20 días hábiles** en juicio ordinario. En juicio verbal, la contestación se presenta por escrito en el plazo legal previsto.
 - **Órgano:** "**Tribunal de Instancia, Sección Civil**" (LO 1/2025; los antiguos Juzgados de Primera Instancia ya no existen).
 - **Terminología:** "**Letrado/a de la Administración de Justicia (LAJ)**", nunca "Secretario Judicial".
@@ -113,12 +115,12 @@ Si sí: redactar reconvención al final del escrito, con su propio Suplico.
 
 ## Fase 5 — Jurisprudencia (mínimo 4 STS verificadas)
 
-Igual que en `redactar-demanda`: jurisprudencia vía el conector `jurisprudenciator`, ECLI/ROJ obligatorio, doble entregable (escrito + fichas).
+Igual que en `redactar-demanda`: jurisprudencia vía el conector `jurisprudenciator`, ECLI/ROJ obligatorio, con la tabla de fuentes del ensamblado (fichas aparte solo si el abogado las pide).
 
 ### Obtención del párrafo literal — OBLIGATORIO
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-### Ficha por sentencia (preparar antes de redactar)
+### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 Para CADA cita: ECLI; ROJ; Tribunal + Sala + Sección; Fecha; Magistrado ponente; **Párrafo literal** (cita textual verificada vía `leer_sentencias`, entrecomillada); *Ratio decidendi* en 1-2 frases (paráfrasis, sin comillas); **Hecho concreto** del asunto al que se ancla; **Argumento** de subsunción que se construye a partir de ella.
 
 ### Método secuencial de redacción jurisprudencial — REGLA CARDINAL DEL FONDO
@@ -193,14 +195,16 @@ acompañados, lo admita, y, en su día, dicte sentencia por la que:
 [Firmas]
 ```
 
-## Fase 7-9 — Pulido, subsunción, verificación ECLI
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y hechos (negación, matización y hechos propios; dos secciones si pasan de 1.200 palabras); sección 2 = fundamentos procesales y excepciones procesales (competencia, procedimiento, postulación, excepciones previas, MASC); una sección por cada línea argumental del fondo (cada una con sus sentencias; entre todas, al menos 4 STS); una sección para la reconvención si la hay; sección final = costas, súplica, otrosíes, lugar, fecha, firmas y relación de documentos.
 
-Igual que en `redactar-demanda`: aplicar `estilo-escritos-judiciales`, `subsuncion-juridica`, y verificar los ECLI/ROJ con `jurisprudenciator` (`buscar_por_cita`).
+## Fase 7-9 — Estilo, subsunción y verificación ECLI (dentro del método rápido)
+
+Igual que en `redactar-demanda`: los redactores aplican `estilo-escritos-judiciales` y `subsuncion-juridica` al escribir, no en una pasada posterior, y los ECLI/ROJ los comprueba el ensamblado (solo se admiten las sentencias leídas con `leer_sentencias`); cada redactor pasa además `verificar_escrito` sobre sus frases con normas.
 
 ## Salida
 
 - Word .docx en `matters/<slug>/escritos/contestacion-v1.docx`
-- Fichas jurisprudencia en `matters/<slug>/jurisprudencia/`
+- Fichas jurisprudencia en `matters/<slug>/jurisprudencia/`, solo si el abogado las pide (la tabla de fuentes ya va en el informe del ensamblado)
 - Resumen markdown con bottom line + jurisprudencia + próximos pasos
 
 ## Reglas

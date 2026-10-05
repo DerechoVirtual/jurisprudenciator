@@ -1,8 +1,8 @@
 ---
 name: alta-direccion
 description: >-
-  Califica y redacta el contrato de alta dirección del Real Decreto 1382/1985 en Word con nota para el
-  abogado, y prepara su extinción: desistimiento con preaviso e indemnización, despido y dimisión del
+  Califica y redacta el contrato de alta dirección del Real Decreto 1382/1985 en Word (con nota para el
+  abogado si la pides) y prepara su extinción: desistimiento con preaviso e indemnización, despido y dimisión del
   directivo. Úsala cuando la empresa diga «vamos a fichar a un director general», «contrato de alta
   dirección con blindaje» o «queremos prescindir del director», y cuando el directivo pregunte «¿soy alto
   directivo o trabajador común?», «me cesan con siete días por año» o «soy consejero y además director».
@@ -24,7 +24,7 @@ description: >-
 - **Forma del despido, plazos y notificación a la representación** → `buscar_articulo` (`ley="ET"`, artículos `"55"`, `"59"` y `"8"` —apartado 4—) y (`ley="LRJS"`, artículos `"103"` y `"65"`).
 - **Empresa y cargos inscritos** → `buscar_empresa_mercantil` (administradores, consejeros delegados y apoderados inscritos: decide si el directivo forma parte del órgano de administración).
 - **Doctrina sobre calificación, teoría del vínculo, desistimiento, blindajes e indemnizaciones** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; o `base="AN"` + `tipo_organo="TSJ"` + `provincia` sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). En los documentos, cita «artículo 11 del Real Decreto 1382/1985» y las letras como «letra c) del apartado 3 del artículo 1 del Estatuto de los Trabajadores»: con «1.3.c)» pegado, `verificar_escrito` no detecta la cita. El verificador no lee el título de los artículos de ese real decreto (van como «Art. 11.») y puede marcar «posible disonancia» en cualquiera de ellos: compara la frase con el texto leído con `buscar_articulo` y, si coincide, mantén la cita y dilo en el resumen.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -58,7 +60,7 @@ Pregunta primero **a quién defiende el abogado** y **qué necesita**:
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pregunta en este orden; si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado y qué necesita (contrato, promoción, salida, impugnación).
 2. ★ Empresa: denominación, CIF, forma social, órgano de administración y grupo (consúltalo con `buscar_empresa_mercantil`).
@@ -152,7 +154,8 @@ En esta materia muchas resoluciones del Supremo son autos de inadmisión por fal
      - preaviso (art. 10.1) e indemnizaciones pactadas por desistimiento, despido improcedente y extinción por el directivo del art. 10.3;
      - faltas y sanciones (art. 13); confidencialidad; protección de datos; jurisdicción social (art. 14);
    - firmas en dos columnas; anexo con la escritura de poderes.
-2. **Nota para el abogado**: `nota-alta-direccion-<empresa>-<AAAAMMDD>.docx`. Calificación razonada elemento por elemento del art. 1.2 y frente al consejero; riesgos si se recalifica; jurisprudencia literal.
+   - **Reparto para la redacción rápida:** tres secciones por bloques de cláusulas: comparecencia, EXPONEN, objeto y funciones, poderes, naturaleza especial y promoción interna / duración, prueba, retribución, tiempo de trabajo, exclusividad, permanencia y no competencia / preaviso e indemnizaciones, faltas, confidencialidad, datos, jurisdicción, firmas y anexo.
+2. **Nota para el abogado**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega): `nota-alta-direccion-<empresa>-<AAAAMMDD>.docx`. Calificación razonada elemento por elemento del art. 1.2 y frente al consejero; riesgos si se recalifica; jurisprudencia literal.
 3. **Si hay salida**: tabla de cálculo en la nota (o en `calculo-extincion-alta-direccion-<apellido>-<AAAAMMDD>.docx`) con los escenarios: desistimiento (preaviso, indemnización pactada o legal), despido improcedente (pactada o legal), y régimen común si se recalifica (remite a `calculo-indemnizacion-despido`). Columnas: salario anual en metálico, salario diario (anual / 365), antigüedad en años y fracción, días por año, tope, resultado; cada operación visible. Si el abogado lo pide, la comunicación de desistimiento: `carta-desistimiento-alta-direccion-<apellido>-<AAAAMMDD>.docx` (por escrito, preaviso con su fecha o su sustitución por los salarios, indemnización y fecha de efectos).
 
 ## Comprobación final
@@ -163,6 +166,6 @@ En esta materia muchas resoluciones del Supremo son autos de inadmisión por fal
 - [ ] Promoción interna: sustitución o suspensión escrita y cómputo de los dos años.
 - [ ] Cálculos en tabla con salario en metálico, antigüedad, días, tope y resultado; plazo de 20 días hábiles con fecha final si hay cese.
 - [ ] Cada ECLI de la nota leído con `leer_sentencias` o comprobado con `buscar_por_cita`; ninguno en el contrato; ningún auto de inadmisión citado como doctrina.
-- [ ] `verificar_escrito` pasado sobre cada documento; letras citadas con la forma que reconoce el verificador.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); letras citadas con la forma que reconoce el verificador.
 - [ ] Marcadores en lugar de datos no facilitados; lo que no sale de Jurisprudenciator (Convenio 158 de la OIT, normativa retributiva del sector público) procede de una fuente oficial con enlace y fecha de consulta, y el resumen lo identifica.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, plazos con su precepto, cálculos, riesgos, documentos que faltan, tabla de jurisprudencia y próximo paso.

@@ -14,7 +14,7 @@ description: Catálogo (sin plantilla). Costas en el orden contencioso-administr
 - **«Serias dudas de derecho»: criterios contradictorios o cambio de criterio** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`; `base="AN"` con `tipo_organo="TSJ"` para contrastar Salas, `base="TS"` para el cambio de criterio) + `leer_sentencias` (`parrafos=3`).
 - **Cuestión de interés casacional admitida y pendiente** → `buscar_sentencias` (`base="TS"`, `tipo_resolucion="AUTO"`).
 - **Norma reciente o reformada como argumento de serias dudas** → `buscar_boe` + `leer_boe` (fecha de publicación y de entrada en vigor).
-- **Escrito de no imposición o de impugnación de la tasación** → `verificar_escrito` antes de presentarlo.
+- **Comprobación de las citas del escrito de no imposición o de impugnación de la tasación** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -272,7 +274,8 @@ Verifica los arts. 40 y 41 LJCA con `buscar_articulo` antes de citarlos `[verifi
 - **Escritos:** otrosí / suplico de no imposición de costas; escrito de impugnación de tasación
   (por indebidas y, subsidiariamente, por excesivas); alegaciones al informe del Colegio; recurso de
   revisión contra el decreto; nota de riesgo de costas para el cliente.
-- **Estilo:** skill `estilo-escritos-judiciales`. **Entrega:** Word `.docx` maquetado (skill `docx`).
+- **Reparto para la redacción rápida:** el método rápido se aplica a los escritos de arriba; la estimación del riesgo de costas (§ 2) y la nota al cliente se contestan directamente. Un otrosí o un escrito corto (1-3 páginas) lo redactas tú en un único archivo; una impugnación de tasación larga, una sección por bloque de partidas (indebidas / excesivas) más encabezamiento y suplico.
+- **Estilo:** los redactores aplican `estilo-escritos-judiciales` al escribir. **Entrega:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.
 - **Jurisprudencia:** **prohibido** citar ECLI, ROJ, fecha o ponente de memoria. Verifica con
   `buscar_sentencias` / `buscar_por_cita`. Sin verificación → `[verificar]` y dilo.
 - **Normativa autonómica y local:** el conector **no la cubre**. Los criterios orientadores de

@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ---
 
 Institución propia del contencioso y sistemáticamente desaprovechada: un tercero **que no fue parte**
@@ -247,7 +249,8 @@ el TS (110.5.b)); **o el cliente ya tiene acto firme y consentido** (110.5.c)).
   escrito de respuesta al requerimiento del art. 111 (extensión / continuación / desistimiento);
   recurso contra el auto conforme al art. 80 `[verificar]`; escrito de apelación fundado en el
   art. 81.2.e).
-- **Estilo:** skill `estilo-escritos-judiciales`. **Entrega:** Word `.docx` maquetado (skill `docx`).
+- **Reparto para la redacción rápida:** solicitud del art. 110 en dos secciones: encabezamiento, sentencia cuya extensión se pide, materia, competencia territorial y plazo / tabla de identidad de situaciones con sus documentos, descarte de las causas del art. 110.5 y suplico. Las alegaciones de 5 días y la respuesta del art. 111 son escritos cortos: tú solo, en un único archivo.
+- **Estilo:** los redactores aplican `estilo-escritos-judiciales` al escribir. **Entrega:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.
 - **Normativa autonómica y local:** el conector **no la cubre** (BOE estatal + ordenanzas de
   municipios cubiertos). En materia de personal autonómico o tributos locales, **pide la norma al
   usuario y no la cites de memoria** `[verificar]`.

@@ -4,7 +4,7 @@ description: >-
   Organiza para la empresa un despido colectivo por causas económicas, técnicas, organizativas o de producción
   (art. 51 ET y Real Decreto 1483/2012): comprueba umbrales en 90 días y fraude por goteo, prepara el plan de
   trabajo con calendario, la comunicación de intención, la de apertura del periodo de consultas con su contenido y
-  documentación, y una nota de riesgos (nulidad, convenio especial para mayores de 55 años, plan de recolocación,
+  documentación, y, si la pides, una nota de riesgos (nulidad, convenio especial para mayores de 55 años, plan de recolocación,
   aportación al Tesoro, prioridades de permanencia, impugnación del art. 124 LRJS). Úsala con «ERE», «despido
   colectivo», «cerrar un centro», «despedir a 12 personas», «periodo de consultas». Sirve a la empresa. Por debajo
   de los umbrales, carta-despido-objetivo; si la medida es temporal, erte-suspension-reduccion.
@@ -25,7 +25,7 @@ description: >-
 - **Doctrina imprescindible** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`) con las consultas del apartado de estrategia (umbrales y cómputo, buena fe y documentación, criterios de selección, comunicación de la decisión final) + `leer_sentencias` (`parrafos=3`); Directiva 98/59 → `base="TJUE"`.
 - **Convenio aplicable y sus artículos** (prioridades de permanencia pactadas, procedimientos propios) → `buscar_convenio` + `leer_convenio` (`buscar_en="permanencia"` o `buscar_en="despido colectivo"`; después `articulo="N"`) + `vigencia_convenio`. Si `vigencia_convenio` registra un texto posterior al que devuelve `leer_convenio`, localiza su publicación con `novedades_boe` (`contiene` = denominación, `desde` y `hasta`) y léela con `leer_boe`; si llega truncada, lee el texto completo en el boletín oficial y cítalo con su enlace.
 - **Empresa y grupo** → `buscar_empresa_mercantil` (denominación, administradores, vínculos de grupo que obliguen a aportar documentación de otras sociedades, concurso).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). En los documentos, cita el reglamento como «artículo N del Real Decreto 1483/2012, de 29 de octubre», la orden como «artículo 20 de la Orden TAS/2865/2003, de 13 de octubre» y el de aportaciones como «artículo N del Real Decreto 1484/2012, de 29 de octubre»: así los reconoce `verificar_escrito`.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -55,7 +57,7 @@ Para la **empresa** que va a extinguir contratos por causas económicas, técnic
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ Empresa y grupo: denominación, CIF, actividad, sociedad dominante y su domicilio, obligación de consolidar cuentas, saldos deudores o acreedores con otras sociedades del grupo.
 2. ★ Plantilla total en la fecha prevista de inicio (todas las modalidades contractuales), por centro de trabajo, provincia y comunidad autónoma, y plantilla habitual del último año por clasificación profesional.
@@ -142,7 +144,9 @@ Todo en Word según `references/formato-y-organos-laboral.md`. Si no se alcanza 
    - Guion de la memoria explicativa: causa, datos, conexión con el número y perfil de afectados, criterios, medidas sociales.
 2. **Comunicación de intención** — `carta-intencion-despido-colectivo-<empresa>-<AAAAMMDD>.docx`, fehaciente, a los representantes o a los trabajadores de centros sin representación, con el plazo para constituir la comisión.
 3. **Comunicación de apertura del periodo de consultas** — `carta-apertura-consultas-despido-colectivo-<empresa>-<AAAAMMDD>.docx`: destinatarios (comisión o representantes), copia a la autoridad laboral competente; extremos a) a g) del art. 51.2 ET con los desgloses del art. 3.1 del Real Decreto 1483/2012; relación de la documentación que se entrega; calendario de reuniones; solicitud del informe del art. 64.5 ET; firma. Datos no facilitados como marcadores (`[NÚMERO DE AFECTADOS POR CENTRO]`, `[CRITERIOS DE DESIGNACIÓN]`).
-4. **Nota de riesgos** — `nota-riesgos-despido-colectivo-<empresa>-<AAAAMMDD>.docx`: causas de nulidad y cómo se previenen; riesgo sobre la causa; prioridades y personas protegidas; convenio especial, recolocación y aportación al Tesoro (si proceden, con el artículo leído); impugnaciones posibles con plazos y órganos; jurisprudencia literal; huecos normativos que el abogado debe comprobar en la fuente oficial.
+4. **Nota de riesgos**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-riesgos-despido-colectivo-<empresa>-<AAAAMMDD>.docx`: causas de nulidad y cómo se previenen; riesgo sobre la causa; prioridades y personas protegidas; convenio especial, recolocación y aportación al Tesoro (si proceden, con el artículo leído); impugnaciones posibles con plazos y órganos; jurisprudencia literal; huecos normativos que el abogado debe comprobar en la fuente oficial.
+
+**Reparto para la redacción rápida:** cada documento es un Word, repartido por apartados. Plan de trabajo: umbrales y calendario / documentos, responsables y guion de la memoria. Carta de apertura: destinatarios, causas, afectados y criterios / documentación, calendario de reuniones, informe del art. 64.5 ET y firma. La comunicación de intención (1 página), sin equipo.
 
 ## Huecos que el conector no cubre
 
@@ -164,6 +168,6 @@ Lo que `buscar_articulo` no devuelve se busca en internet, en la fuente oficial,
 - [ ] Criterios de selección objetivos y prioridades justificadas.
 - [ ] Obligaciones accesorias (bienes, convenio especial, recolocación, aportación) comprobadas con los datos de edad y beneficios.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; las comunicaciones no llevan jurisprudencia.
-- [ ] `verificar_escrito` pasado sobre cada documento, con las normas nombradas como indica esta skill.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero), con las normas nombradas como indica esta skill.
 - [ ] Marcadores en vez de datos inventados; huecos normativos avisados.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

@@ -13,7 +13,7 @@ description: Redacta denuncias por delito de estafa (arts. 248, 250 y 251 CP) an
 - **Doctrina de la Sala Segunda sobre engaño bastante y negocio civil criminalizado** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`) + `leer_sentencias` con `parrafos=3` y `terminos` («engaño bastante», «dolo antecedente»).
 - **Sociedad denunciada y sus administradores** → `buscar_empresa_mercantil` (estado, domicilio, administradores y fecha de nombramiento, últimos actos inscritos); para fechar un acto concreto, `sumario_borme` → `leer_boe`.
 - **Inmueble objeto de la estafa** (doble venta o venta de cosa ajena, art. 251 CP) → `consultar_catastro` por referencia catastral o dirección.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Redacta la denuncia penal por estafa. Sigue este orden: **comprobaciones previas → subsunción →
 escrito**. No empieces a redactar sin cerrar el bloque de comprobaciones: en estafa, casi todos los
@@ -51,7 +53,7 @@ escritos que fracasan lo hacen por un defecto detectable antes de escribir la pr
 
 ## Bloque previo de comprobaciones (OBLIGATORIO — resolver antes de redactar)
 
-Recorre los seis puntos y **plantea al usuario lo que falte**. No inventes ni presupongas.
+Recorre los seis puntos y respóndelos con la documentación aportada (paso 2 de `redaccion-rapida`); **plantea al usuario solo lo que bloquee**, en una única ronda. No inventes ni presupongas.
 
 1. **Fecha de los hechos → redacción del CP aplicable (art. 2 CP, verificado).**
    Art. 2.1: irretroactividad. Art. 2.2: **retroactividad de la ley más favorable**, aun con sentencia
@@ -296,6 +298,8 @@ pero el indicio ha de ser **de cada uno**.
 10. **OTROSÍES** (medidas cautelares, designación de domicilio a efectos de notificaciones, copias) —
     lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia, fórmula de interposición y HECHOS (dos secciones si pasan de 1.200 palabras) · 02 calificación jurídica: elementos del tipo y dolo antecedente con sus indicios (sus búsquedas de jurisprudencia) · 03 calificación jurídica: agravación del 250, continuidad del 74, persona jurídica del 251 bis y autoría y participación por denunciado · 04 diligencias, responsabilidad civil, documentos, suplico, otrosíes, lugar, fecha y firma.
+
 > **Anclaje al folio — regla innegociable.** Todo hecho afirmado se ancla al **folio de las
 > actuaciones** («folio X»), o al documento que se acompaña («documento nº X»). En la denuncia inicial
 > no hay folios aún: **ancla al documento**, y en cuanto haya actuaciones **cita folio**. Un hecho sin
@@ -408,5 +412,6 @@ Se ejercita **en el proceso penal** salvo reserva o renuncia expresa (arts. 100,
 
 ## Entrega
 
-Genera el escrito final en **Word `.docx`** con la skill **`docx`**, maquetado como escrito judicial
-(encabezamiento, hechos, calificación, suplico, otrosíes), listo para presentación por **LexNET**.
+Genera el escrito final en **Word `.docx`**, con el ensamblado de `redaccion-rapida`, maquetado como
+escrito judicial (encabezamiento, hechos, calificación, suplico, otrosíes), listo para presentación por
+**LexNET**.

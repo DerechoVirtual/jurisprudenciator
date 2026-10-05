@@ -25,7 +25,7 @@ description: >-
 - **Doctrina sobre el interés del art. 29.3 ET y sobre la prueba de las horas extraordinarias sin registro** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`, consultas de «Estrategia») + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
 - **Convenio aplicable y sus artículos** (estructura salarial, pluses, pagas, precio de la hora extra, jornada anual, vacaciones, clasificación) → `buscar_convenio` + `leer_convenio` + `vigencia_convenio` de cada periodo reclamado; la **tabla salarial del año** no la devuelve el conector, y muchos convenios fijan también en ella el **precio de la hora extraordinaria** o de los festivos: búscala en internet en el boletín oficial (texto del convenio o revisión salarial publicada), cítala con su enlace y, si no aparece, pídela al abogado (anclas, apartado 3). Si `leer_convenio` devuelve solo el título de un artículo, léelo en el mismo boletín. **Interés por mora del convenio**: busca si el convenio lo regula o lo mejora (`leer_convenio` con `buscar_en="interés por mora"` o `"reclamaciones de cantidad"`, o en el índice del texto oficial).
 - **Empresa** → `buscar_empresa_mercantil` (estado, concurso, disolución); edictos concursales recientes → `novedades_boe` (`contiene` = denominación de la empresa).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído; `buscar_por_cita`, solo para localizar o comprobar una sentencia que no salió de las búsquedas.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -38,11 +38,13 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
-Esta skill también está en el plugin Contratos Laborales y Asesoría Empresarial, que añade la asesoría de empresa (convenio aplicable, cálculo de indemnizaciones, cartas de despido, finiquitos…). Si una derivación de esta skill nombra una skill que no está en este plugin, está en aquel. **Pregunta primero a quién defiende el abogado**:
+Esta skill también está en el plugin Contratos Laborales y Asesoría Empresarial, que añade la asesoría de empresa (convenio aplicable, cálculo de indemnizaciones, cartas de despido, finiquitos…). Si una derivación de esta skill nombra una skill que no está en este plugin, está en aquel. **Averigua primero a quién defiende el abogado** (si no consta en la documentación, pregúntalo en la ronda única de preguntas):
 
 - **Trabajador**: demanda de cantidad por el procedimiento ordinario o petición monitoria, con la relación laboral viva o extinguida.
 - **Empresa reclamada** (papeleta o demanda recibida, requerimiento monitorio): nota de riesgo con cálculo contradictorio concepto a concepto, excepciones (prescripción, compensación y absorción, naturaleza extrasalarial, pago), prueba que hay que llevar y oferta. Si recibe un requerimiento monitorio, tiene diez días para pagar u oponerse por escrito motivado (art. 101.a LRJS): calcula la fecha y dilo en la primera línea de la nota.
@@ -60,7 +62,7 @@ Esta skill también está en el plugin Contratos Laborales y Asesoría Empresari
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo: si falta un dato imprescindible (★), pregúntalo.
+Cierra estos datos con la documentación antes de redactar (pasos 2 y 3 de `redaccion-rapida`): pregunta solo el dato imprescindible (★) que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]` (más abajo se indica qué cálculos no se hacen sin su dato).
 
 1. ★ A quién defiende el abogado; si la relación sigue viva o, si se extinguió, la fecha.
 2. ★ Cada concepto reclamado con su periodo: salario, complementos, pagas extra, horas extraordinarias, vacaciones, diferencias de convenio o de categoría, otros devengos.
@@ -109,7 +111,7 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 ## Estrategia y jurisprudencia
 
 **Si defiende al trabajador.**
-1. Construye primero el cuadro (mes · concepto · devengado según convenio o contrato · percibido · diferencia · naturaleza salarial o no · prescrito sí o no) y luego la demanda.
+1. Construye primero el cuadro (mes · concepto · devengado según convenio o contrato · percibido · diferencia · naturaleza salarial o no · prescrito sí o no) y luego la demanda (el cuadro se calcula en la preparación y se guarda en `caso.md` para que lo usen todas las secciones).
 2. Reclama cada concepto con su fuente: artículo del convenio con su código, tabla del año facilitada, nómina concreta.
 3. Elige vía: monitorio si la deuda es clara, documentada, dentro del límite y la empresa no está en concurso; ordinario si hay debate de fondo (categoría, horas, absorción).
 4. Si los impagos son graves y continuados, advierte de la vía del art. 50.1.b ET (`extincion-contrato-trabajador`): léelo con `buscar_articulo`, porque fija cuándo se entiende que hay retraso y cuántas mensualidades adeudadas en un año o meses de retraso bastan, y di en la nota si el caso llega ya a esos umbrales.
@@ -134,9 +136,11 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 4. SUPLICO: condena a pagar `[TOTAL]` €, desglosado por conceptos, más el interés del art. 29.3 ET sobre los salariales (y el del art. 1108 CC sobre los que no lo sean), con la responsabilidad del FOGASA en su caso.
 5. OTROSÍES: diligencias de preparación y documental en poder de la empresa (arts. 90.3 y 94.2 LRJS), interrogatorio (art. 91.2), testifical para las horas.
 
-**2. Cuadro de desglose** como tabla en el mismo Word y como documento numerado (`calculo-cantidades-<apellido-cliente>-<AAAAMMDD>.docx`, con los datos de partida, cada operación y los días iniciales del interés): mes · concepto · fuente (artículo del convenio o nómina) · debido · percibido · diferencia · salarial sí/no · prescrito sí/no; totales por concepto y total general. Comprueba las sumas dos veces.
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos procesales (competencia, conciliación o exención, modalidad); una sección de fondo por cada concepto con debate propio (diferencias de convenio y categoría, horas extraordinarias y registro de jornada, vacaciones o funciones superiores), cada una con su parte del cuadro de desglose; una sección para el interés del art. 29.3 ET y el FOGASA; cierre (suplico, otrosíes, firma y documentos). La petición monitoria, más breve, la redacta el director sin equipo.
 
-**3. Nota** (`nota-cantidad-<empresa>-<AAAAMMDD>.docx`): cantidades prescritas y por qué; acceso a suplicación con la cuantía calculada según el art. 192 LRJS; riesgos de prueba; para la empresa, el cálculo contradictorio, las excepciones con su soporte y la oferta.
+**2. Cuadro de desglose** como tabla en el mismo Word (se construye en la preparación y se guarda en `caso.md`) y, solo si el abogado lo pide, como documento numerado aparte (`calculo-cantidades-<apellido-cliente>-<AAAAMMDD>.docx`, con los datos de partida, cada operación y los días iniciales del interés): mes · concepto · fuente (artículo del convenio o nómina) · debido · percibido · diferencia · salarial sí/no · prescrito sí/no; totales por concepto y total general. Comprueba las sumas dos veces.
+
+**3. Nota** (`nota-cantidad-<empresa>-<AAAAMMDD>.docx`): cantidades prescritas y por qué; acceso a suplicación con la cuantía calculada según el art. 192 LRJS; riesgos de prueba. Para el trabajador va en el resumen de la entrega (paso 7 de `redaccion-rapida`) y solo se entrega como Word aparte si el abogado lo pide; para la empresa, con el cálculo contradictorio, las excepciones con su soporte y la oferta, es el entregable principal y se entrega en Word.
 
 ## Comprobación final
 
@@ -148,8 +152,8 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 - [ ] Empresa comprobada con `buscar_empresa_mercantil`; concurso descartado antes de elegir el monitorio.
 - [ ] Prescripción filtrada mes a mes, con las interrupciones acreditadas y la advertencia del art. 23.5 LRJS si hay riesgo de insolvencia.
 - [ ] Cuadro con cada operación visible y sumas comprobadas; interés liquidado solo con la doctrina leída.
-- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; el aviso de «posible disonancia» sobre el art. 29 ET (su título es «Liquidación y pago») contrastado con el apartado 3 leído; los artículos de convenio comprobados con `leer_convenio`, no con el verificador.
+- [ ] Cada ECLI leído con `leer_sentencias` por el redactor de su sección o comprobado con `buscar_por_cita` (el ensamblado rechaza los que nadie leyó).
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas; el aviso de «posible disonancia» sobre el art. 29 ET (su título es «Liquidación y pago») contrastado con el apartado 3 leído; los artículos de convenio comprobados con `leer_convenio`, no con el verificador.
 - [ ] Marcadores en lugar de datos no facilitados; ninguna cifra de salario mínimo, límite del FOGASA o umbral de recurso escrita sin haberla leído.
 - [ ] Los datos obtenidos en internet (tabla salarial, salario mínimo si hizo falta) figuran con su enlace en el documento y en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

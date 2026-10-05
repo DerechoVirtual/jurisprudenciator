@@ -23,7 +23,7 @@ description: >-
 - **Medidas de apoyo a la persona con discapacidad** → `buscar_articulo` (`ley="CC"`, `articulo="250"`); **cancelación de antecedentes** → `buscar_articulo` (`ley="CP"`, `articulo="136"`).
 - **Doctrina sobre progenitores de menores ciudadanos de la Unión, «a cargo» y antecedentes** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"`; `base="TS"` para el Supremo) y `buscar_sentencias` (`base="TJUE"`) + `leer_sentencias` (`parrafos=3`).
 - **Reformas del Reglamento** → en cada artículo que devuelva `buscar_articulo`, la línea «redacción vigente dada por…» y las notas «Téngase en cuenta…» (`buscar_boe` no localiza las reformas); si hay que leer la norma que reformó, `leer_boe` con su identificador.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -35,6 +35,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -66,7 +68,7 @@ No exige permanencia mínima (art. 126.b, último párrafo) y dura **cinco años
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pide los imprescindibles (★) que falten:
+Saca estos datos de la documentación aportada (paso 2 de `redaccion-rapida`). Si falta algún imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`:
 
 1. ★ Nacionalidad, pasaporte en vigor y provincia de residencia efectiva del solicitante (art. 193.2); prueba de que reside en España.
 2. ★ Supuesto: menor o persona con discapacidad.
@@ -168,6 +170,8 @@ Estructura:
 7. Lugar, fecha y firma.
 8. **RELACIÓN DE DOCUMENTOS** numerada: impreso oficial; justificante de la tasa; pasaporte completo; prueba de residencia del solicitante; certificado de nacimiento o resolución de tutela o de la medida de apoyo; documento de nacionalidad del menor o de la persona apoyada y su residencia en España; certificado de discapacidad si procede; convivencia (padrón colectivo) o resolución de medidas y justificantes de pago; certificados de antecedentes (con legalización o apostilla y traducción según la hoja informativa); representación en una de las formas del art. 197.4 (apoderamiento notarial o apud acta en el registro electrónico de apoderamientos, convenio de habilitación o Registro Electrónico de Colaboradores de Extranjería; una autorización firmada en papel no basta).
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos procesales (marco legal, procedimiento, competencia y requisitos generales del art. 126, con la exención de permanencia); 03 requisito específico del art. 127.e (supuesto aplicable, vínculo y nacionalidad del menor o de la persona apoyada); 04 interés superior del menor y doctrina sobre antecedentes, si los hay; 05 efectos, solicita, otrosí, firma y relación de documentos.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -176,7 +180,7 @@ Estructura:
 - [ ] Letras y ordinales citados delante del artículo («la letra e) del artículo 127 del Real Decreto 1155/2024»), sin «artículo 127.e)».
 - [ ] Supuesto del art. 127.e identificado y cada elemento con su documento.
 - [ ] Si hay antecedentes: cancelación calculada y doctrina sobre la denegación no automática leída y citada con párrafo literal.
-- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; `verificar_escrito` pasado.
+- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; `verificar_escrito` pasado por cada redactor sobre sus frases con normas.
 - [ ] Cada aviso de «posible disonancia de contenido» de `verificar_escrito` contrastado con el apartado exacto leído con `buscar_articulo` (el verificador compara con el título del artículo, p. ej. «Requisitos específicos» o «Procedimiento»): si el apartado dice lo que afirma el escrito, se mantiene la cita y se explica en el resumen; si no, se corrige.
 - [ ] Datos del menor reducidos a lo imprescindible; marcadores para lo que falta; sin importes de tasa, códigos de modelo ni plazos de resolución no obtenidos del conector.
 - [ ] Resumen para el abogado según el apartado 7 del formato: oficina de destino; fechas con su precepto (subsanación, art. 130.3; TIE en un mes, art. 130.6; vencimiento a los cinco años, art. 125.2); documentos que faltan y riesgos; tabla de jurisprudencia; próximo paso.

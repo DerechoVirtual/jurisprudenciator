@@ -24,7 +24,7 @@ description: >-
 - **Ley 20/2022 de Memoria Democrática** → `leer_boe` (`identificador="BOE-A-2022-17099"`) solo para leer el preámbulo, `leer_boe` (`identificador="BOE-A-2022-17470"`) para el criterio administrativo de la instrucción de 2022, `buscar_boe` (`consulta="prórroga opción nacionalidad Memoria Democrática"`) para localizar cualquier acuerdo o norma que haya prorrogado o modificado el plazo, y `buscar_sentencias` (`consulta="disposición adicional octava Ley 20/2022 nacionalidad"`, `base="TS"`, `fecha_desde` del último año) para conocer litigios en curso.
 - **Doctrina sobre la vía concreta** → `buscar_sentencias` (por ejemplo `consulta="consolidación nacionalidad artículo 18 posesión utilización continuada buena fe título inscrito"`, `base="TS"`, `jurisdiccion="CIVIL"`; o `consulta="nacionalidad española de origen artículo 17.1.c apatridia"`, `base="TS"`) y `leer_sentencias` (`parrafos=3`).
 - **Carta de naturaleza y dispensas ministeriales: órgano judicial** → `buscar_articulo` (`ley="LJCA"`, artículos `"11"`, `"12"` y `"46"`) y `buscar_sentencias` (`consulta="carta de naturaleza denegación"`, `base="TS"`, `jurisdiccion="CONTENCIOSO"`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -53,7 +55,7 @@ Usa otra skill del plugin cuando:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato imprescindible, pregunta y espera.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible, pídelos todos a la vez en una única ronda de no más de cuatro preguntas y espera; lo demás queda como `[PENDIENTE: dato]`.
 
 1. **Objetivo** (imprescindible): adquirir, conservar, recuperar o defender la nacionalidad; o recurrir una decisión concreta.
 2. **Árbol familiar documentado** (imprescindible en origen, opción y recuperación): lugar y fecha de nacimiento del interesado, de sus progenitores y, si importa, de sus abuelos; nacionalidad de cada uno en cada fecha; si alguno fue español de origen y nacido en España.
@@ -150,6 +152,8 @@ Formato, citas y datos: `references/formato-y-organos.md`. Entrega en Word el es
 
 **D. Solicitud de carta de naturaleza** (`solicitud-carta-naturaleza-<apellido>-<AAAAMMDD>.docx`): memoria de las circunstancias excepcionales con prueba de cada una. Modelo, tasa y sede se comprueban en la sede oficial: no des importes ni códigos.
 
+**Reparto para la redacción rápida:** A, B y D: 01 encabezamiento, comparecencia y hechos (con el árbol familiar y sus documentos); 02 fundamentos (precepto de la vía, requisitos, plazo y doctrina); 03 declaraciones, solicita y relación de documentos. El escrito C (oposición inicial, de una a dos páginas) lo redacta el director sin equipo.
+
 ## Comprobación final
 
 - [ ] `estado` respondió y la puerta se cumplió en todo el trabajo.
@@ -158,7 +162,7 @@ Formato, citas y datos: `references/formato-y-organos.md`. Entrega en Word el es
 - [ ] Fechas de caducidad de la opción y de la conservación calculadas con su precepto.
 - [ ] Órgano de destino y vía (registral, civil o contencioso-administrativa) comprobados con la Ley 20/2011, la LEC, la LOPJ o la LJCA.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; solo fundamentos jurídicos.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
 - [ ] Marcadores entre corchetes para todo dato no facilitado; ningún dato inventado.
 - [ ] Plazo con fecha inicial, precepto y fecha final; sin fecha de notificación, no se da plazo.
 - [ ] Resumen para el abogado según el apartado 7 del formato, con el cuadro de vías, la tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y el próximo paso.

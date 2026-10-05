@@ -26,7 +26,7 @@ description: >-
 - **Existencia y administración de la empresa empleadora** → `buscar_empresa_mercantil` (nombre o CIF de la sociedad).
 - **Norma aplicable a solicitudes anteriores al 20/05/2025** → `leer_boe` (`identificador="BOE-A-2024-24099"`, disposición transitoria segunda del Real Decreto) y, si rige el reglamento anterior, `buscar_articulo` (`ley="Real Decreto 557/2011"`).
 - **Doctrina sobre los motivos de denegación** → `buscar_sentencias` (`consulta="autorización residencia trabajo cuenta ajena medios económicos empleador denegación"`, `consulta="autorización residencia trabajo cuenta ajena situación nacional de empleo"` o `consulta="renovación autorización residencia trabajo antecedentes valoración"`, `jurisdiccion="CONTENCIOSO"`, `base="AN"`; `base="TS"` para doctrina casacional) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Si citas una letra, escribe «la letra b) del artículo 61.2 del Real Decreto 1155/2024», no «artículo 61.2.b) del…»: con la letra pegada, `verificar_escrito` atribuye el artículo a otra norma del mismo párrafo. Por la misma razón, cuando un párrafo cite más de una norma, nombra la norma en cada cita («el artículo 76.1 del Real Decreto 1155/2024», no «el mismo artículo» ni «el artículo 76.1» a secas).
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -57,7 +59,7 @@ trabajo (arts. 88 y 89).
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes mientras falte un dato imprescindible (★).
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Trámite: autorización inicial, cambio de empleador, modificación, paso desde otra situación
    o renovación. Si hay resolución denegatoria o requerimiento, el texto íntegro y su fecha de
@@ -238,6 +240,8 @@ importes.
 3. **Renovación** — `renovacion-residencia-trabajo-<apellido>-<AAAAMMDD>.docx`, escrito del
    trabajador a la oficina de extranjería con el supuesto del art. 80.2 que se invoca.
 
+**Reparto para la redacción rápida:** autorización inicial: 01 comparecencia y hechos (empleador, puesto, contrato y convenio con el salario comparado); 02 situación nacional de empleo y medios del empleador, con el cálculo; 03 cualificación, ausencia de las causas del art. 78, fundamentos (LOEX arts. 36 y 38; Reglamento arts. 73 a 77), solicita y documentos. Cambio de empleador, modificación y renovación: tres secciones, o el director sin equipo si no pasan de dos páginas.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -250,7 +254,7 @@ importes.
       marcador y aviso) y SMI tomado del real decreto obtenido en esta conversación.
 - [ ] Causas del art. 78 descartadas una a una con el empleador.
 - [ ] Cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo y sus avisos corregidos.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y sus avisos corregidos.
 - [ ] Marcadores en los datos no facilitados; nada inventado.
 - [ ] Plazos con fecha y precepto: visado (art. 40.1.b), alta (art. 73.1), renovación (art. 80.1).
 - [ ] Resumen para el abogado según el apartado 7 del formato, con los riesgos y el próximo paso.

@@ -25,7 +25,7 @@ description: >-
 - **Acción del trabajador y plazos** → `buscar_articulo` (`ley="LRJS"`, artículos `"2"`, `"26"`, `"63"`, `"64"`, `"65"`, `"103"`, `"148"` y `"150"`) y (`ley="ET"`, artículos `"55"` y `"59"`).
 - **Doctrina sobre laboralidad, plataformas, TRADE y procedimiento de oficio** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"` para la Sala Cuarta; `base="AN"` + `tipo_organo="TSJ"` + `provincia` con la sede de la Sala para los TSJ) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Convenio que se aplicaría si la relación es laboral y empresa real** → `buscar_convenio` + `leer_convenio` (+ `vigencia_convenio`) con la actividad real del cliente, y `buscar_empresa_mercantil` (denominación, CIF, administradores, grupo, intermediarios).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -62,7 +64,7 @@ Pregunta primero **a quién defiende el abogado** y bifurca: la empresa (o el cl
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende y qué quiere: informe de riesgo, contrato TRADE, estrategia para reclamar o revisión de un contrato ya firmado.
 2. ★ Estado de la relación: viva, cesada (fecha exacta y forma en que se comunicó el cese) o en inspección (fecha de la visita, requerimientos, actas). Con cese, el plazo de 20 días hábiles corre desde el día siguiente: da la fecha límite antes que cualquier otra cosa.
@@ -111,7 +113,7 @@ Lee cada artículo con `buscar_articulo` en esta conversación antes de afirmarl
 - **Obras protegidas** (traducción, diseño, fotografía, textos, software): el contrato marco no puede ceder en bloque los derechos de explotación de las obras futuras ni prohibir al autor crear otras (apartados 3 y 4 del artículo 43 del Real Decreto Legislativo 1/1996, de 12 de abril, texto refundido de la Ley de Propiedad Intelectual; `buscar_articulo`, `ley="LPI"`); remite la cesión a un documento por encargo y revisa si la tarifa puede ser a tanto alzado (art. 46 de ese real decreto legislativo). Cítalo como «Real Decreto Legislativo 1/1996»: con «texto refundido de la Ley de Propiedad Intelectual» a secas, `verificar_escrito` atribuye el artículo a otra ley.
 - Conciliación o mediación previa obligatoria (art. 18.1 LETA) y competencia social (art. 17 LETA; letra d) del art. 2 LRJS). El órgano autonómico que concilia a los TRADE búscalo en internet en la sede de la comunidad (en Aragón, por ejemplo, es un trámite propio de la Dirección General de Trabajo) y nómbralo en el contrato; si no aparece, usa una denominación genérica y avísalo en la nota.
 - Plazo para reclamar la indemnización del art. 15: la LETA no lo fija en los artículos 11-18. Busca doctrina (ver «Estrategia») y, si Jurisprudenciator no la tiene, búscala en internet: cita solo las resoluciones que Jurisprudenciator localice con `buscar_por_cita` y leas con `leer_sentencias`. Si no aparece, dilo en la nota y recomienda actuar dentro del plazo más corto defendible.
-- **Advertencia que va siempre en la nota**: un contrato TRADE no impide que se declare la laboralidad si en la práctica hay dependencia y ajenidad. Las cláusulas cosméticas (declarar «autonomía» mientras se fijan horarios, turnos o precios) empeoran el riesgo: redacta el contrato solo si los hechos del apartado «Datos» encajan en el art. 11 LETA; si no encajan, dilo y propón regularizar.
+- **Advertencia que va siempre al abogado (en la nota o, si no se entrega, en el resumen)**: un contrato TRADE no impide que se declare la laboralidad si en la práctica hay dependencia y ajenidad. Las cláusulas cosméticas (declarar «autonomía» mientras se fijan horarios, turnos o precios) empeoran el riesgo: redacta el contrato solo si los hechos del apartado «Datos» encajan en el art. 11 LETA; si no encajan, dilo y propón regularizar.
 
 ## Estrategia y jurisprudencia
 
@@ -141,6 +143,8 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 6. Opciones con coste y riesgo residual, y recomendación.
 7. Jurisprudencia literal (apartado 8 del formato: aquí es imprescindible).
 
+**Reparto para la redacción rápida (informe de riesgo):** resumen, hechos y marco normativo / matriz de indicios con su doctrina / consecuencias (Seguridad Social con fechas, prestaciones, LISOS y laborales) / opciones, recomendación y jurisprudencia literal.
+
 **Posición de la empresa — contrato TRADE** (`contrato-trade-<apellido-trabajador>-<AAAAMMDD>.docx`), solo si los hechos encajan:
 
 - REUNIDOS e INTERVIENEN (cliente con denominación exacta y CIF; nombre y DNI del TRADE, con los marcadores `[NOMBRE Y APELLIDOS]` y `[DNI/NIE]` si no se han facilitado).
@@ -148,7 +152,8 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 - CLÁUSULAS en ordinales con título: objeto y resultado encargado (no tiempo de trabajo); contraprestación por resultado, periodicidad y forma de pago; organización propia e indicaciones solo técnicas; medios propios; interrupción anual (mínimo del art. 14.1 LETA), descanso semanal, festivos y jornada máxima con su distribución; actividad adicional voluntaria con su límite; interrupciones justificadas; duración y fecha de inicio; preaviso de desistimiento y de extinción; indemnización por extinción; acuerdo de interés profesional aplicable, si el TRADE da su conformidad expresa; prevención de riesgos; comunicación por escrito de las variaciones de la dependencia y consecuencias si deja de cumplirla; registro en el SEPE (quién lo hace y plazos del art. 6); conciliación previa y orden social.
 - Anexo: declaración del TRADE del art. 5.2 del Real Decreto 197/2009 (ingresos del 75 %, sin trabajadores, sin subcontratación, infraestructura propia, sin establecimiento abierto al público ni ejercicio en sociedad) y documentación acreditativa del art. 2.4.
 - Firmas en dos columnas. Sin jurisprudencia en el contrato.
-- Nota para el abogado (`nota-contrato-trade-<empresa>-<AAAAMMDD>.docx`): por qué encaja cada requisito del art. 11 LETA, riesgos de laboralidad que subsisten, artículos leídos y doctrina (si existe).
+- **Reparto para la redacción rápida (contrato TRADE):** comparecencia, EXPONEN, objeto, contraprestación, organización y medios / interrupción anual, descanso, jornada, actividad adicional, interrupciones, duración, preaviso e indemnización / acuerdo de interés profesional, prevención, registro en el SEPE, conciliación, firmas y anexo.
+- Nota para el abogado, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-contrato-trade-<empresa>-<AAAAMMDD>.docx`: por qué encaja cada requisito del art. 11 LETA, riesgos de laboralidad que subsisten, artículos leídos y doctrina (si existe).
 
 **Posición del trabajador** (`nota-laboralidad-<apellido-trabajador>-<AAAAMMDD>.docx`): hechos y prueba por indicio, calificación razonada con doctrina literal, acciones posibles (declarativa, despido, cantidad, denuncia), plazos con fecha inicial, precepto y fecha final, documentos que faltan y riesgos (por ejemplo, que una resolución considere acreditada la autonomía). Si el abogado pide el escrito, deriva a la skill del cuadro o, para la demanda declarativa, usa `guia_escrito` (`escrito="demanda declarativa de existencia de relación laboral"`, `jurisdiccion="laboral"`).
 
@@ -164,7 +169,7 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 - [ ] Contrato TRADE: sin exclusividad ni horario de disponibilidad, indemnización del art. 15 cuantificada (nunca cero) y, si la actividad crea obras protegidas, cesión de derechos remitida a documentos por encargo (art. 43 del Real Decreto Legislativo 1/1996).
 - [ ] Convenio y vigencia comprobados si se ha usado para cuantificar.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos de «posible disonancia» contrastados con el apartado exacto leído (el verificador compara con el título del artículo).
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); los avisos de «posible disonancia» contrastados con el apartado exacto leído (el verificador compara con el título del artículo).
 - [ ] Marcadores en lugar de datos no facilitados (`[NOMBRE Y APELLIDOS]`, `[DNI/NIE]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[FECHA DE ANTIGÜEDAD]`).
 - [ ] Plazo con fecha inicial, precepto y fecha final (despido, conciliación, registro del contrato TRADE).
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y para quién; plazos; riesgo y de dónde sale; documentos que faltan; tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene); próximo paso.

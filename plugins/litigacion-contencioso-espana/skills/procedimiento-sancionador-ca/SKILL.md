@@ -16,7 +16,7 @@ description: >-
 - **Régimen propio de tráfico** → `buscar_articulo` (`ley="Ley de Tráfico"` —RDL 6/2015—, artículos 94, 95 y 112).
 - **Notificación edictal en el BOE (art. 44 LPAC)** → `novedades_boe` (órgano y referencia del expediente; periodo de hasta 31 días) + `leer_boe`.
 - **Doctrina sobre tipicidad, presunción de veracidad de las actas y alcance del pago con reducción** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`).
-- **Alegaciones o recurso antes de presentar** → `verificar_escrito`.
+- **Comprobación de las citas de las alegaciones o del recurso** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -301,7 +303,7 @@ Es la decisión irreversible más frecuente y la que más asuntos mata. **Régim
 ## 7. ⚠️ Normativa sectorial — desplaza al régimen general. NO apliques el general sin comprobarlo
 
 Los arts. 30 Ley 40/2015 y 21 LPAC son **supletorios**. Antes de calcular un solo plazo:
-**pide al usuario la norma sectorial aplicable y verifícala con `buscar_articulo`.**
+**comprueba la norma sectorial aplicable (en la documentación y, si no consta, en la única ronda de preguntas) y verifícala con `buscar_articulo`.**
 
 **Tráfico — RDL 6/2015, texto refundido de la Ley de Tráfico (verificado 2026-07-17). Todo distinto:**
 
@@ -364,7 +366,8 @@ Los arts. 30 Ley 40/2015 y 21 LPAC son **supletorios**. Antes de calcular un sol
   recurso de alzada o reposición (skill `recurso-alzada-reposicion-ca`); escrito de manifestación de
   intención de recurrir en vía contenciosa a efectos del art. 90.3 LPAC; demanda de abreviado
   (skill `procedimiento-abreviado-ca`); solicitud de medida cautelar (skill `medidas-cautelares-ca`).
-- **Estilo:** skill `estilo-escritos-judiciales`. **Entrega:** Word `.docx` maquetado (skill `docx`).
+- **Reparto para la redacción rápida:** alegaciones al acuerdo de iniciación o a la propuesta: encabezamiento, hechos y tabla de fechas (una sección) · caducidad y prescripción (§ 1, una sección) · una sección por motivo de fondo (§§ 2 a 4) · cierre con proposición de prueba, solicitud de archivo y súplica. Los escritos cortos (solicitud de archivo, manifestación de intención de recurrir del art. 90.3) los redactas tú en un único archivo.
+- **Estilo:** los redactores aplican `estilo-escritos-judiciales` al escribir. **Entrega:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.
 - **Jurisprudencia:** **prohibido** citar ECLI, ROJ, fecha o ponente de memoria. Verifica con
   `buscar_sentencias` / `buscar_por_cita` (Sala Tercera del TS, TSJ) antes de citar. Si no puedes
   verificar, escribe `[verificar]` y dilo abiertamente.

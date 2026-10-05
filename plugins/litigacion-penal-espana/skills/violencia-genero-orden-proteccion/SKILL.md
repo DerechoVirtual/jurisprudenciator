@@ -16,7 +16,7 @@ description: >-
 - **LO 1/2004 y Estatuto de la víctima** → `buscar_boe` para su ID BOE y `buscar_articulo` con él (el Estatuto es `BOE-A-2015-4606`).
 - **Consentimiento de la víctima en el quebrantamiento y dispensa del art. 416** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`; para la dispensa, `fecha_desde="25/06/2021"`) + `leer_sentencias` con `parrafos=3`.
 - **Proporcionalidad de las cautelares y presunción de inocencia** → `buscar_sentencias` (`base="TC"`).
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 **Materia sensible. Rigor y cero sesgo. Esta skill sirve a las dos posiciones.**
 
@@ -516,7 +518,9 @@ superior del menor** como criterio rector.
 
 ## Entrega
 
-Word `.docx` (skill `docx`): **solicitud de orden de protección** (544 ter, con el calendario 30+30
-advertido por escrito); **oposición a medidas cautelares** del 544 bis con la **ponderación del § 3.3
-acreditada** y alternativa graduada; **solicitud de modificación o alzamiento** (§ 6); o **nota de
-estrategia** con las verificaciones jurisprudenciales pendientes marcadas `[verificar]`.
+Word `.docx`, que genera el ensamblado de `redaccion-rapida`: **solicitud de orden de protección** (544 ter,
+con el calendario 30+30 advertido por escrito); **oposición a medidas cautelares** del 544 bis con la
+**ponderación del § 3.3 acreditada** y alternativa graduada; **solicitud de modificación o alzamiento**
+(§ 6); o **nota de estrategia** con las verificaciones jurisprudenciales pendientes marcadas `[verificar]`.
+
+**Reparto para la redacción rápida:** la solicitud de orden de protección y la de modificación o alzamiento son escritos de 2-4 páginas: sin equipo, redáctalos tú en un único archivo de `secciones/`. La oposición a medidas cautelares, en tres secciones: 01 encabezamiento, comparecencia y antecedentes con folio · 02 presupuestos del 544 bis y ponderación del § 3.3 acreditada con prueba documental (sus búsquedas) · 03 proporcionalidad, alternativa graduada, suplico, lugar, fecha y firma.

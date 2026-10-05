@@ -29,9 +29,12 @@ crear archivos, entrega el texto completo maquetado y avisa de que hay que pasar
 | Papeleta, demanda o escrito | `<tipo-escrito>-<apellido-cliente>-<AAAAMMDD>.docx` |
 | Protocolo, plan o procedimiento interno | `<tipo>-<empresa>-<AAAAMMDD>.docx` |
 
-Las skills que redactan un contrato, una carta o un protocolo entregan también una **nota para el
+Las skills que redactan un contrato, una carta o un protocolo pueden entregar además una **nota para el
 abogado** (qué se ha hecho y por qué, artículos del ET y del convenio leídos, riesgos y, cuando lo
-exija el apartado 8, la jurisprudencia literal). La carta y el contrato no llevan jurisprudencia.
+exija el apartado 8, la jurisprudencia literal), en Word aparte solo si el abogado la pide: si no, ese
+contenido va en el resumen de la entrega (apartado 9). Cuando la nota es el único entregable (revisión,
+análisis o defensa de la parte para la que no se redacta escrito), se entrega siempre. La carta y el
+contrato no llevan jurisprudencia.
 
 ## 2. Maquetación
 

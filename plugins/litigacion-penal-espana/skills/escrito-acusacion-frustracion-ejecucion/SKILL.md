@@ -15,7 +15,7 @@ description: Redacta el escrito de acusación (calificación provisional y solic
 - **Inmuebles transmitidos u ocultados** → `consultar_catastro` (referencia catastral, dirección o polígono y parcela; no da titular ni valor) y `callejero_catastro` si la dirección no casa.
 - **Subastas, edictos y notificaciones de la ejecución civil previa** → `novedades_boe` (por el NIF de la sociedad deudora o el número de autos) → `leer_boe`.
 - **Doctrina sobre insolvencia real y ficticia** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`) + `leer_sentencias` con `parrafos=3`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Redacta el escrito de acusación por insolvencia punible. **Es un delito que se prueba con documentos:
 la ejecución civil previa es tu instrucción hecha.**
@@ -48,6 +50,9 @@ constituidos en depósito), **258 ter** (personas jurídicas).
 ---
 
 ## Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Prescripción (art. 131 CP).** Art. 257.1 y 257.2: pena máxima **4 años** de prisión → **5 años**.
    Art. 257.3 párr. 2 (deuda de Derecho público): pena máxima **6 años** → **10 años** (prisión
@@ -246,6 +251,8 @@ corre y los activos se alejan.
    de embargo** y **prohibición de disponer** sobre los bienes transmitidos) — **pídelas ya, no al
    final**; fianza al responsable civil (art. 783.2). Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** las conclusiones llevan el rótulo `### [ALEGACION]`, que el ensamblador numera en femenino (PRIMERA.-, SEGUNDA.-…). 01 encabezamiento, comparecencia, fórmula y conclusión PRIMERA, hechos punibles en orden cronológico (dos secciones si pasan de 1.200 palabras) · 02 conclusión SEGUNDA, calificación (tipos del 257, 258, 258 bis y 258 ter, delito continuado, con sus búsquedas sobre insolvencia ficticia y deuda vencida) · 03 conclusiones TERCERA a QUINTA: participación del deudor y del adquirente, circunstancias y penas · 04 conclusión SEXTA, responsabilidad civil con nulidad de los actos de disposición, reintegración y decomiso · 05 prueba, suplico, otrosíes con cautelares reales, lugar, fecha y firma.
+
 ---
 
 ## Errores típicos
@@ -281,6 +288,7 @@ corre y los activos se alejan.
 
 ## Entrega
 
-Word `.docx` (skill `docx`) con conclusiones provisionales, prueba, suplico y otrosíes, maquetado para
-LexNET. Adjunta una **línea temporal** (fecha → acto → folio → efecto patrimonial) y un **cuadro de
-bienes** (bien → titularidad originaria → acto de transmisión → adquirente → precio → uso actual).
+Word `.docx`, que genera el ensamblado de `redaccion-rapida`, con conclusiones provisionales, prueba,
+suplico y otrosíes, maquetado para LexNET. Incluye en el propio escrito una **línea temporal** (fecha →
+acto → folio → efecto patrimonial) y un **cuadro de bienes** (bien → titularidad originaria → acto de
+transmisión → adquirente → precio → uso actual).

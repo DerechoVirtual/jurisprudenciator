@@ -1,7 +1,7 @@
 {
   "name": "contratos-civiles-mercantiles",
   "displayName": "Contratos Civiles y Mercantiles",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Contratos civiles y mercantiles para despachos en España: redacción de los contratos más habituales (compraventa y arras, arrendamientos de vivienda y de local, servicios, obra, préstamo, agencia, distribución y franquicia, pacto de socios, compraventa de participaciones, confidencialidad, propiedad intelectual y encargo de tratamiento), revisión con semáforo de riesgos, negociación con contrapropuesta y reclamaciones por incumplimiento (requerimiento, resolución, vicios ocultos, monitorio y propuesta previa del MASC). Cada skill trabaja con Jurisprudenciator: artículos vigentes, jurisprudencia con párrafo literal y ECLI, Registro Mercantil, Catastro y verificación de citas.",
   "author": {
     "name": "Derecho Virtual"

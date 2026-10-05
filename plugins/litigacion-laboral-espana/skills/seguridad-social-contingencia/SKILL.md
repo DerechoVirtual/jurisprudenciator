@@ -15,7 +15,7 @@ description: >-
 - **Doctrina sobre patologías psicosociales como accidente de trabajo, que varía por Sala y año** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"` y `base="AN"` con `tipo_organo="TSJ"`, `fecha_desde` reciente) + `leer_sentencias` (`parrafos=3`, `terminos="presunción de laboralidad"`).
 - **Empresa codemandada** (denominación exacta, CIF, domicilio social) → `buscar_empresa_mercantil`.
 - **Mejoras voluntarias del convenio ligadas a la contingencia profesional** (complemento de incapacidad temporal, indemnización por accidente) → `buscar_convenio` + `leer_convenio` (`buscar_en="accidente de trabajo"`).
-- **Revisión del borrador** → `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 > ⚠️ Mismo aviso que `/incapacidad-permanente`: datos de salud, tratar con extremo cuidado, nunca reproducir diagnósticos reales de casos anteriores en plantillas de ejemplo.
 
@@ -44,7 +46,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Descripción de las condiciones de trabajo relevantes (carga, organización, exposición a factores de riesgo psicosocial) — a aportar por el usuario, sin que la skill invente hechos.
 - Certificado de reclamación previa.
 
-## Fase 2 — Batería de preguntas
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿Qué contingencia se reclama? accidente de trabajo (vía presunción de laboralidad) / enfermedad profesional (si encaja en listado RD 1299/2006).
 - ¿La patología se manifestó en tiempo y lugar de trabajo, o existe nexo causal razonado aunque no fuera en el momento exacto?
@@ -58,6 +62,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 3. **FUNDAMENTOS DE DERECHO**: jurisdicción y competencia → arts. 156-157 LGSS → presunción de laboralidad del art. 156.3 LGSS si aplica → doctrina jurisprudencial sobre patologías psicosociales y su calificación como accidente de trabajo (verificar cita vía jurisprudenciator, este es un terreno donde la jurisprudencia varía por Sala/año — no asumir un criterio fijo sin comprobarlo).
 4. **SUPLICO**: revocar la resolución y declarar que la contingencia es accidente de trabajo (o enfermedad profesional, según el caso), con los efectos prestacionales correspondientes.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos (puesto de trabajo, circunstancias de la patología, resolución recurrida y nexo causal); 02 fundamentos procesales (jurisdicción, competencia, reclamación previa y legitimados pasivos); 03 contingencia: arts. 156-157 LGSS, presunción de laboralidad y doctrina sobre patologías psicosociales; 04 cierre (suplico y firma).
+
 ## Fase 4 — Verificación y entrega
 
-Verificación jurisprudencial obligatoria antes de citar ningún criterio sobre burnout/patologías psicosociales — es una materia con doctrina evolutiva. Pulir con `/estilo-escritos-judiciales`, entregar en Word (.docx).
+Verificación jurisprudencial obligatoria antes de citar ningún criterio sobre burnout/patologías psicosociales — es una materia con doctrina evolutiva: la hace el redactor de esa sección leyendo las sentencias (el ensamblado rechaza las citas que nadie leyó). El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, sin pasada posterior. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.

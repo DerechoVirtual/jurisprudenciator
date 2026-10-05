@@ -24,7 +24,7 @@ description: >-
 - **Doctrina sobre indicios, garantía de indemnidad, acoso y cuantificación del daño** → `buscar_sentencias` (`base="TC"`; `base="TS"`, `jurisdiccion="SOCIAL"`; y `base="AN"`, `tipo_organo="TSJ"`, `provincia` = sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión); con derecho de la Unión, `base="TJUE"`.
 - **Convenio aplicable y sus artículos**, si la lesión afecta a retribución, clasificación, protocolo de acoso o derechos sindicales pactados → `buscar_convenio` + `leer_convenio` + `vigencia_convenio`. `leer_convenio` puede devolver un texto anterior: si `vigencia_convenio` registra un texto nuevo o una modificación posterior a la publicación leída, búscalo en internet en el boletín oficial (BOE, boletín autonómico o BOP; `buscar_boe` y `novedades_boe` no localizan convenios), lee su artículo de vigencia (los textos nuevos suelen entrar en vigor con efectos retroactivos al 1 de enero) y cita el texto que regía en la fecha de los hechos, con su enlace (punto 3 de la puerta). No afirmes que un texto no está publicado sin haberlo buscado en el boletín.
 - **Empresa** → `buscar_empresa_mercantil` (denominación exacta, domicilio, administradores, grupo).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído; `buscar_por_cita`, solo para localizar o comprobar una sentencia que no salió de las búsquedas.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,11 +37,13 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
-Esta skill también está en el plugin Contratos Laborales y Asesoría Empresarial, que añade la asesoría de empresa (convenio aplicable, cálculo de indemnizaciones, cartas de despido, finiquitos…). Si una derivación de esta skill nombra una skill que no está en este plugin, está en aquel. **Pregunta primero a quién defiende el abogado**:
+Esta skill también está en el plugin Contratos Laborales y Asesoría Empresarial, que añade la asesoría de empresa (convenio aplicable, cálculo de indemnizaciones, cartas de despido, finiquitos…). Si una derivación de esta skill nombra una skill que no está en este plugin, está en aquel. **Averigua primero a quién defiende el abogado** (si no consta en la documentación, pregúntalo en la ronda única de preguntas):
 
 - **Trabajador o sindicato**: la relación sigue y se pide que cese la conducta lesiva, que se reponga la situación y que se indemnice: acoso laboral, sexual o discriminatorio; discriminación directa, indirecta, por asociación o por error; represalias por reclamar (garantía de indemnidad); lesión de la libertad sindical o de huelga; intimidad, propia imagen o protección de datos (videovigilancia, geolocalización, dispositivos digitales).
 - **Empresa demandada**: nota de defensa. Frente a indicios, a la empresa le toca probar una justificación objetiva, razonable y proporcionada (art. 181.2 LRJS): la nota ordena esa prueba, mide la exposición (daño moral, daños materiales, riesgo sancionador) y prepara la oposición a las cautelares.
@@ -63,7 +65,7 @@ Otras derivaciones: investigación interna del acoso, `protocolo-acoso-laboral`;
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo: si falta un dato imprescindible (★), pregúntalo.
+Cierra estos datos con la documentación antes de redactar (pasos 2 y 3 de `redaccion-rapida`): pregunta solo el dato imprescindible (★) que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]` (más abajo se indica qué cálculos no se hacen sin su dato).
 
 1. ★ A quién defiende el abogado; si la relación laboral sigue viva y si ha habido algún acto de los del art. 184 (en ese caso, cambia de skill).
 2. ★ Derecho fundamental afectado y conducta concreta; si continúa o cesó y cuándo (condiciona el plazo del art. 179.2).
@@ -138,9 +140,11 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 4. SUPLICO: declaración de la vulneración de `[DERECHO]`; nulidad radical de `[CONDUCTA O DECISIÓN]`; cese inmediato; reposición a la situación anterior; condena solidaria o individual a pagar `[IMPORTE]` € por daño moral y `[IMPORTE]` € por daños materiales.
 5. OTROSÍES: medidas cautelares concretas con su justificación (art. 180); prueba: interrogatorio con el apercibimiento del art. 91.2 LRJS, documental en poder de la empresa (expediente de acoso, registros, comunicaciones) con el del art. 94.2, testifical y pericial (psicológica, informática), y las condiciones de declaración de la víctima (art. 177.4).
 
-**2. Tabla de cuantificación** dentro de la demanda y de la nota: concepto (daño moral / cada daño material) · base o circunstancia · fuente (artículo de la LISOS leído, documento) · importe pedido.
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos (con el panorama indiciario); 02 fundamentos procesales (modalidad, exención de conciliación, plazo, competencia y Ministerio Fiscal); 03 derecho vulnerado, indicios y carga de la prueba; 04 pronunciamientos e indemnización (con la tabla de cuantificación); 05 cierre (suplico, otrosíes con cautelares y prueba, firma y documentos).
 
-**3. Nota** (`nota-tutela-<empresa>-<AAAAMMDD>.docx`): puerta procesal elegida y por qué; plazo con fechas; fortaleza de cada indicio; riesgos; para la empresa, la nota de defensa con la prueba de la justificación, las medidas, la oposición a las cautelares y la exposición; jurisprudencia literal usada.
+**2. Tabla de cuantificación** dentro de la demanda (y también en la nota, si se entrega aparte): concepto (daño moral / cada daño material) · base o circunstancia · fuente (artículo de la LISOS leído, documento) · importe pedido.
+
+**3. Nota** (`nota-tutela-<empresa>-<AAAAMMDD>.docx`): puerta procesal elegida y por qué; plazo con fechas; fortaleza de cada indicio; riesgos. Para el trabajador o el sindicato va en el resumen de la entrega (paso 7 de `redaccion-rapida`) y solo se entrega como Word aparte si el abogado lo pide; para la empresa, la nota de defensa con la prueba de la justificación, las medidas, la oposición a las cautelares, la exposición y la jurisprudencia literal usada es el entregable principal y se entrega en Word.
 
 ## Comprobación final
 
@@ -152,8 +156,8 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 - [ ] Panorama indiciario con fecha y documento para cada indicio.
 - [ ] Indemnización cuantificada con sus bases; artículos 8 y 40 del Real Decreto Legislativo 5/2000 leídos en esta conversación si se usan como referencia; ningún importe escrito de memoria.
 - [ ] Convenio con su código y vigencia, si se ha usado.
-- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; ningún dato de salud ni de las partes de otros pleitos transcrito.
-- [ ] `verificar_escrito` pasado sobre cada documento; avisos de «posible disonancia» (el art. 181 LRJS se titula «Conciliación y juicio») contrastados con el apartado leído.
+- [ ] Cada ECLI leído con `leer_sentencias` por el redactor de su sección o comprobado con `buscar_por_cita` (el ensamblado rechaza los que nadie leyó); ningún dato de salud ni de las partes de otros pleitos transcrito.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas; avisos de «posible disonancia» (el art. 181 LRJS se titula «Conciliación y juicio») contrastados con el apartado leído.
 - [ ] Marcadores en lugar de datos no facilitados.
 - [ ] Los datos obtenidos en internet (por ejemplo, una norma de la Unión en EUR-Lex) figuran con su enlace en el documento y en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

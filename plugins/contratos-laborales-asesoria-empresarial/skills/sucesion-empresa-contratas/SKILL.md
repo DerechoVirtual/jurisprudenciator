@@ -3,7 +3,7 @@ name: sucesion-empresa-contratas
 description: >-
   Analiza sucesión de empresa (art. 44 ET), sucesión de plantilla, subrogación por convenio o pliego,
   contratas y subcontratas de propia actividad (art. 42 ET) y cesión ilegal de trabajadores (art. 43 ET), y
-  entrega informe de riesgo en Word y nota para el abogado. Úsala cuando digan «cambio de adjudicataria», «nos
+  entrega informe de riesgo en Word (y nota para el abogado, si la pides). Úsala cuando digan «cambio de adjudicataria», «nos
   quedamos la contrata», «subrogación del personal», «compramos el negocio», «reversión del servicio», «la
   principal responde de los salarios», «cesión ilegal» o «prestamismo laboral». Sirve a la empresa (entrante,
   saliente, principal, contratista, cedente o cesionaria) y al trabajador. Para fijar el convenio de la contrata
@@ -24,7 +24,7 @@ description: >-
 - **Subrogación impuesta por convenio y convenio de la contrata** → `buscar_convenio` + `leer_convenio` (`buscar_en="subrogación"` y después `articulo` con el número que salga) + `vigencia_convenio`. Compara la fecha de publicación del texto que devuelve `leer_convenio` con el último «CONVENIO COLECTIVO (TEXTO NUEVO)» que lista `vigencia_convenio`: si hay un texto posterior, el conector puede estar leyendo el anterior; busca el nuevo en internet en el boletín oficial (enlace y fecha de consulta) o avisa de que el artículo leído puede haber cambiado.
 - **Doctrina sobre sucesión de plantilla, subrogación convencional, propia actividad y cesión ilegal** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`, `tipo_resolucion="SENTENCIA"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión); Directiva 2001/23/CE → `buscar_sentencias` (`base="TJUE"`).
 - **Empresas implicadas** (denominación, administradores, disolución o concurso, vínculos de grupo) → `buscar_empresa_mercantil` con cada una.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Derivaciones: convenio de los trabajadores de una contrata o tras la sucesión �
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ Parte a la que se asesora y qué pregunta concreta hay que contestar (asumir o no una plantilla, deudas heredadas, riesgo de cesión ilegal, reclamación del trabajador).
 2. ★ Operación: tipo (compraventa, arrendamiento, cambio de adjudicatario, reversión, fusión, venta en concurso), fecha prevista o fecha de efectos, y documentos que la soportan (contrato, pliego, acta de adjudicación, auto del juez del concurso).
@@ -151,7 +153,9 @@ Word maquetado según `references/formato-y-organos-laboral.md`.
 7. Recomendaciones y cláusulas que conviene incluir en el contrato entre empresas.
 8. Convenio: denominación, código, artículo pertinente leído (el de subrogación en las sucesiones; en la cesión ilegal o la contrata, el convenio de la cesionaria o de la principal para el puesto equivalente, o el del art. 42.6) y vigencia comprobada, con la fecha del texto leído.
 
-**2. Nota para el abogado** — `nota-abogado-sucesion-<empresa>-<AAAAMMDD>.docx`: artículos leídos con su fecha de vigencia, consultas hechas y resoluciones leídas, puntos discutibles y cómo los resolvería cada parte, plazos con fecha y datos que faltan.
+**Reparto para la redacción rápida (informe de riesgo):** encargo, hechos y documentos / una sección de calificación por cada figura que se discute (sucesión legal y de plantilla, contrata de propia actividad, cesión ilegal), cada una con su doctrina / matriz de riesgos y responsabilidades en tablas / obligaciones de información y calendario, recomendaciones, cláusulas y convenio.
+
+**2. Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-abogado-sucesion-<empresa>-<AAAAMMDD>.docx`: artículos leídos con su fecha de vigencia, consultas hechas y resoluciones leídas, puntos discutibles y cómo los resolvería cada parte, plazos con fecha y datos que faltan.
 
 **3. Si el abogado lo pide**, la comunicación informativa del art. 44.6 o 44.7 a la representación o a los trabajadores, o la del art. 42.4 sobre la contrata, como carta (`carta-informacion-sucesion-<empresa>-<AAAAMMDD>.docx`) con cada extremo exigido por el artículo y sin jurisprudencia.
 
@@ -164,7 +168,7 @@ Datos que no se hayan facilitado van con marcadores (`[DENOMINACIÓN SOCIAL]`, `
 - [ ] Convenio identificado con su código, artículo pertinente (subrogación, o puesto equivalente en la cesión) leído con `leer_convenio`, vigencia comprobada con `vigencia_convenio` en la fecha de la operación y texto leído cotejado con el último texto inscrito.
 - [ ] Empresas comprobadas con `buscar_empresa_mercantil` (concurso, disolución, administradores comunes).
 - [ ] Cada calificación discutida apoyada en una resolución leída con `leer_sentencias` (párrafo de fundamentos) o comprobada con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos sobre artículos de convenio o de la Directiva, ignorados tras comprobarlos con `leer_convenio` o `buscar_articulo`.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); los avisos sobre artículos de convenio o de la Directiva, ignorados tras comprobarlos con `leer_convenio` o `buscar_articulo`.
 - [ ] Plazos con fecha inicial, precepto y fecha final; marcadores en vez de datos inventados.
 - [ ] Lo obtenido en internet (trámite de la certificación de la Tesorería, pliegos publicados) citado con enlace y fecha de consulta y señalado en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y para quién, plazos, responsabilidades cuantificables y de dónde salen, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

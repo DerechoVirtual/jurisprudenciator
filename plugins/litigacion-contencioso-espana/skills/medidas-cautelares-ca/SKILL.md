@@ -15,7 +15,7 @@ description: >-
 - **Fumus palmario: acto idéntico ya anulado o norma anulada** → `buscar_por_cita` + `leer_sentencias` sobre la sentencia anulatoria; `buscar_boe` + `leer_boe` para la publicación del fallo (art. 72.2 LJCA).
 - **Suspensión de la vigencia de una ordenanza (art. 129.2)** → `buscar_ordenanzas` + `leer_ordenanza` con `articulo`.
 - **Demolición o clausura inminente** → `consultar_catastro` (referencia catastral y construcciones afectadas) para identificar con precisión lo que se quiere preservar.
-- **Antes de presentar** → `verificar_escrito`.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -41,7 +43,7 @@ Lo que no esté allí, verifícalo con `buscar_articulo` antes de escribirlo o m
 
 ## 1. Bloque previo — comprobar antes de redactar
 
-Recorrer en orden y **no seguir** hasta cerrar cada punto:
+Responde cada punto con la documentación (paso 2 de `redaccion-rapida`), pregunta solo lo que bloquee en una única ronda y **cierra todos antes de redactar**:
 
 1. **¿Hay recurso contencioso interpuesto o se interpone a la vez?** La cautelar es accesoria: no
    existe medida cautelar autónoma sin proceso. Si aún no hay recurso, se pide en el escrito de
@@ -174,6 +176,8 @@ generales o de tercero**, que el órgano ponderará de forma circunstanciada.
 7. **SUPLICO.**
 8. **OTROSÍES:** habilitación de días inhábiles (art. 128.3); designación electrónica; documentos.
 
+**Reparto para la redacción rápida:** encabezamiento, identificación del acto y hechos con folio, centrados en la inminencia (una sección) · fundamentos procesales y periculum in mora, el bloque largo (una sección) · ponderación del art. 130.2, fumus si es palmario, caución y especial urgencia (una sección) · cierre con suplico y otrosíes. Escrito corto: las dos últimas se funden.
+
 ## 9. SUPLICO — modelo de redacción
 
 > **SUPLICO A LA SALA/AL JUZGADO** que, teniendo por presentado este escrito, se sirva admitirlo,
@@ -205,4 +209,4 @@ generales o de tercero**, que el órgano ponderará de forma circunstanciada.
 - **Normativa autonómica y local:** el conector no la cubre (solo BOE estatal + ordenanzas de los
   municipios cubiertos). **Pedírsela al usuario**; no citarla de memoria.
 - **Nada de MASC:** es requisito del orden **civil**. No existe en esta jurisdicción.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

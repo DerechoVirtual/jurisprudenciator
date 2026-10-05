@@ -1,7 +1,7 @@
 {
   "name": "contratos-laborales-asesoria-empresarial",
   "displayName": "Contratos Laborales y Asesoría Empresarial",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Asesoría laboral de empresa y despidos para despachos en España: contratos de trabajo tras la reforma de 2021, pactos, teletrabajo, alta dirección, falsos autónomos, modificaciones y movilidad, permisos y conciliación, registro de jornada, sanciones, ERTE, sucesión de empresa y contratas, planes de igualdad, acoso, canal de denuncias e Inspección de Trabajo; cartas de despido, finiquitos y cálculo de indemnizaciones; y el laboral de siempre: papeleta de conciliación, demanda de despido, reclamación de cantidad, extinción a instancia del trabajador y tutela de derechos fundamentales. Cada skill trabaja con Jurisprudenciator: Estatuto de los Trabajadores y normas vigentes, convenios colectivos, jurisprudencia social con párrafo literal y ECLI, y verificación de citas.",
   "author": {
     "name": "Derecho Virtual"

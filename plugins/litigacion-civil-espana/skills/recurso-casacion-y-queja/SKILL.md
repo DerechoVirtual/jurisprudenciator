@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 > Esta skill cubre **dos recursos distintos de la cúspide** en sub-flujos separados:
 > **(A) Casación civil** (art. 477 LEC) ante la **Sala Primera del Tribunal Supremo**, cuyo eje es el **interés casacional**.
 > **(B) Queja** (art. 494 LEC), que se interpone **directamente ante el tribunal *ad quem*** cuando se deniega tener por preparado o tramitar un recurso (apelación, casación o extraordinario).
@@ -96,6 +98,8 @@ Sin interés casacional justificado, el recurso se **inadmite**. Determinar y **
 
 Para cada vía, dejar **escrito el razonamiento del interés casacional** que irá, de forma expresa y separada, en el encabezamiento de cada motivo. Esta justificación es **autónoma** del fondo y no puede darse por implícita.
 
+Las Fases A1-A3 (lectura de la sentencia, norma infringida e interés casacional) se cierran en `caso.md` y en el plan, con la vía del interés casacional de cada motivo, antes de lanzar al equipo (pasos 2-3 de `redaccion-rapida`); la Fase A4 la hace cada redactor para su motivo.
+
 ## Fase A4 — Jurisprudencia (doctrina del TS infringida — núcleo del recurso)
 
 Mediante el conector MCP `jurisprudenciator` (`buscar_sentencias`/`leer_sentencias`):
@@ -107,7 +111,7 @@ Mediante el conector MCP `jurisprudenciator` (`buscar_sentencias`/`leer_sentenci
 
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-### Ficha por sentencia (preparar antes de redactar)
+### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 
 Para CADA cita, dejar lista esta ficha:
 - ECLI (ej. `ECLI:ES:TS:2023:1234`)
@@ -198,6 +202,8 @@ estimando los motivos expuestos:
 [Firma electrónica del Procurador y Abogado]
 ```
 
+**Reparto para la redacción rápida (casación):** sección 1 = encabezamiento, comparecencia y antecedentes de hecho; una sección por cada motivo (infracción denunciada + justificación expresa del interés casacional + desarrollo con la doctrina del TS, cada una con sus STS), y la infracción procesal, si la hay, en su propia sección; sección final = súplica, lugar, fecha y firmas.
+
 ---
 
 # (B) RECURSO DE QUEJA — art. 494 LEC
@@ -258,6 +264,8 @@ indebidamente denegado, con lo demás que en Derecho proceda.
 [Firma electrónica del Procurador y Abogado]
 ```
 
+**Reparto para la redacción rápida (queja):** escrito corto: redáctalo tú en un único archivo de `secciones/` si no pasa de 2 páginas; si es más largo, 3 secciones: encabezamiento y alegaciones primera y segunda; alegaciones tercera y cuarta (procedencia del recurso denegado y refutación de la causa, con su apoyo jurisprudencial); súplica, lugar, fecha y firmas.
+
 ---
 
 ## Redacción y estilo discursivo (OBLIGATORIO)
@@ -276,16 +284,16 @@ indebidamente denegado, con lo demás que en Derecho proceda.
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-## Fase final — Pulido, subsunción, verificación ECLI
+## Fase final — Estilo, subsunción y verificación ECLI (dentro del método rápido)
 
-Aplicar **automáticamente** `estilo-escritos-judiciales`, `subsuncion-juridica`, y verificar **como último paso** cada ECLI/ROJ con el conector `jurisprudenciator` (`buscar_por_cita`):
-- Si alguna sentencia no se valida, marcar `[REVISAR: ECLI no validado]` y NO entregar hasta que se sustituya o verifique manualmente.
+Los redactores aplican `estilo-escritos-judiciales` y `subsuncion-juridica` al escribir, no en una pasada posterior. Los ECLI/ROJ los comprueba el ensamblado (solo se admiten las sentencias que algún redactor leyó con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas:
+- Si alguna sentencia no se valida, el ensamblado da error: sustitúyela por una de las leídas o retírala, y NO entregues hasta que se resuelva.
 
 ## Salida
 
 - Word .docx maquetado en `matters/<slug>/escritos/recurso-casacion-v1.docx`
 - Word .docx maquetado en `matters/<slug>/escritos/recurso-queja-v1.docx`
-- Fichas de jurisprudencia (mapa: ECLI / Tribunal / fecha / punto sostenido / vía del interés casacional)
+- Mapa de jurisprudencia (ECLI / Tribunal / fecha / punto sostenido / vía del interés casacional): sale de la tabla de fuentes del ensamblado; añade en el resumen la vía del interés casacional de cada resolución (fichas aparte solo si el abogado las pide)
 - Maquetación: Times New Roman 12, A4, márgenes 3 cm, justificado, interlineado 1,5; negrita estratégica en encabezados (ANTECEDENTES, MOTIVOS, ALEGACIONES, SUPLICO).
 - Decision tree:
 

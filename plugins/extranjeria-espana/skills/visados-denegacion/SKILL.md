@@ -25,7 +25,7 @@ description: >-
 - **Órgano judicial que conoce hoy de las denegaciones consulares** → `buscar_sentencias` (`consulta="denegación visado consulado competencia Tribunal Superior de Justicia de Madrid"`, `base="AN"`, `jurisdiccion="CONTENCIOSO"`, `tipo_resolucion="AUTO"`; con `fecha_desde` del último año puede no devolver nada: si es así, quita el filtro y elige el auto más reciente) y `leer_sentencias` (`parrafos=2`).
 - **Doctrina sobre motivación y riesgo migratorio** → `buscar_sentencias` (`consulta="denegación visado motivación riesgo migratorio"`, `base="AN"`, `jurisdiccion="CONTENCIOSO"`, `fecha_desde` de los dos últimos años; con `base="AN"` el conector devuelve también sentencias del TSJ de Madrid (STSJ M), que es el tribunal que hoy resuelve estos recursos; y `base="TJUE"` con `consulta="Código de visados denegación artículo 32"`) y `leer_sentencias` (`parrafos=3`).
 - **Visados de reagrupación o de familiares denegados por un requisito que ya valoró Extranjería** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"66"`, `"68"` y `"196"`, este último para «a cargo» y dependencia económica; `ley="LOEX"`, `articulo="17"`) y `buscar_sentencias` (`consulta="alcance potestad misión diplomática oficina consular denegación visado reagrupación familiar"`, `base="TS"`, `fecha_desde="01/07/2025"`), y lee la sentencia del Supremo de 2026 que devuelve.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -56,7 +58,7 @@ Si la oficina consular notifica a la vez la autorización desfavorable y la dene
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato imprescindible, pregunta y espera.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible, pídelos todos a la vez en una única ronda de no más de cuatro preguntas y espera; lo demás queda como `[PENDIENTE: dato]`.
 
 1. **Resolución** (imprescindible): texto íntegro o impreso normalizado, oficina consular que la dicta, fecha de notificación y medio (correo electrónico, teléfono, tablón), pie de recursos.
 2. **Clase de visado y finalidad** (imprescindible): corta duración, tránsito, estudios, residencia (no lucrativa, reagrupación, trabajo por cuenta ajena o propia, temporada, familiar de español), búsqueda de empleo.
@@ -154,6 +156,8 @@ Formato, citas y datos: `references/formato-y-organos.md`. Todo en Word. Dos reg
 
 **C. Escrito de interposición del recurso contencioso-administrativo** (`recurso-contencioso-visado-<apellido>-<AAAAMMDD>.docx`): a la Sala comprobada; comparecencia del procurador `[PROCURADOR]` con abogado; acto impugnado (denegación y, en su caso, desestimación de la reposición) y fecha de notificación; petición de que se tenga por interpuesto y se reclame el expediente (`LJCA`, art. 45); documentos. Si el abogado lo pide, añade el esquema de la demanda (plazo de veinte días desde la entrega del expediente, `LJCA`, art. 52): hechos, fundamentos, pretensión de anulación y reconocimiento del derecho al visado, prueba.
 
+**Reparto para la redacción rápida:** A (solicitud de copia del expediente) y C (interposición), de una o dos páginas: el director sin equipo. B (reposición): 01 encabezamiento, comparecencia y hechos; 02 procedencia, plazo y motivación; una sección por cada requisito que se dice incumplido o causa invocada, con su doctrina; cierre con solicita, documentos nuevos y traducciones.
+
 ## Comprobación final
 
 - [ ] `estado` respondió y la puerta se cumplió en todo el trabajo.
@@ -163,7 +167,7 @@ Formato, citas y datos: `references/formato-y-organos.md`. Todo en Word. Dos reg
 - [ ] Separados la denegación del visado y, en su caso, la de la autorización previa, con su órgano y su recurso.
 - [ ] Órgano judicial comprobado con la LJCA y con un auto o sentencia reciente leído.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; solo fundamentos jurídicos.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
 - [ ] Marcadores entre corchetes para todo dato no facilitado; ningún dato inventado.
 - [ ] Plazo con fecha de notificación, precepto y fecha final; sin fecha de notificación, no se da plazo. En el contencioso, agosto descontado (`LJCA`, art. 128.2) y último día inhábil trasladado al siguiente hábil.
 - [ ] Para cada sentencia del TSJ de Madrid citada, comprobado si aplicó el Real Decreto 1155/2024 o el anterior Real Decreto 557/2011 (muchas de 2025 y 2026 aún resuelven denegaciones anteriores al 20/05/2025), y dicho en el escrito cuando sea el anterior.

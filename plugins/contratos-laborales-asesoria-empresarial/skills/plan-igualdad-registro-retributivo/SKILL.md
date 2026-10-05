@@ -6,7 +6,7 @@ description: >-
   planificadas LGTBI. Úsala con «plan de igualdad», «hemos pasado de 50 trabajadores», «registro salarial»,
   «brecha del 25 %», «auditoría retributiva», «medidas LGTBI» o «no tenemos comité, ¿con quién negociamos?».
   Sirve a la empresa y a la representación o al trabajador que exige el registro o impugna un plan. Entrega
-  hoja de ruta, el documento pedido (acta de constitución, esquema del diagnóstico o registro retributivo) y
+  hoja de ruta, el documento pedido (acta de constitución, esquema del diagnóstico o registro retributivo) y, si la pides,
   nota. Para el protocolo de acoso usa protocolo-acoso-laboral; para un acta de la Inspección,
   inspeccion-trabajo-alegaciones; para la brecha de un trabajador concreto, tutela-derechos-fundamentales o
   reclamacion-cantidad.
@@ -25,7 +25,7 @@ description: >-
 - **Consecuencias del incumplimiento** → `buscar_articulo` (`ley="BOE-A-2000-15060"`, artículos `"7"`, `"8"` y `"46 bis"`); cuantías, del artículo `"40"` en el momento.
 - **Mejoras del convenio** (plazos, obligación por debajo del umbral, comisión de igualdad, clasificación profesional) → `buscar_convenio` + `leer_convenio` (`buscar_en="igualdad"` y `buscar_en="clasificación profesional"`) + `vigencia_convenio`.
 - **Doctrina sobre legitimación negociadora, plan aprobado por la empresa y alcance del registro retributivo** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`) + `leer_sentencias` (`parrafos=3`); Audiencia Nacional con `base="AN"`, `jurisdiccion="SOCIAL"`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Pregunta primero a quién asesora el abogado: la empresa quiere un calendario qu
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ Parte asesorada y documento que se pide (hoja de ruta, acta de constitución, esquema del diagnóstico, registro retributivo, revisión de un plan, medidas LGTBI).
 2. ★ Plantilla total a 30 de junio y a 31 de diciembre de los últimos años: fijos, fijos discontinuos, temporales, tiempo parcial, puestos a disposición por ETT, y contratos temporales extinguidos en los seis meses anteriores con los días trabajados de cada uno. Fecha en que se alcanzó por primera vez el umbral.
@@ -142,7 +144,9 @@ Word maquetado según `references/formato-y-organos-laboral.md`.
 - **Esquema del diagnóstico** — `esquema-diagnostico-igualdad-<empresa>-<AAAAMMDD>.docx`: una sección por cada materia del art. 7.1 con los indicadores desagregados por sexo, la fuente de cada dato en la empresa y el responsable de facilitarlo; apartado de retribuciones enlazado con el registro y la auditoría; conclusiones y propuestas en blanco para la comisión. Incorpora los criterios del anexo del Real Decreto 901/2020 leídos en el BOE, con su enlace; si no se han podido leer, deja un aviso visible de que faltan.
 - **Registro retributivo** — `registro-retributivo-<empresa>-<AAAA>.docx`: tabla por grupo, categoría o puesto × concepto (salario base, cada complemento, cada percepción extrasalarial) × media y mediana de mujeres y de hombres × diferencia porcentual; con auditoría, las agrupaciones de igual valor; la justificación del art. 28.3 ET si procede; y constancia de la consulta previa a la representación. Solo con datos que facilite la empresa: sin ellos, entrega la plantilla con marcadores (`[MEDIA MUJERES]`, `[MEDIANA HOMBRES]`) y no inventes cifras. Deja visible cada operación.
 
-**3. Nota para el abogado** — `nota-abogado-igualdad-<empresa>-<AAAAMMDD>.docx`: artículos leídos con su vigencia, convenio y artículo leído, doctrina con párrafo literal, estado de transposición de la Directiva (UE) 2023/970, lagunas del conector y riesgos.
+**Reparto para la redacción rápida:** hoja de ruta: obligaciones, plantilla y fecha del umbral / calendario, comisión y riesgos. Acta de constitución: una sección, sin equipo. Esquema del diagnóstico: una sección por bloque de materias del art. 7.1 (tres bloques) y otra de retribuciones y conclusiones. El registro retributivo es una tabla con los datos de la empresa: la prepara quien dirige.
+
+**3. Nota para el abogado**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega) — `nota-abogado-igualdad-<empresa>-<AAAAMMDD>.docx`: artículos leídos con su vigencia, convenio y artículo leído, doctrina con párrafo literal, estado de transposición de la Directiva (UE) 2023/970, lagunas del conector y riesgos.
 
 ## Comprobación final
 
@@ -153,6 +157,6 @@ Word maquetado según `references/formato-y-organos-laboral.md`.
 - [ ] Estado de transposición de la Directiva (UE) 2023/970 comprobado y explicado en la nota.
 - [ ] Lo obtenido en internet (anexo del Real Decreto 901/2020, formatos o guías oficiales, vía de registro) citado con enlace y fecha de consulta y señalado en el resumen.
 - [ ] Cada ECLI citado leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; ignorado su veredicto sobre artículos de convenio o de la Directiva tras comprobarlos con `leer_convenio` o `buscar_articulo`.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); ignorado su veredicto sobre artículos de convenio o de la Directiva tras comprobarlos con `leer_convenio` o `buscar_articulo`.
 - [ ] Ningún dato retributivo inventado; marcadores donde faltan.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, fechas límite con su precepto, cálculos de plantilla y de diferencias con su origen, documentos que faltan, tabla de jurisprudencia y próximo paso.

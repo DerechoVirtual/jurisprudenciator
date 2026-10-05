@@ -24,7 +24,7 @@ description: >-
 - **Know-how, secretos empresariales y patentes** → `buscar_articulo` (`ley="BOE-A-2019-2364"`, artículos `"1"`, `"4"`, `"6"` y `"7"`) y (`ley="Ley 24/2015"`, artículos `"15"`, `"82"` y `"83"`).
 - **Competencia en licencias de tecnología** → `buscar_articulo` (`ley="Ley 15/2007"`, `articulo="1"`) y el reglamento de exención de la Unión vigente para acuerdos de transferencia de tecnología: búscalo con `buscar_boe` (`consulta="acuerdos de transferencia de tecnología artículo 101 apartado 3"`) y lee sus artículos con `buscar_articulo` usando el CELEX que devuelva (en septiembre de 2026, el Reglamento (UE) 2026/877, `ley="32026R0877"`, artículos `"2"`, `"3"`, `"4"` y `"5"`; el anterior, 316/2014, expiró).
 - **Doctrina sobre alcance de la cesión, transformación, software de trabajadores y encargos, y licencias de marca** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; Audiencias con `base="AN"` y `tipo_organo="AP"`; agotamiento y licencias de software, `base="TJUE"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión). Si alguna parte es sociedad, `buscar_empresa_mercantil`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -38,6 +38,8 @@ En el documento, cita «artículo 43 del Real Decreto Legislativo 1/1996, de 12 
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -61,7 +63,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ **A quién defiende el abogado**: cedente o licenciante (autor persona física, empresa titular) o cesionario o licenciatario.
 2. ★ **Qué se transmite**: tipo de obra o creación; en software, programa fuente y objeto, documentación, versiones y componentes de terceros o de código abierto (con sus licencias); en marca, número, oficina (española o de la Unión), clases y productos o servicios; en know-how, descripción y soporte; en patente, número y estado.
@@ -150,6 +152,7 @@ Según `references/formato-y-entrega-contratos.md`, dos documentos:
    - EXPONEN: titularidad y cadena de derechos, finalidad de la explotación.
    - ESTIPULACIONES, en este orden: definiciones; objeto; cesión o licencia (derechos, modalidades, exclusividad, territorio, duración, sublicencia); derechos morales; remuneración y liquidaciones; entrega y aceptación; obligación de explotar; control de calidad; mejoras; garantías e indemnidad; confidencialidad; inscripción; duración y terminación; efectos de la terminación; cláusula penal si la hay; notificaciones; ley y tribunales o arbitraje; integridad.
    - Anexos: obras o programas (con versión); componentes de terceros y de código abierto con su licencia; registros de marca o patente; descripción del know-how; normas de uso de la marca; cesiones de los colaboradores.
+   - **Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, definiciones y objeto / cesión o licencia (derechos, modalidades, exclusividad, territorio, duración), derechos morales y remuneración / entrega y aceptación, obligación de explotar, control de calidad, mejoras, garantías e indemnidad, confidencialidad e inscripción / duración, terminación y sus efectos, cláusula penal, notificaciones, ley, fuero y firmas / anexos. La nota: apartado 11 del formato.
    - Si solo se pide la cláusula para otro contrato, entrégala en un Word propio con la nota.
 2. `nota-cesion-propiedad-intelectual-<parte-principal>-<AAAAMMDD>.docx`:
    - Régimen con los artículos leídos: qué protege al autor de forma irrenunciable (arts. 14, 47, 48 bis y 55 TRLPI) y qué es pactable.
@@ -166,6 +169,6 @@ Marcadores para lo que falte: `[NOMBRE Y APELLIDOS]`, `[DNI/NIE]`, `[DENOMINACI�
 - [ ] Cadena de titularidad documentada: autor, colaboradores y trabajadores con su cesión; lo que falta, listado en el resumen.
 - [ ] Derechos, modalidades, territorio y duración expresos (art. 43 TRLPI); ninguna renuncia a derechos morales; remuneración conforme al art. 46 o riesgo explicado.
 - [ ] Doctrina leída con `leer_sentencias` (párrafo de fundamentos) cuando es imprescindible; cada ECLI citado, leído o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el contrato y la nota; los artículos del reglamento de la Unión, comprobados solo con `buscar_articulo`.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los artículos del reglamento de la Unión, comprobados solo con `buscar_articulo`.
 - [ ] Definiciones únicas, porcentajes y plazos coherentes, marcadores en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas y cómo se resolvieron, documentos que faltan (cesiones de colaboradores, títulos de registro, licencias de código abierto), tabla de jurisprudencia, plazos (art. 47 y 48 bis si cede un autor) y próximo paso (firma e inscripción).

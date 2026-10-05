@@ -25,7 +25,7 @@ description: >-
 - **Motivos de impugnación** → `buscar_articulo` (`ley="LPAC"`, artículos `"35"`, `"47"`, `"48"` y `"119"`; `ley="LOEX"`, `articulo="20"`; y los artículos sustantivos de la autorización denegada, por ejemplo `ley="BOE-A-2024-24099"`, `"126"`, `"127"` y `"130"`).
 - **Suspensión en vía administrativa** → `buscar_articulo` (`ley="LPAC"`, `articulo="117"`; `ley="LOEX"`, `articulo="21"`; `ley="BOE-A-2024-24099"`, artículos `"24"` (salidas obligatorias) y `"235"`).
 - **Doctrina sobre el motivo del recurso** → `buscar_sentencias` (`base="AN"`, `jurisdiccion="CONTENCIOSO"`, `tipo_organo="TSJ"`, `provincia` del órgano) + `leer_sentencias` (`parrafos=3`, `terminos` del motivo); `base="TS"` para doctrina casacional.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo usarla
 
 - Resolución de la oficina de extranjería (denegación, inadmisión, archivo por desistimiento, extinción) cuyo pie indica recurso potestativo de reposición.
@@ -49,7 +51,7 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 ## Datos que hay que reunir antes de redactar
 
-Los datos con ★ son imprescindibles; si falta uno, pregúntalo antes de redactar.
+Los datos con ★ son imprescindibles: sácalos de la documentación aportada (paso 2 de `redaccion-rapida`) y, si falta alguno, pídelos todos a la vez en una única ronda de no más de cuatro preguntas.
 
 1. ★ **Resolución o requerimiento íntegro**, con el pie de recursos, número de expediente y órgano que lo dicta.
 2. ★ **Fecha de notificación** y forma (papel o electrónica, con la fecha de puesta a disposición y de acceso).
@@ -161,6 +163,8 @@ Cita las normas en el documento como indica el apartado 4 de `references/formato
 
 **Alegaciones en audiencia**: encabezamiento al órgano instructor; alegaciones numeradas; «SOLICITA» el archivo o la resolución favorable; documentos.
 
+**Reparto para la redacción rápida:** reposición o alzada: 01 encabezamiento, comparecencia, acto recurrido y hechos; 02 fundamentos procedimentales (acto recurrible, órgano, plazo, legitimación y representación); una sección por cada motivo de fondo con su doctrina; cierre con solicita, otrosí, firma y documentos. La contestación a requerimiento y las alegaciones en audiencia, de una o dos páginas, las redacta el director sin equipo.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió antes de empezar.
@@ -169,5 +173,5 @@ Cita las normas en el documento como indica el apartado 4 de `references/formato
 - [ ] Sentido del silencio afirmado solo si lo fija un artículo leído.
 - [ ] Cada artículo citado se leyó con `buscar_articulo` en esta conversación; cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`, y aplica el reglamento que corresponde.
 - [ ] Marcadores en los datos no facilitados; ningún dato del cliente en las consultas.
-- [ ] `verificar_escrito` pasado sobre el escrito completo.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas.
 - [ ] Resumen en el chat según el apartado 7 del formato: escrito y órgano, plazo y fecha límite con su precepto, documentos que faltan y riesgos (incluida la conveniencia de ir al contencioso), tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y próximo paso.

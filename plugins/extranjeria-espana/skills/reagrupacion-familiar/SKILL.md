@@ -25,7 +25,7 @@ description: >-
 - **Norma aplicable a solicitudes anteriores al 20/05/2025** → `leer_boe` (`identificador="BOE-A-2024-24099"`, disposición transitoria segunda del Real Decreto) y, si rige el reglamento anterior, `buscar_articulo` (`ley="Real Decreto 557/2011"`); también, para rebatir doctrina dictada con el reglamento anterior (por ejemplo, el pronóstico de mantenimiento de los medios), su artículo 54.
 - **Recursos contra la denegación** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículo 28; `ley="LOEX"`, artículo 27; `ley="LPAC"`, artículos 112, 121 a 124; `ley="LJCA"`, artículos 8, 10 y 46).
 - **Doctrina sobre los motivos de denegación** → `buscar_sentencias` (`consulta="reagrupación familiar ascendientes a cargo necesidad"`, `consulta="reagrupación familiar medios económicos minoración interés superior del menor"` o `consulta="visado reagrupación familiar denegación matrimonio fraude"`, `jurisdiccion="CONTENCIOSO"`, `base="AN"`; y `base="TS"` con `consulta="reagrupación familiar ascendientes a cargo"`) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Si citas una letra, escribe «la letra b) del artículo 61.2 del Real Decreto 1155/2024», no «artículo 61.2.b) del…»: con la letra pegada, `verificar_escrito` atribuye el artículo a otra norma del mismo párrafo. Por la misma razón, cuando un párrafo cite más de una norma, nombra la norma en cada cita («el artículo 76.1 del Real Decreto 1155/2024», no «el mismo artículo» ni «el artículo 76.1» a secas).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -62,7 +64,7 @@ excepcionales de la víctima de violencia de género o sexual es otra figura
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes mientras falte un dato imprescindible (★).
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Trámite: solicitud inicial, residencia independiente, renovación o recurso. Si es recurso:
    resolución íntegra, órgano (oficina de extranjería o consulado) y fecha de notificación.
@@ -244,6 +246,8 @@ y la tasa se obtienen en la sede oficial: no indiques modelos, códigos ni impor
    o `renovacion-reagrupacion-<apellido>-<AAAAMMDD>.docx`, con el supuesto del art. 69 o los
    requisitos del art. 71 como hechos numerados.
 
+**Reparto para la redacción rápida:** solicitud inicial: 01 comparecencia y hechos (con la tabla de recursos y el cálculo, que el director deja cerrados en `caso.md`); 02 fundamentos: familiar reagrupable, unidad familiar y recursos; 03 vivienda, seguro, escolarización, declaración responsable, solicita y documentos. Recurso: una sección por motivo de denegación, más encabezamiento y cierre. Residencia independiente o renovación (dos o tres páginas): tres secciones o, si son más breves, el director sin equipo.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -254,7 +258,7 @@ y la tasa se obtienen en la sede oficial: no indiques modelos, códigos ni impor
       con marcadores y aviso.
 - [ ] Cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; ningún hecho ni
       dato personal de otros pleitos.
-- [ ] `verificar_escrito` pasado sobre el texto completo y sus avisos corregidos.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y sus avisos corregidos.
 - [ ] Marcadores en los datos no facilitados; nada inventado.
 - [ ] Plazos con fecha inicial, precepto y fecha final: visado (art. 40.1.a), recurso o
       residencia independiente (art. 69).

@@ -25,7 +25,7 @@ description: >-
 - **Supresión de datos policiales** → `buscar_articulo` (`ley="Ley Orgánica 7/2021"`, artículos 6, 8, 11, 22, 23, 24 y 25; el art. 23.2 remite a los arts. 6 y 11) y, para el final judicial, `ley="LECrim"` (arts. 637 y 641) y `ley="CP"` (art. 131, prescripción del delito, que decide si el responsable puede conservar los datos de una causa sobreseída provisionalmente).
 - **Revocación de actos desfavorables y revisión** → `buscar_articulo` (`ley="LPAC"`, artículos 21, 106, 109 y 125; `ley="LJCA"`, artículo 46).
 - **Doctrina sobre antecedentes, rechazable Schengen y levantamiento** → `buscar_sentencias` (`consulta="antecedentes policiales denegación autorización residencia valoración"`, `base="TS"`, `jurisdiccion="CONTENCIOSO"`), (`consulta="rechazable Schengen descripción SIS denegación autorización residencia"`, `base="AN"`, `jurisdiccion="CONTENCIOSO"`) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Cuando el precepto lleve letra, ordinal o «bis», escribe «la letra a) del artículo 53.1 de la Ley Orgánica 4/2000» o «el número 1.º del artículo 641 de la Ley de Enjuiciamiento Criminal», y pon la norma en cada cita: con «53.1.a)» o «641.1.º», o sin norma detrás, el verificador no la identifica o la atribuye a la norma citada antes. El verificador no reconoce las normas de la Unión (Directiva 2008/115/CE, Reglamentos (UE) 2018/1860 y 2018/1861): atribuye sus artículos a otra norma del escrito. Si se leyeron con `buscar_articulo` en su norma, la cita es correcta; explícalo en el resumen.
 
@@ -39,6 +39,8 @@ Comprueba siempre que el título de la norma que devuelve `buscar_articulo` es e
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -67,7 +69,7 @@ No la uses para:
 7. **Vínculos y cambio de circunstancias**: familia en España y su situación, trabajo ofrecido, tiempo transcurrido, razones humanitarias.
 8. **Régimen del cliente**: si es ciudadano de la Unión o familiar sujeto al Real Decreto 240/2007 (apóyate en `ciudadanos-ue-y-familiares`), o familiar de persona con nacionalidad española (arts. 93 a 99 del Reglamento; `familiares-de-espanoles`): cambia la norma aplicable.
 
-Sin los datos 1 a 3 no se redacta: pregúntalos. Lo que falte va con marcador (`[FECHA DE SALIDA]`, `[NÚMERO DE EXPEDIENTE DE EXPULSIÓN]`, `[ESTADO QUE INTRODUJO LA DESCRIPCIÓN]`).
+Sin los datos 1 a 3 no se redacta: si faltan tras leer la documentación, pídelos todos a la vez en una única ronda (paso 2 de `redaccion-rapida`). Lo que falte va con marcador (`[FECHA DE SALIDA]`, `[NÚMERO DE EXPEDIENTE DE EXPULSIÓN]`, `[ESTADO QUE INTRODUJO LA DESCRIPCIÓN]`).
 
 ## Requisitos y comprobaciones
 
@@ -159,6 +161,8 @@ Formato según `references/formato-y-organos.md` del plugin; ante la Administrac
    - **Solicitud de supresión de datos policiales** al responsable del tratamiento (art. 23 de la Ley Orgánica 7/2021), con el testimonio del final judicial. `solicitud-supresion-datos-policiales-<apellido>-<AAAAMMDD>.docx`.
    - **Solicitud de acceso y, en su caso, supresión de la descripción en el SIS** (arts. 53 y 54 del Reglamento (UE) 2018/1861). `solicitud-acceso-sis-<apellido>-<AAAAMMDD>.docx`.
 
+**Reparto para la redacción rápida:** solicitud de revocación: 01 encabezamiento, comparecencia y hechos; 02 fundamentos (la vía elegida con su precepto y las subsidiarias, con doctrina); 03 efectos en el SIS, solicita y documentos. Los documentos del punto 2 (cancelación de antecedentes, supresión de datos policiales, acceso al SIS) son de una o dos páginas: el director los redacta sin equipo, cada uno en su archivo.
+
 No indiques modelos oficiales, tasas, códigos ni direcciones de presentación: di que se comprueben en la sede electrónica oficial del órgano.
 
 En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024» y el resto de normas como indica el apartado 4 de `references/formato-y-organos.md` (por ejemplo, «Ley Orgánica 4/2000», no «Reglamento de Extranjería»), para que `verificar_escrito` las reconozca.
@@ -170,6 +174,6 @@ En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024�
 - [ ] Cada artículo citado se leyó con `buscar_articulo` en esta conversación; ningún inciso declarado inconstitucional o anulado se cita como vigente; ninguna disposición adicional se cita sin texto devuelto por el conector.
 - [ ] Fecha de vencimiento de la prohibición y de prescripción de la sanción calculadas con su precepto y la fecha de salida.
 - [ ] Cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; solo doctrina, sin datos de las partes de otros pleitos.
-- [ ] `verificar_escrito` pasado sobre cada documento y avisos resueltos.
+- [ ] `verificar_escrito` pasado sobre las frases con normas de cada documento y avisos resueltos.
 - [ ] Marcadores en los datos que faltan; ningún órgano, dirección, tasa ni modelo inventado.
 - [ ] Resumen para el abogado según el apartado 7 del formato: documentos preparados y órgano de cada uno, plazos con su precepto (recurso pendiente, plazo para resolver), obstáculos que quedan (SIS de otro Estado, antecedentes en el extranjero, silencio no determinado), tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y próximo paso (presentar la revocación antes de pedir el visado o la autorización).

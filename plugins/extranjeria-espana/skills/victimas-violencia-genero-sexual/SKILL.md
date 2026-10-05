@@ -26,7 +26,7 @@ description: >-
 - **Órgano, representación, modificación y residencia independiente de la reagrupada** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"193"`, `"197"`, `"191"` y `"69"`) y `buscar_articulo` (`ley="LOEX"`, `articulo="19"`).
 - **Expediente sancionador abierto (escrito B)** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"218"` y `"226"`): quién ordena la incoación y qué debe decir el acuerdo de iniciación (instructor y órgano que resuelve, art. 226.1.c y d).
 - **Doctrina (antecedentes penales, sobreseimiento, provisional, medidas cautelares)** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"` o `base="AN"`; fechas en formato `dd/mm/aaaa`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Detector (léelo con `buscar_articulo` antes de decirlo y no redactes esta solic
 
 ## Protección y confidencialidad
 
-- Pregunta antes de nada si la víctima tiene medidas de protección que impidan revelar su domicilio. Por defecto, designa el domicilio del despacho a efectos de notificaciones y escribe el domicilio real solo si el abogado lo confirma.
+- Comprueba antes de nada, en la documentación o en la única ronda de preguntas (paso 2 de `redaccion-rapida`), si la víctima tiene medidas de protección que impidan revelar su domicilio. Por defecto, designa el domicilio del despacho a efectos de notificaciones y escribe el domicilio real solo si el abogado lo confirma.
 - El escrito acredita la condición de víctima con el título (orden de protección, informe fiscal, resolución judicial o título administrativo) y no necesita relatar la violencia. No transcribas el atestado, las lesiones ni detalles íntimos; no incluyas datos del agresor más allá de lo que identifica el procedimiento penal.
 - La tarjeta que se expida no refleja la condición de víctima ni el carácter provisional (arts. 135.4 y 139.4): díselo a la clienta.
 - Datos de hijos: los imprescindibles para su autorización (identidad, filiación, presencia en España al denunciar).
@@ -67,7 +69,7 @@ Detector (léelo con `buscar_articulo` antes de decirlo y no redactes esta solic
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato imprescindible (★), pídelo y espera.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★), pídelos todos a la vez en una única ronda de no más de cuatro preguntas y espera; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Tipo de violencia (género o sexual) y **título que la acredita**: orden de protección (fecha y órgano), informe del Ministerio Fiscal, resolución judicial con indicios (violencia sexual), o título administrativo de los servicios sociales o especializados (LO 1/2004 art. 23; LO 10/2022 art. 37).
 2. ★ Estado del proceso penal: órgano y número (solo para el expediente, no para las búsquedas), fase, y si hay sentencia o auto que lo termine: tipo (condena, absolución, archivo por paradero desconocido, sobreseimiento provisional por expulsión del denunciado, otro) y **fecha de notificación** a la víctima.
@@ -159,6 +161,8 @@ Estructura de A y C:
 
 Estructura de B: encabezamiento al instructor que designa el acuerdo de iniciación (`[NÚMERO DE EXPEDIENTE]`; art. 226.1.c), con copia al órgano competente para resolver que figure en ese acuerdo (art. 226.1.d); hechos (expediente y su fecha, fecha de la denuncia —de ella depende que proceda «suspender» el incoado antes o «no incoar»—, título y fecha de solicitud de la autorización); fundamentos (LOEX art. 31 bis.2; arts. 133.2 o 137.3; deber de información de los arts. 133.3 o 137.4 si no se cumplió); solicita la suspensión inmediata hasta el final del proceso penal; documentos. Si ya hay orden de expulsión, pide la suspensión de su ejecución (mismo art. 31 bis.2).
 
+**Reparto para la redacción rápida:** A y C: 01 encabezamiento, comparecencia y hechos (sin relato de la violencia); 02 fundamentos: derecho a la autorización, título habilitante y autorización provisional; 03 familiares, suspensión del sancionador, doctrina, efectos, solicita, otrosíes, firma y relación de documentos. B (suspensión), de una o dos páginas: el director sin equipo.
+
 Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la LOEX como «artículo N de la Ley Orgánica 4/2000» (formato, apartado 4); nunca «del Reglamento de Extranjería» ni «del Reglamento aprobado por el Real Decreto…», que `verificar_escrito` no identifica. `verificar_escrito` tampoco enlaza la norma cuando el artículo lleva «bis» con apartado o una letra («artículo 31 bis.3 de la Ley Orgánica 4/2000», «artículo 135.1.c) del Real Decreto 1155/2024»): los atribuye a la norma citada antes. Escríbelos así: «apartado 3 del artículo 31 bis de la Ley Orgánica 4/2000», «letra c) del artículo 135.1 del Real Decreto 1155/2024», «letra a) del artículo 53.1 de la Ley Orgánica 4/2000»; y nombra la norma en cada remisión, también en las breves.
 
 ## Comprobación final
@@ -168,7 +172,7 @@ Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la 
 - [ ] Detector pasado; si encaja otra figura, se ha dicho al abogado.
 - [ ] Plazo de seis meses (si aplica) calculado con fecha de notificación y precepto; si no consta la fecha, pedida y sin plazo inventado.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
 - [ ] Confidencialidad revisada: sin relato de la violencia, sin domicilio real si no está autorizado, sin datos del agresor innecesarios; marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[DOMICILIO]`, `[NÚMERO DE EXPEDIENTE]`) en lugar de datos inventados.
 - [ ] Sin importes de tasa ni códigos de modelo.
 - [ ] Resumen para el abogado según el apartado 7 del formato: órgano; fechas y plazos con su precepto (tarjeta en un mes desde la concesión o desde la notificación, según el tipo de violencia; seis meses tras la sentencia; veinte días para la concesión); documentos que faltan y riesgos (antecedentes, tipo de sobreseimiento, familiares fuera de España); tabla de jurisprudencia; próximo paso.

@@ -25,7 +25,7 @@ description: >-
 - **Antiguo solicitante de protección internacional (fecha de firmeza de la denegación)** → `buscar_articulo` (`ley="Ley 12/2009"`, `articulo="29"`), (`ley="LPAC"`, artículos `"30"` y `"124"`) y (`ley="LJCA"`, artículos `"46"` y `"128"`).
 - **Doctrina sobre permanencia, antecedentes, vínculos, medios e informe de integración** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"` para TSJ y juzgados, `base="TS"` para el Supremo) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **¿Se ha reformado el artículo?** → no uses `buscar_boe` para esto (con «Real Decreto 1155/2024» y fecha desde no devuelve ninguna reforma): lee la línea «redacción vigente dada por…» y las notas «Téngase en cuenta…» que devuelve `buscar_articulo` en cada artículo.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` (dónde está cada figura) y `references/formato-y-organos.md` (Word, destinatario, citas, datos, plazos y resumen). Léelas antes de redactar.
 
@@ -69,7 +71,7 @@ Antes de seguir, pasa este **detector**. Si encaja otra figura, dilo al abogado 
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Nacionalidad, pasaporte en vigor (fecha de caducidad) y provincia donde reside de forma efectiva (determina la oficina competente, art. 193.2).
 2. ★ Fecha de entrada en España y pruebas de permanencia de **cada tramo** de los dos años anteriores a la fecha prevista de presentación: padrón histórico, asistencia sanitaria, envíos de dinero, cursos, abonos de transporte, informes de servicios sociales, pasaporte con sellos. Pregunta por cualquier salida de España y su duración.
@@ -171,6 +173,8 @@ Estructura:
 7. Lugar, fecha y firma.
 8. **RELACIÓN DE DOCUMENTOS**, numerada y en el orden de los hechos: impreso oficial; justificante de la tasa; pasaporte completo; prueba de permanencia por tramos; certificados de antecedentes (con la legalización o apostilla y traducción que pida la oficina según su hoja informativa); documentos del vínculo y título de residencia del familiar; prueba de medios; informe de integración o justificante de haberlo pedido; representación.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos procesales (marco legal, competencia y procedimiento); 03 permanencia continuada y situación administrativa (cómputo, firmeza si hubo asilo y doctrina); 04 antecedentes y orden público (cálculo del art. 136 CP y doctrina); 05 requisito específico del art. 127.c (vía familiar o de integración); 06 efectos de la concesión, solicita, otrosí, firma y relación de documentos.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -180,7 +184,7 @@ Estructura:
 - [ ] Cada condena, con su cálculo de cancelación del art. 136 CP (apartado 2 si hubo suspensión y remisión).
 - [ ] Cada requisito tiene su documento en la relación; lo que falta está marcado y listado en el resumen.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregido lo que señale.
 - [ ] Cada aviso de «posible disonancia de contenido» de `verificar_escrito` contrastado con el apartado exacto leído con `buscar_articulo` (el verificador compara con el título del artículo, p. ej. «Requisitos específicos» o «Procedimiento»): si el apartado dice lo que afirma el escrito, se mantiene la cita y se explica en el resumen; si no, se corrige.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[DOMICILIO]`, `[FECHA DE ENTRADA EN ESPAÑA]`, cuantía del IPREM confirmada por el abogado) en lugar de datos inventados.
 - [ ] Sin importes de tasa, códigos de modelo ni plazos de resolución no obtenidos del conector.

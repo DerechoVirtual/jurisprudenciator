@@ -17,7 +17,7 @@ description: >-
 - **Paso a residencia y trabajo** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"190"`, `"74"`, `"84"` y `"89"`).
 - **Visados de búsqueda de empleo y búsqueda tras los estudios** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"43"`, `"44"` y `"45"`) y `buscar_articulo` (`ley="Directiva (UE) 2016/801"`, `articulo="25"`); la orden ministerial anual y la disposición adicional decimoséptima de la Ley 14/2013 se buscan con `buscar_boe` y `leer_boe` (ver «Requisitos»).
 - **Doctrina sobre denegaciones de visado, medios, prórrogas y modificación** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"` para TSJ y juzgados, `base="TS"` para el Supremo) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Dos precauciones más para que el verificador no se equivoque: la letra va después de la norma («la letra a) del artículo 52.1 del Real Decreto 1155/2024» o «artículo 52.1 del Real Decreto 1155/2024, letra a)»), nunca pegada al número («artículo 52.1.a)» o «52.1 a) del…» dejan la norma sin identificar o la atribuyen a otra ley); y cada mención de un artículo lleva su norma, también en títulos de fundamentos (si no, la atribuye a la última ley citada). En una cita literal que nombre un artículo sin su norma, añádela entre corchetes.
 
@@ -29,6 +29,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -153,6 +155,8 @@ Nombre según el trámite: `solicitud-estancia-estudios-<apellido-cliente>-<AAAA
 6. OTROSÍ: que se haga constar la autorización provisional para trabajar a jornada completa (art. 190.7) o, en la prórroga, que se tenga por prorrogada la validez hasta resolver.
 7. Lugar, fecha, firma y RELACIÓN DE DOCUMENTOS numerada.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos: figura, vía y plazo de presentación; 03 fundamentos: requisitos del trámite con su doctrina, si la hay; 04 efectos pedidos, solicita, otrosí, firma y relación de documentos. Una prórroga sencilla (una o dos páginas) la redacta el director sin equipo.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado; si el caso dependía de la orden ministerial o de la disposición adicional de la Ley 14/2013 y no se obtuvieron, esa parte se detuvo y se explicó.
@@ -160,6 +164,6 @@ Nombre según el trámite: `solicitud-estancia-estudios-<apellido-cliente>-<AAAA
 - [ ] Antelación de dos meses comprobada; fecha límite de prórroga o modificación calculada con su precepto (en el art. 190, las dos fechas: desde la extinción y desde la titulación); fecha del silencio de la prórroga calculada.
 - [ ] Límite de horas y ámbito territorial del trabajo revisados.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregido lo que señale.
 - [ ] Marcadores para lo que falta; cuantía del IPREM confirmada por el abogado.
 - [ ] Resumen para el abogado según el apartado 7 del formato: trámite y órgano, plazos con fecha y precepto, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

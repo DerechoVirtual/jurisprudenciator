@@ -3,7 +3,7 @@ name: carta-despido-disciplinario
 description: >-
   Prepara para la empresa la carta de despido disciplinario (art. 55 ET), la comunicación de audiencia previa al
   trabajador que exige la doctrina de la Sala Cuarta sobre el artículo 7 del Convenio 158 de la OIT, el expediente
-  contradictorio o la audiencia a delegados sindicales cuando procedan, y una nota de riesgo con el cálculo de la
+  contradictorio o la audiencia a delegados sindicales cuando procedan, y, si la pides, una nota de riesgo con el cálculo de la
   indemnización si el despido se declarase improcedente. Úsala con «despedir a un trabajador por…», «carta de
   despido disciplinario», «transgresión de la buena fe», «faltas de asistencia», «audiencia previa al despido».
   También revisa, para el trabajador, una carta recibida y señala por qué no aguanta. Para sancionar sin despedir,
@@ -24,7 +24,7 @@ description: >-
 - **Plazo del trabajador y tramitación** → `buscar_articulo` (`ley="ET"`, `articulo="59"`) y (`ley="LRJS"`, artículos `"103"` y `"43"`).
 - **Convenio aplicable y sus artículos** → `buscar_convenio` (`consulta` con el nombre del sector tal como lo usa el registro y `territorio` = provincia del centro) + `leer_convenio` (`buscar_en="faltas"`, `buscar_en="despido"` y `buscar_en="audiencia"` para localizar los artículos; después `articulo="N"` para leerlos enteros; si el provincial remite el régimen disciplinario a un acuerdo o convenio estatal, léelo en el estatal). Después, `vigencia_convenio` de cada convenio que uses: **`leer_convenio` devuelve el texto publicado originalmente, no las modificaciones posteriores**. Si `vigencia_convenio` registra una modificación, un acuerdo parcial o un pronunciamiento de tribunal posterior a esa publicación y anterior a la decisión, búscalo en internet en el boletín oficial (BOE, boletín autonómico o BOP) y comprueba si cambia los artículos que aplicas; cítalo con su enlace (punto 3 de la puerta). Si no lo localizas, dilo en la nota.
 - **Empresa** → `buscar_empresa_mercantil` (denominación exacta y CIF para el membrete, si el abogado no los da).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). El conector no devuelve el texto del Convenio 158 de la OIT: cítalo a través del párrafo literal de la sentencia del Supremo que lo transcribe o, si necesitas el texto del artículo, léelo en internet (instrumento de ratificación publicado en el BOE o la base oficial de la OIT) y cítalo con su enlace; nunca de memoria.
 
@@ -37,13 +37,15 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
 Primera pregunta: **¿a quién defiende el abogado?**
 
-- **Empresa** (uso principal): quiere despedir por un incumplimiento grave y culpable con una carta que aguante. Entregas la comunicación de audiencia previa, la carta y la nota de riesgo.
+- **Empresa** (uso principal): quiere despedir por un incumplimiento grave y culpable con una carta que aguante. Entregas la comunicación de audiencia previa y la carta, con el riesgo en el resumen (y la nota de riesgo, si la pides).
 - **Trabajador**: ha recibido una carta y quiere saber por qué no aguanta. Entregas una nota de revisión con los defectos (forma, audiencia, garantías, prescripción, nulidad) y el plazo de caducidad calculado; la papeleta y la demanda se hacen con `papeleta-conciliacion` y `redactar-demanda-despido`.
 
 | Situación | Skill que procede |
@@ -57,7 +59,7 @@ Primera pregunta: **¿a quién defiende el abogado?**
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado.
 2. ★ Hechos que se imputan: qué, cuándo (día y, si importa, hora), dónde, con qué consecuencias, y cómo se prueban (testigos, documentos, registros, informes de detective, cámaras). Si es una conducta repetida, el listado de episodios con fecha.
@@ -121,7 +123,7 @@ Lee con `leer_sentencias` (`parrafos=3` o `4`, `terminos` de la cuestión) solo 
 
 ## Cálculo de la indemnización si fuera improcedente
 
-Muéstralo en tabla en la nota (apartado 7 del formato), con cada operación visible:
+Muéstralo en tabla (en la nota si se entrega; si no, en el resumen; apartado 7 del formato), con cada operación visible:
 
 | Concepto | Dato | Fuente |
 |---|---|---|
@@ -144,7 +146,9 @@ Todo en Word según `references/formato-y-organos-laboral.md`.
 2. **Constancia de la audiencia** — acta de la reunión o diligencia de recepción de las alegaciones (o de que no se presentaron), con fecha y firmas.
 3. **Si procede**: comunicaciones del expediente contradictorio (interesado y representación) y de la audiencia a los delegados sindicales, con sus plazos.
 4. **Carta de despido** — `carta-despido-disciplinario-<apellido-trabajador>-<AAAAMMDD>.docx`: membrete (`[DENOMINACIÓN SOCIAL]`, `[CIF]`); destinatario (`[NOMBRE Y APELLIDOS]`, `[DNI/NIE]`); lugar y fecha; asunto; hechos numerados con fecha, lugar y conducta; referencia a la audiencia y a las alegaciones y por qué no desvirtúan los hechos; calificación (letra del art. 54.2 ET y artículo del convenio con su denominación y código); decisión de despido y **fecha de efectos**; puesta a disposición de la liquidación; firma; recibí o constancia ante testigos; copia a la representación si el convenio lo exige.
-5. **Nota de riesgo para el abogado** — `nota-despido-disciplinario-<empresa>-<AAAAMMDD>.docx`: calendario (conocimiento, fechas límite de prescripción, audiencia, entrega, efectos); comprobación de cada requisito formal con su artículo; garantías; riesgo de nulidad; valoración de la prueba; cálculo de la improcedencia en tabla; jurisprudencia literal (audiencia previa, suficiencia de la carta y la que sostenga la causa); plazo de caducidad del trabajador con fechas.
+5. **Nota de riesgo para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-despido-disciplinario-<empresa>-<AAAAMMDD>.docx`: calendario (conocimiento, fechas límite de prescripción, audiencia, entrega, efectos); comprobación de cada requisito formal con su artículo; garantías; riesgo de nulidad; valoración de la prueba; cálculo de la improcedencia en tabla; jurisprudencia literal (audiencia previa, suficiencia de la carta y la que sostenga la causa); plazo de caducidad del trabajador con fechas.
+
+**Reparto para la redacción rápida:** la comunicación de audiencia previa, la constancia y la carta de despido son documentos cortos (1-3 páginas): cada uno en una sola sección, sin equipo. Si la carta lleva muchos hechos, dos secciones: encabezamiento y hechos / calificación, audiencia, efectos y firma.
 
 Para el trabajador, en lugar de 1-5: **nota de revisión** — `nota-revision-carta-despido-<apellido-trabajador>-<AAAAMMDD>.docx` con los defectos, su efecto (improcedencia o nulidad), la jurisprudencia literal, el cálculo y el plazo.
 
@@ -158,6 +162,6 @@ Para el trabajador, en lugar de 1-5: **nota de revisión** — `nota-revision-ca
 - [ ] Convenio identificado, tipo de falta y requisitos formales leídos con `leer_convenio`, vigencia comprobada y modificaciones posteriores al texto leído localizadas en el boletín oficial (o señaladas como pendientes en la nota).
 - [ ] Carta con hechos concretos y fechados, calificación, fecha de efectos y recibí; sin jurisprudencia.
 - [ ] Cálculo de la improcedencia en tabla con salario real y antigüedad; tramo anterior al 12/02/2012 con la disposición transitoria undécima leída (BOE en internet, con enlace) y, si hay reducción de jornada por cuidado, salario sin reducir (disposición adicional decimonovena).
-- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; `verificar_escrito` pasado sobre cada documento y los artículos del convenio contrastados con `leer_convenio`.
+- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y los artículos del convenio contrastados con `leer_convenio`.
 - [ ] Marcadores en vez de datos inventados.
 - [ ] Resumen para el abogado según el apartado 9 del formato, con el calendario y el riesgo.

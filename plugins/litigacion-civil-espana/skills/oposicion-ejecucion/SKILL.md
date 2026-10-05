@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Marco normativo de referencia — LO 1/2025
 
 - La **Ley Orgánica 1/2025, de 2 de enero**, de medidas en materia de eficiencia del Servicio Público de Justicia (en vigor el **3 de abril de 2025**), reformó la Ley de Enjuiciamiento Civil.
@@ -52,7 +54,7 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 ### 1. Calificación del título y del cauce de oposición
 
-Vía `AskUserQuestion`, lo primero es identificar **qué título** se ejecuta, porque de ello dependen los motivos disponibles:
+Con el auto y la documentación aportada, lo primero es identificar **qué título** se ejecuta, porque de ello dependen los motivos disponibles (pregunta al abogado solo si no consta, en una única ronda):
 
 - ¿El título es **judicial, arbitral o acuerdo de mediación** (sentencia firme, auto de homologación, laudo, acta de mediación homologada)? → cauce de fondo del **art. 556**.
 - ¿El título es **no judicial ni arbitral** (escritura pública, póliza intervenida, letra-cheque-pagaré, certificación)? → cauce de fondo del **art. 557**.
@@ -97,7 +99,7 @@ Compatible con la oposición de fondo y disponible **para cualquier título**:
 
 ### 3. Estrategia defensiva
 
-Antes de redactar, definir:
+Antes de redactar, definir (se cierra en `caso.md` y en el plan, antes de lanzar al equipo):
 
 - **Cauce y motivo(s)** que se invocan, ordenados por fuerza (primero el que cierra la ejecución; subsidiariamente los de reducción).
 - **Prueba documental** que sostiene cada motivo (recibo de pago, documento de quita, escritura de transacción, contrato con la cláusula cuestionada, liquidación que evidencia la pluspetición).
@@ -126,7 +128,7 @@ Una idea jurídica → una sentencia → un bloque desarrollado y cerrado. Prohi
 
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-##### Ficha por sentencia (preparar antes de redactar)
+##### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 
 Para CADA cita, dejar lista esta ficha:
 - ECLI (ej. `ECLI:ES:TS:2023:1234`)
@@ -210,6 +212,8 @@ OTROSÍ DIGO SEGUNDO: [Si procede: solicitud de vista (art. 560 LEC), prueba doc
 o pericial sobre la liquidación, etc.]
 ```
 
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y hechos (despacho notificado, título y hechos que fundan la oposición); sección 2 = tempestividad, cauce procesal y efecto suspensivo; una sección por cada motivo de oposición de fondo (cada una con su jurisprudencia); sección final = costas, súplica, otrosíes, lugar, fecha, firmas y relación de documentos. Un escrito corto de oposición solo por defectos procesales puede ir en 3 secciones.
+
 #### Maquetación
 
 - Times New Roman 12
@@ -236,9 +240,9 @@ o pericial sobre la liquidación, etc.]
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-### 6. Pulido + verificación
+### 6. Estilo y verificación (dentro del método rápido)
 
-`estilo-escritos-judiciales` + verificación de ECLI/ROJ con `jurisprudenciator` (`buscar_por_cita`, si se citan STS). Si alguna sentencia no se valida, marcar `[REVISAR: ECLI no validado]` y NO entregar hasta sustituir o verificar manualmente.
+El estilo (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, no en una pasada posterior. Los ECLI/ROJ los comprueba el ensamblado (solo se admiten las sentencias que algún redactor leyó con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas. Si alguna sentencia no se valida, el ensamblado da error: sustitúyela por una de las leídas o retírala, y NO entregues hasta que se resuelva.
 
 ## Salida
 

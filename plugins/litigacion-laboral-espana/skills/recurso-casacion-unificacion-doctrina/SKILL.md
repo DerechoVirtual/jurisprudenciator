@@ -14,7 +14,7 @@ description: >-
 - **Comparar hechos, fundamentos y pretensiones de la recurrida y de la de contraste** → `leer_sentencias` (texto íntegro, o `parrafos=3` con `terminos`) y `continuar_lectura` si la lectura queda a medias.
 - **Verificar cada sentencia de contraste antes de citarla** (ECLI o ROJ, órgano, fecha y número exactos) → `buscar_por_cita`; su firmeza a la fecha de fin del plazo de interposición se acredita además con certificación.
 - **Arts. 218-228 LRJS en su redacción vigente, con el interés casacional objetivo del art. 221.2.c) introducido por la LO 1/2025** → `buscar_articulo` (`ley="LRJS"`, `articulo="221"`).
-- **Revisión del escrito** → `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Marco normativo
 
@@ -45,7 +47,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Diligencia/providencia que tuvo por preparado el recurso.
 - Certificado de firmeza de la sentencia de contraste (documento habitual a aportar con el recurso).
 
-## Fase 2 — Batería de preguntas
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿En qué fase estamos? preparación (10 días) / interposición (15 días) — el contenido exigido es distinto.
 - Materia exacta sobre la que se alega contradicción (para poder localizar sentencias de contraste válidas).
@@ -63,9 +67,11 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 5. **SUPLICO**: que se admita el recurso, se case y anule la sentencia recurrida, y se resuelva el debate en los términos pedidos.
 6. **OTROSÍES**: designación de domicilio profesional a efectos de notificaciones (art. 221.1 LRJS, marcador genérico) y constancia de firmeza de la sentencia de contraste (art. 221.3 LRJS).
 
+**Reparto para la redacción rápida:** 01 encabezamiento, antecedentes y requisitos formales (preparación, emplazamiento, firmeza); una sección por cada punto de contradicción con su sentencia de contraste (relación precisa y circunstanciada: hechos, fundamentos, pretensiones y signo contradictorio de los fallos); una sección para la infracción legal y el quebranto en la unificación de doctrina (con el interés casacional objetivo); cierre (suplico y otrosíes). El escrito de preparación, breve, lo redacta el director sin equipo.
+
 ## Fase 4 — Verificación y entrega
 
-Verificación obligatoria y explícita de la firmeza y contenido exacto de la sentencia de contraste antes de entregar el escrito — sin esa verificación, el recurso es inadmisible. Pulir con `/estilo-escritos-judiciales`. Entregar en Word (.docx).
+Verificación obligatoria y explícita de la firmeza y del contenido exacto de la sentencia de contraste (`buscar_por_cita` y `leer_sentencias`), hecha en la preparación, antes de lanzar al equipo y de redactar la relación de contradicción — sin esa verificación, el recurso es inadmisible. El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, sin pasada posterior. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.
 
 ---
 

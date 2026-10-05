@@ -16,7 +16,7 @@ description: >-
 - **Casación admitida con identidad jurídica sustancial (art. 56.5)** → `buscar_sentencias` (`base="TS"`, `tipo_resolucion="AUTO"`).
 - **Ordenanza aplicada por el acto** → `buscar_ordenanzas` + `leer_ordenanza` con `articulo`.
 - **Materia tributaria** → `buscar_doctrina_teac` + `leer_resolucion_teac` (criterio del TEAC en la vía previa) y `buscar_consultas_hacienda` + `leer_consulta_hacienda`.
-- **Antes de presentar** → `verificar_escrito` sobre el borrador completo.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -103,6 +105,8 @@ la citación de vista o conclusiones**. Reserva esa carta.
    - **De fondo**, un fundamento por motivo, **del más fuerte al más débil**, encabezado con su
      tesis. Aplica `estilo-escritos-judiciales`: el porqué antes del qué.
 4. **SUPLICO** (§ 4) y **OTROSÍES** (§ 6).
+
+**Reparto para la redacción rápida:** encabezamiento y hechos con folio (dos secciones si pasan de 1.200 palabras) · fundamentos procesales (competencia, legitimación, plazo, procedimiento y cuantía) · una sección por motivo de fondo, del más fuerte al más débil · cierre con suplico del art. 31 y otrosíes (cuantía, prueba, vista o conclusiones, cautelar).
 
 ## 4. Motivos de fondo — nulidad, anulabilidad y desviación de poder
 
@@ -221,4 +225,4 @@ más caro del orden contencioso:**
   expediente contiene datos de terceros y, en sanitario, **datos de salud** (art. 9 RGPD, categoría
   especial): **nunca los reproduzcas**.
 - **Nada de MASC:** es del orden civil.
-- **Entregable:** Word `.docx` maquetado (skill `docx`). Aplica `estilo-escritos-judiciales`.
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`. Los redactores aplican `estilo-escritos-judiciales` al escribir.

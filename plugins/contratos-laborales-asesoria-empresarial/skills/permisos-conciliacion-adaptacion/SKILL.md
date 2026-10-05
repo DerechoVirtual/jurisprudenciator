@@ -27,7 +27,7 @@ description: >-
 - **Convenio: permisos mejorados, días naturales o laborables, criterios de concreción horaria, términos de la adaptación y preavisos** → `buscar_convenio` + `leer_convenio` (`buscar_en="permisos"`, `"licencias"`, `"reducción de jornada"`, `"conciliación"`) + `vigencia_convenio`; y el plan de igualdad si la empresa lo tiene.
 - **Doctrina sobre adaptación, concreción horaria, inicio de los permisos y discriminación** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; los TSJ con `base="AN"`, `tipo_organo="TSJ"` y `provincia` con la sede de la Sala; `base="TC"` para la dimensión constitucional) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Método para la demanda** → no hay guía propia del art. 139 LRJS en `guia_escrito` (una consulta por texto devuelve la de la papeleta de conciliación, que aquí no procede: el art. 64.1 LRJS exime de ella). Pide `guia_escrito` (`escrito="estilo-escritos-judiciales"`, `jurisdiccion="laboral"`) para el estilo y la estructura, y sigue el apartado «Documentos que se entregan» de esta skill; si se acumula la tutela, también `escrito="tutela-derechos-fundamentales"`. Las reglas comunes de las guías dicen que agosto es inhábil salvo en algunas modalidades sin nombrar la del art. 139: manda el art. 43.4 LRJS, que sí la incluye.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -39,6 +39,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -64,7 +66,7 @@ Pregunta primero **a quién defiende el abogado**. La empresa quiere responder e
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende y qué necesita (solicitud, respuesta, aplazamiento, demanda, política).
 2. ★ Derecho que se ejerce y sujeto causante: parentesco o convivencia, edad del menor, hecho (hospitalización, intervención, enfermedad grave, fallecimiento, nacimiento), fecha en que ocurrió y si fue en día laborable.
@@ -142,7 +144,7 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 
 1. Convocatoria y acta de la negociación del art. 34.8 (`carta-negociacion-adaptacion-<apellido-trabajador>-<AAAAMMDD>.docx`).
 2. Respuesta motivada (`carta-respuesta-conciliacion-<apellido-trabajador>-<AAAAMMDD>.docx`): solicitud recibida y fecha; negociación seguida; decisión (aceptación, propuesta alternativa concreta o negativa); razones objetivas con datos; duración y revisión; derecho de regreso; firma y recibí. Para el aplazamiento del permiso parental o la limitación del ejercicio simultáneo: justificación escrita y alternativa o plan alternativo.
-3. Nota para el abogado (`nota-conciliacion-<empresa>-<AAAAMMDD>.docx`): encuadre (permiso, reducción, concreción, adaptación, parental), plazos cumplidos, riesgos (presunción de concesión, nulidad de un despido posterior, discriminación, daños), artículos del ET y del convenio leídos y doctrina literal si existe.
+3. Nota para el abogado, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-conciliacion-<empresa>-<AAAAMMDD>.docx`: encuadre (permiso, reducción, concreción, adaptación, parental), plazos cumplidos, riesgos (presunción de concesión, nulidad de un despido posterior, discriminación, daños), artículos del ET y del convenio leídos y doctrina literal si existe.
 
 **Posición del trabajador:**
 
@@ -150,6 +152,8 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 2. Demanda del art. 139 LRJS (`demanda-conciliacion-<apellido-trabajador>-<AAAAMMDD>.docx`) al Tribunal de Instancia, Sección de lo Social: hechos (relación, jornada, necesidad, solicitud, negociación o su ausencia, respuesta y fecha); fundamentos (plazo; derecho y requisitos; razonabilidad y proporcionalidad; falta de negociación o de motivación; discriminación si procede, con citación del Ministerio Fiscal); súplica (reconocimiento del derecho en los términos pedidos o en la alternativa que se indique y daños y perjuicios cuantificados); otrosíes (prueba y, si procede, medidas cautelares).
 3. Nota de estrategia (`nota-conciliacion-<apellido-trabajador>-<AAAAMMDD>.docx`) con plazos (fecha inicial, precepto, fecha final, con los festivos del lugar del órgano comprobados en internet), cálculo de los daños con su base y la decisión sobre la cuantía: por debajo de 3.000 € la sentencia no admite suplicación (arts. 139.1.b y 191.2.f y g LRJS); no infles la indemnización para abrir el recurso.
 4. Si lo que se reclama es el **salario de un permiso descontado** (no la medida de conciliación), la carta a la empresa es la solicitud del punto 1 (con el precepto citado por su contenido) y la nota de estrategia deriva la papeleta y la demanda a `reclamacion-cantidad`; si la empresa sanciona la ausencia, a `sanciones-disciplinarias`.
+
+**Reparto para la redacción rápida:** la convocatoria, la respuesta motivada y la solicitud son cortas: una sección cada una, sin equipo. La demanda del art. 139 LRJS: hechos / fundamentos procesales y plazo / derecho, razonabilidad y falta de negociación o de motivación (y discriminación) / súplica con los daños cuantificados y otrosíes.
 
 ## Comprobación final
 
@@ -160,6 +164,6 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 - [ ] Convenio y plan de igualdad leídos con `leer_convenio` y vigencia comprobada cuando mejoran o concretan la ley.
 - [ ] Plazo con fecha de la comunicación empresarial, precepto y fecha final; en la empresa, los quince días de negociación contados.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`; ninguna jurisprudencia en solicitudes ni respuestas.
-- [ ] `verificar_escrito` pasado sobre cada documento; las dos letras g) del art. 37.3 citadas por su contenido; los avisos de «posible disonancia» contrastados con el apartado exacto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); las dos letras g) del art. 37.3 citadas por su contenido; los avisos de «posible disonancia» contrastados con el apartado exacto leído.
 - [ ] Marcadores en lugar de datos no facilitados; ningún dato de salud del familiar más allá del necesario.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y ante qué órgano; plazo; daños y de dónde salen; riesgos y documentos que faltan; tabla de jurisprudencia; próximo paso.

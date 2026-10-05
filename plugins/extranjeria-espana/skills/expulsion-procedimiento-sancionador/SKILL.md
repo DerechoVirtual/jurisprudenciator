@@ -26,7 +26,7 @@ description: >-
 - **Derecho de la Unión** → `buscar_articulo` (`ley="Directiva 2008/115/CE"`, artículos 5, 6, 7 y 11; `ley="Directiva 2003/109/CE"`, artículo 12 si es residente de larga duración).
 - **Doctrina sobre multa o expulsión y circunstancias agravantes** → `buscar_sentencias` (`consulta="estancia irregular expulsión multa circunstancias agravantes"`, `base="TS"`, `jurisdiccion="CONTENCIOSO"`, `fecha_desde="01/01/2023"`) + `leer_sentencias` (`parrafos=3`, `terminos="multa expulsión agravantes proporcionalidad"`).
 - **Doctrina sobre expulsión por condena y residentes de larga duración** → `buscar_sentencias` (`consulta="expulsión residente de larga duración 57.2 amenaza real ponderación"`, `base="TS"`, `jurisdiccion="CONTENCIOSO"`) y el TSJ del territorio con `base="AN"`, `jurisdiccion="CONTENCIOSO"` y `provincia`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Cuando el precepto lleve letra o «bis», escribe «la letra a) del artículo 53.1 de la Ley Orgánica 4/2000» o «el apartado 2 del artículo 63 bis de la Ley Orgánica 4/2000», y pon la norma en cada cita: con «53.1.a)» o «63 bis.2», o sin norma detrás, el verificador no la identifica o la atribuye a la norma citada antes. El verificador no reconoce las Directivas: atribuye sus artículos a otra norma del escrito; si el artículo se leyó con `buscar_articulo` en su Directiva, la cita es correcta y no se cambia.
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -56,7 +58,7 @@ No la uses para:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Los marcados como imprescindibles detienen la redacción si faltan.
+Sácalos de la documentación aportada (paso 2 de `redaccion-rapida`). Los marcados como imprescindibles detienen la redacción si faltan: pídelos todos a la vez en una única ronda de no más de cuatro preguntas.
 
 1. **Documento notificado** (acuerdo de iniciación, propuesta o resolución), íntegro. Imprescindible.
 2. **Fecha y hora de la notificación** y cómo se hizo (en mano, sede electrónica, a través del letrado). Imprescindible: sin ella no se calcula el plazo.
@@ -69,7 +71,7 @@ Pregunta en este orden. Los marcados como imprescindibles detienen la redacción
 9. **Pruebas disponibles**: documentos que el cliente puede aportar y los que hay que pedir a otras Administraciones.
 10. Opcional: capacidad económica (para graduar la multa), riesgos en el país de origen, preferencia del cliente si la expulsión es inevitable (salir voluntariamente o no).
 
-No redactes al primer disparo: si falta un dato imprescindible, pregúntalo. Para lo que el abogado no tenga, usa marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[NÚMERO DE EXPEDIENTE]`).
+Si falta un dato imprescindible, pídelo en esa única ronda. Para lo que el abogado no tenga, usa marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[NÚMERO DE EXPEDIENTE]`).
 
 ## Requisitos y comprobaciones
 
@@ -167,6 +169,9 @@ Consultas que debes lanzar según el caso (siempre `jurisdiccion="CONTENCIOSO"`;
   6. SOLICITA: principal (archivo por caducidad o prescripción, inexistencia de infracción o falta del presupuesto del art. 57.2; o, si la infracción no se discute, multa en lugar de expulsión) y subsidiarias en orden (multa en su cuantía mínima con arreglo a la capacidad económica; si hubiera expulsión, prohibición de entrada mínima, plazo de cumplimiento voluntario máximo y su prórroga; suspensión del art. 63.6 LOEX cuando proceda). Si el expediente es preferente sin causa, pide también que continúe por el ordinario.
   7. OTROSÍ: copia íntegra del expediente; en su caso, suspensión por solicitud previa de arraigo.
   8. Lugar, fecha y firma; relación numerada de documentos.
+
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia, objeto y hechos; 02 alegaciones de forma (caducidad, prescripción, modalidad, defectos del acuerdo); 03 alegaciones sobre hechos y circunstancias personales (arraigo, vínculos, protección); 04 alegaciones sobre la sanción (multa frente a expulsión, arts. 57.2 y 63.6 LOEX) y sobre la prohibición de entrada; 05 prueba, solicita, otrosí, firma y relación de documentos. Cada alegación de fondo lleva su propia doctrina.
+
 - En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024» y el resto de normas como indica el apartado 4 de `references/formato-y-organos.md` (por ejemplo, «Ley Orgánica 4/2000», no «Reglamento de Extranjería»), para que `verificar_escrito` las reconozca.
 - Nombre del archivo: `alegaciones-expulsion-<apellido-cliente>-<AAAAMMDD>.docx` (o `solicitud-caducidad-expulsion-…`).
 
@@ -178,7 +183,7 @@ Antes de entregar, comprueba y marca cada punto:
 - [ ] Cada artículo citado se leyó con `buscar_articulo` en esta conversación y el escrito dice lo que dice su texto vigente (Reglamento siempre con `ley="BOE-A-2024-24099"`).
 - [ ] Ninguna numeración del Reglamento anterior presentada como vigente.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; la cita es doctrina, no hechos ni datos de las partes de otro pleito.
-- [ ] `verificar_escrito` pasado sobre el texto completo y sus avisos resueltos.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y sus avisos resueltos.
 - [ ] Plazo del trámite con fecha y hora de notificación, precepto y fecha u hora final; fecha de caducidad calculada con el art. 224.
 - [ ] Marcadores en todos los datos que faltan; ningún dato inventado.
 - [ ] Súplica con principal y subsidiarias coherentes con las alegaciones.

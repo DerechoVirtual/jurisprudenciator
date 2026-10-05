@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Marco normativo de referencia — LO 1/2025
 
 La **Ley Orgánica 1/2025, de 2 de enero, de medidas en materia de eficiencia del Servicio Público de Justicia** (en vigor el 3 de abril de 2025) reformó la LEC. Para los actos preparatorios tener presente:
@@ -110,7 +112,7 @@ Para fundar la procedencia de la diligencia o del temor fundado con jurisprudenc
 
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-#### Ficha por sentencia (preparar antes de redactar)
+#### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 
 Para CADA cita, dejar lista esta ficha:
 - ECLI (ej. `ECLI:ES:TS:2023:1234`)
@@ -254,6 +256,8 @@ el temor fundado expuesto, dicte resolución por la que:
 [Lugar y fecha]
 [Firmas]
 ```
+
+**Reparto para la redacción rápida (en A y en B):** sección 1 = encabezamiento, comparecencia y hechos; sección 2 = fundamentos (en A: competencia, procedencia de la diligencia con su utilidad y pertinencia, caución, negativa y consecuencias; en B: competencia y procedimiento, temor fundado y, si procede, aseguramiento de la fuente), con la doctrina del TS que sostenga el punto; sección final = súplica, lugar, fecha y firmas. Si el escrito no pasa de 2 páginas y no cita jurisprudencia, redáctalo tú en un único archivo.
 
 ### Redacción y estilo discursivo (OBLIGATORIO)
 

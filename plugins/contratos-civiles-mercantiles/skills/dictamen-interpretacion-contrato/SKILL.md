@@ -25,7 +25,7 @@ description: >-
 - **Norma propia del contrato** (arrendamiento, agencia, sociedades…) → `buscar_articulo` con el valor de `ley` de las anclas.
 - **Doctrina de la Sala Primera** (interpretación, actos propios, rebus) → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; Audiencias con `base="AN"`, `tipo_organo="AP"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (cuando el análisis dependa de quién firmó o de los actos de sus administradores).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Si citas el art. 2 del Código de Comercio, `verificar_escrito` lo compara con el real decreto de promulgación y puede avisar de una disonancia falsa: compruébalo con `ley="Código de Comercio de 1885"` y explícalo en el resumen.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -61,7 +63,7 @@ Esta skill dictamina; no reclama ni modifica. Si el objetivo es otro, deriva:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato ★, pídelo: no se dictamina sobre un contrato que no se ha leído entero.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega. No se dictamina sobre un contrato que no se ha leído entero.
 
 1. ★ Texto íntegro del contrato firmado, con anexos, adendas y condiciones generales; si hay versiones, cuál se firmó y cuándo.
 2. ★ Cliente, su posición en el contrato y qué quiere conseguir con el dictamen.
@@ -136,6 +138,8 @@ Lee con `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión) solo lo que
 7. **VI. Conclusiones**: numeradas, una por cuestión, con su grado de solidez (alto, medio o bajo) y el motivo; sin porcentajes.
 8. **VII. Recomendación**: qué hacer (requerir, negociar, pactar una adenda, resistir, demandar), qué prueba conservar o reunir, y plazos con su precepto y fecha calculada (apartado 9 del formato).
 
+**Reparto para la redacción rápida:** sin rótulos que se numeren solos (escribe `## I. Antecedentes` y siguientes): cabecera, antecedentes, cuestiones y normas aplicables (I a III) / una sección por cuestión planteada, con su análisis (IV) y, al final, las resoluciones que lo sostienen con su párrafo literal (V, repartido así entre las cuestiones) / conclusiones y recomendación con sus plazos (VI y VII). La alteración de circunstancias, si se plantea, lleva sección propia con un subapartado por requisito.
+
 En el texto, nombra cada norma junto a cada artículo («artículo 1281 del Código Civil», «artículo 57 del Código de Comercio», «artículo 6 de la Ley 7/1998, de 13 de abril, sobre condiciones generales de la contratación»), para que `verificar_escrito` los enlace.
 
 ## Comprobación final
@@ -148,6 +152,6 @@ En el texto, nombra cada norma junto a cada artículo («artículo 1281 del Cód
 - [ ] En la rebus, cada requisito tratado con su prueba y comprobado con `buscar_boe` que no hay norma específica.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; ninguna conclusión discutible sin jurisprudencia.
 - [ ] Lo que no dio Jurisprudenciator y se obtuvo en internet, citado con enlace y fecha de consulta desde fuente oficial y señalado en el resumen; ninguna sentencia citada sin `buscar_por_cita` y `leer_sentencias`.
-- [ ] `verificar_escrito` pasado sobre el dictamen; los avisos de «posible disonancia» contrastados con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos de «posible disonancia» contrastados con el apartado leído.
 - [ ] Marcadores en lugar de datos no facilitados; sin nombres ni datos de las partes en las consultas.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha dictaminado, conclusiones y su solidez, riesgos, tabla de jurisprudencia, plazos y próximo paso.

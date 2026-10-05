@@ -26,7 +26,7 @@ description: >-
 - **Fuero, arbitraje y negociación previa** → `buscar_articulo` (`ley="LEC"`, artículos `"54"` y `"55"`; `ley="Ley 60/2003"`, `articulo="9"`; `ley="LO 1/2025"`, `articulo="5"`).
 - **Doctrina** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o se litigará en esa plaza; laboralidad con `jurisdiccion="SOCIAL"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, estado, administradores y apoderados vigentes; concurso o disolución).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Cita la morosidad como «artículo N de la Ley 3/2004, de 29 de diciembre», el autónomo como «artículo N de la Ley 20/2007, de 11 de julio, del Estatuto del trabajo autónomo» y la propiedad intelectual como «artículo N del Real Decreto Legislativo 1/1996, de 12 de abril, texto refundido de la Ley de Propiedad Intelectual» (con «Texto Refundido de la Ley de Propiedad Intelectual» a secas, el verificador atribuye el artículo al Código Civil). `verificar_escrito` no identifica el Reglamento (UE) 2016/679 (atribuye su artículo a la última norma española nombrada): comprueba el art. 28 con `buscar_articulo` e ignora ese veredicto.
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -61,7 +63,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado (cliente o prestador) y si el texto es un contrato negociado o condiciones que la otra parte aceptará sin negociar.
 2. ★ Partes: denominación o nombre, CIF o NIF, domicilio, firmante y poder. Si el prestador es persona física, pregunta además los datos del apartado 6.
@@ -165,6 +167,8 @@ Estructura del contrato:
 19. DECIMOCTAVA.- Integridad y modificaciones por escrito.
 20. Cierre, firmas y ANEXOS: I Servicios y entregables; II Niveles de servicio; III Honorarios e hitos; IV Encargo de tratamiento; V Plan de transición.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, definiciones, objeto y forma de prestación / niveles de servicio, honorarios y aceptación de entregables / personal y subcontratación, resultados, confidencialidad, datos, responsabilidad y seguros / duración y desistimiento, efectos de la terminación, fuerza mayor, cesión, notificaciones, ley, fuero y firmas / anexos I a V. Si el prestador es persona física con indicios de dependencia y ajenidad (rama «Qué se entrega en esta rama»), no hay contrato ni equipo: la nota la redactas tú. La nota: apartado 11 del formato.
+
 La nota sigue el apartado 3 del formato e incluye siempre un apartado «Calificación y riesgo de laboralidad» cuando el prestador sea persona física, con los hechos que lo sostienen o lo contradicen.
 
 ## Comprobación final
@@ -177,7 +181,7 @@ La nota sigue el apartado 3 del formato e incluye siempre un apartado «Califica
 - [ ] Penalizaciones con su relación con la indemnización resuelta; limitación de responsabilidad sin exclusión del dolo.
 - [ ] Cesión de resultados con derechos, modalidades, plazo y territorio expresos, o derivada a `licencia-cesion-propiedad-intelectual`; anexo de encargo si hay datos personales.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el contrato y la nota; el art. 28 del RGPD comprobado con `buscar_articulo` al margen del veredicto; cada «posible disonancia» contrastada con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); el art. 28 del RGPD comprobado con `buscar_articulo` al margen del veredicto; cada «posible disonancia» contrastada con el apartado leído.
 - [ ] Lo que no dio Jurisprudenciator y se obtuvo en internet, citado con enlace y fecha de consulta desde fuente oficial y señalado en el resumen; ninguna sentencia citada sin `buscar_por_cita` y `leer_sentencias`.
 - [ ] Sociedades comprobadas con `buscar_empresa_mercantil`; firmantes con cargo o poder vigentes, o dicho en la nota.
 - [ ] Marcadores en lugar de datos inventados; definiciones, importes, plazos y anexos coherentes.

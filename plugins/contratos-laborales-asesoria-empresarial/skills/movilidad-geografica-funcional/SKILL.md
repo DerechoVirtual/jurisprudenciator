@@ -24,7 +24,7 @@ description: >-
 - **Convenio: compensación por traslado, dietas, kilometraje, plus de distancia, grupos profesionales, periodos para reclamar la vacante y procedimiento de ascensos** → `buscar_convenio` + `leer_convenio` (`buscar_en="traslados"`, `"dietas"`, `"desplazamientos"`, `"clasificación profesional"`, `"ascensos"`) + `vigencia_convenio`.
 - **Doctrina sobre cambio de residencia, ius variandi, centros itinerantes, carácter colectivo del traslado (umbral y cómputo), dietas, funciones inferiores y ascenso** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; los TSJ con `base="AN"`, `tipo_organo="TSJ"` y `provincia` con la sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Método para la demanda** → `guia_escrito` (`escrito="demanda de movilidad geográfica"` o `escrito="demanda de reclamación de categoría o grupo profesional"`, `jurisdiccion="laboral"`). No hay guía específica de movilidad geográfica: la herramienta devuelve las reglas comunes del orden social, que dicen que hay que conciliar antes y que agosto es inhábil. En la demanda del art. 138 LRJS no rige ninguna de las dos (arts. 64.1 y 43.4 LRJS, leídos): prevalece esta skill, y también el formato del plugin (márgenes de 3 cm, hechos en ordinales «PRIMERO.-») y la puerta (nada de marcadores «[VERIFICAR]»).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -62,7 +64,7 @@ Otras derivaciones: si el trabajador quiere irse con la indemnización del despi
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende y qué necesita (carta, procedimiento colectivo, estrategia, demanda, carta de opción, reclamación de ascenso).
 2. ★ Centro de origen y de destino (localidad y distancia), domicilio del trabajador y si el cambio le obliga a mudarse; duración prevista; si el contrato preveía centros móviles o itinerantes.
@@ -136,7 +138,7 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 2. Carta de desplazamiento (`carta-desplazamiento-<apellido-trabajador>-<AAAAMMDD>.docx`): destino, causa, duración y fechas, salarios, gastos de viaje y dietas (convenio), antelación, permisos de cuatro días laborables por cada tres meses si supera ese plazo, y cómputo de desplazamientos de los tres últimos años.
 3. Comunicación de movilidad funcional (`carta-movilidad-funcional-<apellido-trabajador>-<AAAAMMDD>.docx`): funciones nuevas y grupo, razones técnicas u organizativas, duración imprescindible, retribución aplicable, y comunicación a los representantes.
 4. Traslado colectivo: comunicación de intención, inicio de consultas con memoria causal, actas, notificación a la autoridad laboral de la apertura y de las posiciones finales, y notificaciones individuales.
-5. Nota para el abogado (`nota-movilidad-<empresa>-<AAAAMMDD>.docx`): calificación de la medida, umbral en tabla, calendario, riesgos (nulidad, prioridad de permanencia, víctimas, conciliación), artículos del ET y del convenio leídos, doctrina literal si existe.
+5. Nota para el abogado, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-movilidad-<empresa>-<AAAAMMDD>.docx`: calificación de la medida, umbral en tabla, calendario, riesgos (nulidad, prioridad de permanencia, víctimas, conciliación), artículos del ET y del convenio leídos, doctrina literal si existe.
 
 **Posición del trabajador:**
 
@@ -144,6 +146,8 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 2. Demanda por el art. 138 LRJS contra traslado o desplazamiento (`demanda-movilidad-geografica-<apellido-trabajador>-<AAAAMMDD>.docx`), al Tribunal de Instancia, Sección de lo Social: hechos, fundamentos (plazo, calificación, procedimiento, causa, nulidad acumulando la tutela si procede y citando al Ministerio Fiscal), súplica de nulidad o injustificación con reincorporación y daños, otrosíes de prueba. Sin papeleta previa.
 3. Carta de opción por la extinción del art. 40.1 ET y cálculo: salario anual real, salario diario (anual / 365), antigüedad con prorrateo por meses, 20 días por año, tope de doce mensualidades y resultado, cada operación visible.
 4. Reclamación de ascenso o de categoría: solicitud del informe al comité o a los delegados; papeleta con `papeleta-conciliacion`; demanda del art. 137 LRJS (`demanda-categoria-<apellido-trabajador>-<AAAAMMDD>.docx`) con cuadro de días de funciones superiores y diferencias por mes (tabla salarial del año buscada en internet en el boletín oficial que indique `vigencia_convenio` y citada con su enlace, o aportada por el abogado; sin tabla no se calculan diferencias, apartado 3 de las anclas).
+
+**Reparto para la redacción rápida:** las cartas (traslado, desplazamiento, movilidad funcional, opción por extinguir) son cortas: una sección cada una, sin equipo. Las demandas de los arts. 138 y 137 LRJS: hechos / fundamentos procesales y plazo / calificación, causa y nulidad / súplica y otrosíes; la del art. 137 añade el cuadro de días y diferencias.
 
 ## Comprobación final
 
@@ -156,6 +160,6 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 - [ ] Plazo con fecha de notificación escrita, precepto y fecha final; agosto hábil en la impugnación del art. 138; fiestas nacionales, autonómicas y locales del año comprobadas en fuente oficial con su enlace.
 - [ ] Cálculo de la indemnización visible con el tope de doce mensualidades.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`; ninguna jurisprudencia en las cartas.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos de «posible disonancia» contrastados con el apartado exacto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); los avisos de «posible disonancia» contrastados con el apartado exacto leído.
 - [ ] Marcadores en lugar de datos no facilitados (`[CENTRO DE TRABAJO]`, `[CATEGORÍA/GRUPO PROFESIONAL]`, `[SALARIO BRUTO ANUAL]`).
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y ante qué órgano; plazo; cálculos; riesgos y documentos que faltan; tabla de jurisprudencia; próximo paso.

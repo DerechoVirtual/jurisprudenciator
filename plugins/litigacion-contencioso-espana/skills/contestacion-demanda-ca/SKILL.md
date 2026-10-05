@@ -14,7 +14,7 @@ description: Redacta la contestación a la demanda contencioso-administrativa y 
 - **Discrecionalidad técnica, irregularidad no invalidante y motivación de la sanción** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`).
 - **Casación admitida con identidad jurídica sustancial (art. 56.5)** → `buscar_sentencias` (`base="TS"`, `tipo_resolucion="AUTO"`, `consulta` con la cuestión) para localizar el auto de admisión.
 - **Recurrente persona jurídica (falta de acuerdo corporativo) o codemandado adjudicatario** → `buscar_empresa_mercantil` (órgano de administración, apoderados y últimos actos inscritos).
-- **Antes de presentar** → `verificar_escrito` sobre el borrador completo.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -99,7 +101,7 @@ aparece «coadyuvante» en un escrito o resolución, es terminología histórica
 > **Uso defensivo:** si el cliente **no fue emplazado** pese a ser interesado identificable en el
 > expediente, hay munición de **indefensión** (49.3 impone al LAJ ordenar la subsanación).
 > **Uso preventivo:** si **sí fue emplazado y dejó pasar los 9 días**, el daño puede ser irreversible.
-> **Primera pregunta a quien llega con un emplazamiento: ¿qué día lo recibió?**
+> **Primer dato a fijar con quien llega con un emplazamiento (en la documentación o, si no consta, en la única ronda de preguntas): ¿qué día lo recibió?**
 
 ---
 
@@ -226,6 +228,8 @@ Comprobarlo siempre: si la casación pendiente favorece al cliente, pedirla.
 7. **SUPLICO** y **OTROSÍES:** prueba con puntos de hecho; vista o conclusiones; **cuantía** si se
    discute (afecta a apelación y al tope de costas del 139.4); suspensión ex 56.5 si procede.
 
+**Reparto para la redacción rápida:** encabezamiento y respuesta ordinal a los hechos de la demanda, con los hechos propios (dos secciones si pasan de 1.200 palabras) · inadmisibilidades del art. 69 (una sección; solo las sólidas) · una sección por bloque de oposición de fondo, abriendo con la presunción de validez · cierre con suplico, costas y otrosíes.
+
 > **SUPLICO AL JUZGADO/A LA SALA** que, teniendo por presentado este escrito con sus documentos, se sirva
 > admitirlo, tener por **contestada la demanda** en tiempo y forma por **[CLIENTE]**, en su condición de
 > **[Administración demandada / parte codemandada ex art. 21.1.b) LJCA / aseguradora codemandada ex art.
@@ -255,4 +259,4 @@ Comprobarlo siempre: si la casación pendiente favorece al cliente, pedirla.
 - **Normativa autonómica y local:** el conector no la cubre (solo BOE estatal + ordenanzas de municipios
   cubiertos, vía `buscar_ordenanzas`). **Pedírsela al usuario**; no citarla de memoria.
 - **Nada de MASC:** es del orden **civil**; no existe aquí, ni como excepción oponible al recurrente.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

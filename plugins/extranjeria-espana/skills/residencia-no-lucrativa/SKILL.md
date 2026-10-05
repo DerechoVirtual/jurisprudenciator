@@ -25,7 +25,7 @@ description: >-
 - **Denegación del visado, motivación y recursos** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos 27 y 28; `ley="LOEX"`, artículo 27; `ley="LPAC"`, artículos 30, 68, 112, 118, 123 y 124; `ley="LJCA"`, artículos 8, 10 y 46).
 - **Doctrina sobre medios económicos, su origen y su fiabilidad** → `buscar_sentencias` (`consulta="visado residencia no lucrativa medios económicos origen fondos"`, `jurisdiccion="CONTENCIOSO"`, `base="AN"`, `anios=3`) + `leer_sentencias` (`parrafos=3`, `terminos` con el motivo).
 - **Doctrina sobre seguro de enfermedad, intención de no trabajar y motivación** → `buscar_sentencias` (`consulta="residencia no lucrativa seguro de enfermedad carencias copago"` o `consulta="visado residencia no lucrativa intención de trabajar"`, `jurisdiccion="CONTENCIOSO"`, `base="AN"`) y, para la suficiencia de medios, `base="TS"` con `consulta="suficiencia de medios económicos extranjería"`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Si citas una letra, escribe «la letra b) del artículo 61.2 del Real Decreto 1155/2024», no «artículo 61.2.b) del…»: con la letra pegada, `verificar_escrito` atribuye el artículo a otra norma del mismo párrafo. Por la misma razón, cuando un párrafo cite más de una norma, nombra la norma en cada cita («el artículo 76.1 del Real Decreto 1155/2024», no «el mismo artículo» ni «el artículo 76.1» a secas).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -63,7 +65,7 @@ No la uses, y dilo al abogado, cuando:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes mientras falte un dato imprescindible (★).
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Trámite: visado inicial, renovación o recurso. Si es recurso: resolución íntegra, órgano que
    la dictó, fecha de notificación y pie de recursos; si durante la tramitación hubo requerimientos
@@ -237,6 +239,8 @@ de solicitud y la tasa se obtienen en la sede oficial: no indiques modelos, cód
    notificación; hechos; un fundamento por motivo de denegación con doctrina y prueba; SOLICITA la
    revocación y la concesión; otrosí con los documentos nuevos.
 
+**Reparto para la redacción rápida:** visado inicial: 01 comparecencia y hechos (residencia, propósito y familiares); 02 medios económicos con las tablas de fuentes y de cálculo (que el director deja calculadas en `caso.md`); 03 seguro, antecedentes y certificado médico, fundamentos (arts. 38, 39, 61, 62 y 63), solicita, declaraciones responsables y documentos. Renovación: 01 hechos por cada letra del art. 64.2; 02 medios para dos años, solicita y documentos. Recurso: una sección por motivo de denegación.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -246,7 +250,7 @@ de solicitud y la tasa se obtienen en la sede oficial: no indiques modelos, cód
       norma, o lleva el marcador y el aviso.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; se citan
       fundamentos, no hechos ni datos de aquellas partes.
-- [ ] `verificar_escrito` pasado sobre el texto completo y sus avisos corregidos.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y sus avisos corregidos.
 - [ ] Marcadores en todos los datos no facilitados; ningún dato inventado.
 - [ ] Plazo con fecha inicial, precepto y fecha final (renovación o recurso).
 - [ ] Resumen para el abogado según el apartado 7 del formato: documento y órgano, plazo, riesgos

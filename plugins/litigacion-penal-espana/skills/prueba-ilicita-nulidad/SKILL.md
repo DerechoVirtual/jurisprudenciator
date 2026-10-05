@@ -15,7 +15,7 @@ description: Analiza y ataca la prueba obtenida con vulneración de derechos fun
 - **Conservación y acceso a datos de comunicaciones** → `buscar_sentencias` (`base="TJUE"`, consulta sobre la Directiva 2002/58/CE).
 - **Diligencias acordadas fuera del plazo de instrucción** → `buscar_articulo` (`ley="LECrim"`, `articulo="324"`).
 - **Resoluciones que invoque la acusación para salvar la prueba** → `buscar_por_cita`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 El eje de la defensa penal. Objetivo: identificar el **derecho fundamental afectado**, decidir si estamos ante **prueba ilícita** o ante **prueba irregular**, mapear las **pruebas derivadas** y alegarlo **en la audiencia preliminar del art. 785 LECrim** con **protesta** expresa.
 
@@ -166,6 +168,8 @@ Verificado (`buscar_articulo`, redacción Ley 2/2020, vigente desde 29-7-2020):
 
 ## 6. Método de trabajo
 
+Los pasos 1-6 son el análisis que fija el plan del escrito (pasos 2-3 de `redaccion-rapida`); la redacción de la alegación la hace el equipo.
+
 1. **Mapa de la vulneración.** Para cada prueba de cargo: derecho fundamental afectado → norma infringida → **folio** exacto de las actuaciones. Sin folio no hay alegación.
 2. **Clasificar**: ¿ilícita (art. 11.1 LOPJ) o irregular (arts. 238/240 LOPJ)? No mezclar. Alegar la principal y, **subsidiariamente**, la otra.
 3. **Verificar el texto vigente** de cada precepto con `buscar_articulo` **antes** de citarlo. Los arts. 588 bis/sexies **no son recuperables** con la herramienta: comprobarlos en el BOE. Lo no verificable → `[verificar]` **y decirlo**.
@@ -178,7 +182,7 @@ Verificado (`buscar_articulo`, redacción Ley 2/2020, vigente desde 29-7-2020):
 
 ## 7. Salida
 
-Dos entregables:
+El entregable es el escrito del § 7.2, en Word. El informe de viabilidad del § 7.1 se da como tabla en el resumen de la entrega, y solo como Word aparte si el abogado lo pide.
 
 ### 7.1 Informe de viabilidad de la nulidad
 | Campo | Contenido |
@@ -203,7 +207,9 @@ Dos entregables:
 - **⭐ OTROSÍ — PETICIÓN EXPRESA DE PROTESTA**: que, para el caso de desestimación, **se tenga por formulada la oportuna PROTESTA a los efectos del art. 785.3 LECrim**, y por reservada la reproducción de la cuestión en el recurso frente a la sentencia. **Nunca omitir este otrosí.**
 - Lugar, fecha y firma.
 
-**Entregable en Word `.docx`** maquetado para LexNET (skill `docx`). Estilo de la casa: `estilo-escritos-judiciales`.
+**Reparto para la redacción rápida:** las alegaciones llevan el rótulo `### [ALEGACION]`, que el ensamblador numera en femenino (PRIMERA.-, SEGUNDA.-…). 01 encabezamiento, cauce del 785.1 y alegación PRIMERA, vulneración del derecho fundamental con hecho, folio y norma (sus búsquedas del TC y del TS) · 02 alegación SEGUNDA, pruebas derivadas, nexo y límites que opondrá la acusación · 03 alegación subsidiaria de nulidad de actuaciones (238 y 240 LOPJ, con la indefensión material), suplico, otrosí de protesta del 785.3 (nunca se omite), lugar, fecha y firma.
+
+**Entregable en Word `.docx`** maquetado para LexNET (lo genera el ensamblado de `redaccion-rapida`). Los redactores aplican al escribir el estilo de la casa de `estilo-escritos-judiciales`.
 
 ---
 

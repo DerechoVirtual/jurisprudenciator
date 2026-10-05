@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 > ⚠️ Cuando el asunto es de incapacidad o contingencia, aplican los mismos avisos de datos de salud que `/incapacidad-permanente` y `/seguridad-social-contingencia`: no reproducir diagnósticos reales de terceros en ejemplos.
 
 ## Marco normativo
@@ -49,6 +51,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 1. Encabezamiento: Dirección Provincial del INSS/TGSS competente, identificación del reclamante (marcador genérico) y número de expediente.
 2. **FUNDAMENTOS**: numerados, exponiendo por qué la resolución no se ajusta a derecho (error en la valoración, incoherencia con resolución previa firme, incumplimiento de plazos por la Administración, etc.).
 3. **SOLICITA**: que se tenga por presentada la reclamación previa y se revoque la resolución en el sentido pedido.
+
+**Reparto para la redacción rápida:** documento breve: no necesita equipo; lo redacta el director en un único archivo de `secciones/`, con las consultas lanzadas en paralelo.
 
 ## Fase 3 — Entrega
 

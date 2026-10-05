@@ -24,7 +24,7 @@ description: >-
 - **Fuero, arbitraje y negociación previa** → `buscar_articulo` (`ley="LEC"`, artículos `"52"`, `"54"` y `"55"`; `ley="Ley 60/2003"`, artículos `"9"` y `"11"`; `ley="LO 1/2025"`, `articulo="5"`).
 - **Doctrina** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; `base="AN"`, `jurisdiccion="CIVIL"`, `tipo_organo="AP"` si el Supremo no ha tratado el punto) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, estado, administradores y apoderados vigentes de cada firmante; grupo al que pertenece).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Nombra las leyes con su fecha: «artículo 1 de la Ley 1/2019, de 20 de febrero, de Secretos Empresariales», «artículo 14 de la Ley 3/1991, de 10 de enero, de Competencia Desleal», «artículo 38 de la Ley 2/2023, de 20 de febrero». Si un párrafo de la nota mezcla cláusula penal y secretos, `verificar_escrito` puede avisar de una disonancia en el art. 1154 CC: contrástalo con el texto leído.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -58,7 +60,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato ★, pídelo antes de redactar.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: parte que revela, parte que recibe o ambas (mutuo).
 2. ★ Partes: denominación, CIF, domicilio y firmante con su cargo o poder; si la información se compartirá con sociedades del grupo, asesores o financiadores.
@@ -135,6 +137,8 @@ La cláusula penal y la no captación son cláusulas cuya validez discute la jur
    15. Ley aplicable y fuero o arbitraje.
    16. Acuerdo íntegro y modificaciones por escrito.
    Cierre y firmas según el formato. Cita en el contrato solo los artículos cuyo efecto dependa de nombrarlos (arts. 1152 y 1153 CC si la pena es cumulativa).
+
+   **Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, definiciones, objeto y obligaciones de la Parte Receptora / exclusiones, destinatarios, revelación exigida, ausencia de licencia, devolución y duración / no captación, datos, incumplimiento y cláusula penal, cesión, notificaciones, ley, fuero y firmas. La nota: apartado 11 del formato.
 2. `nota-confidencialidad-<parte-principal>-<AAAAMMDD>.docx` (apartado 3 del formato): régimen aplicable; cada cláusula crítica con su porqué y su base (pena, no captación, exclusiones, duración, fuero); medidas prácticas de protección que deben acompañar al acuerdo para que la información sea secreto empresarial; riesgos de competencia si las partes compiten; relevancia penal de la revelación; datos pendientes.
 
 ## Comprobación final
@@ -147,6 +151,6 @@ La cláusula penal y la no captación son cláusulas cuya validez discute la jur
 - [ ] Pena descrita con el incumplimiento concreto que la activa y su naturaleza (sustitutiva o cumulativa) expresa.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
 - [ ] Lo que no dio Jurisprudenciator y se obtuvo en internet, citado con enlace y fecha de consulta desde fuente oficial y señalado en el resumen; ninguna sentencia citada sin `buscar_por_cita` y `leer_sentencias`.
-- [ ] `verificar_escrito` pasado sobre el contrato y la nota; los avisos de «posible disonancia» contrastados con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos de «posible disonancia» contrastados con el apartado leído.
 - [ ] Marcadores (`[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[IMPORTE]`, `[N]`) en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas, datos pendientes y riesgos, tabla de jurisprudencia, plazos (prescripción de tres años de la Ley 1/2019 y de un año de la Ley 3/1991) y próximo paso.

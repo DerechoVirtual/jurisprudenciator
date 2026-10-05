@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ---
 
 Plazos y cifras: `references/anclas-normativas-ca.md`. Lo que no esté allí, verifícalo con
@@ -213,6 +215,8 @@ Motivos de construcción jurisprudencial o de la norma habilitante — **desarro
 7. **SUPLICO** y **OTROSÍES:** cautelar (⚠️ art. 129.2: aquí o en la demanda, o precluye); prueba;
    petición del **expediente de elaboración**.
 
+**Reparto para la redacción rápida:** encabezamiento, objeto, demandados y hechos con folio (una sección) · fundamentos procesales, con el art. 26.2 de entrada en el indirecto (una sección) · una sección por precepto atacado o por motivo (§ 5), con confrontación literal · cierre con suplico según el escenario del § 3 y otrosíes (cautelar del art. 129.2, prueba, expediente de elaboración).
+
 **Directo:**
 
 > **SUPLICO A LA SALA** que [...] tenga por interpuesto **recurso contencioso-administrativo directo**
@@ -244,4 +248,4 @@ Motivos de construcción jurisprudencial o de la norma habilitante — **desarro
   marca `[verificar]` y se dice.
 - **Normativa autonómica y local:** § 6. Pedírsela al usuario.
 - **Nada de MASC:** es del orden **civil**; no existe en esta jurisdicción.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

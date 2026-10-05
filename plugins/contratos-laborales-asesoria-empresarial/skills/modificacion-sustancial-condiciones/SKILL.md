@@ -24,7 +24,7 @@ description: >-
 - **Convenio aplicable, la condición que se quiere cambiar y los procedimientos que añada** → `buscar_convenio` + `leer_convenio` (`buscar_en="modificación sustancial"`, `"jornada"`, `"horario"`, `"turnos"` o el concepto salarial afectado; `articulo` concreto cuando lo conozcas) + `vigencia_convenio`.
 - **Doctrina sobre carácter sustancial, caducidad, modalidad procesal, rescisión y consultas** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; los TSJ con `base="AN"`, `tipo_organo="TSJ"` y `provincia` con la sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Método para la demanda o el conflicto colectivo** → `guia_escrito` (`escrito="demanda de modificación sustancial de condiciones de trabajo"` o `escrito="conflicto-colectivo"`, `jurisdiccion="laboral"`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -61,7 +63,7 @@ Pregunta primero **a quién defiende el abogado**. La empresa quiere una decisi�
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende y qué necesita (carta individual, procedimiento colectivo, estrategia, demanda, carta de rescisión).
 2. ★ Condición actual y condición nueva, con cifras: horario de entrada y salida, jornada, turnos, conceptos salariales y su importe, sistema de rendimiento. Origen de la condición actual: contrato, convenio estatutario (con su artículo), pacto colectivo no estatutario, decisión unilateral de efectos colectivos o práctica consolidada.
@@ -139,13 +141,15 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 
 1. Carta individual (`carta-modificacion-sustancial-<apellido-trabajador>-<AAAAMMDD>.docx`): membrete con `[DENOMINACIÓN SOCIAL]` y `[CIF]`; destinatario; asunto; condición actual y nueva en cifras; causa concreta con los datos y documentos que la acreditan y su conexión con la medida; carácter individual (y por qué no se alcanza el umbral); fecha de efectividad con al menos quince días de antelación; información en términos condicionales de las opciones legales («si considera que la modificación le perjudica…»), sin reconocer perjuicio ni ofrecer indemnización pactada salvo que la empresa lo decida; firma; recibí con fecha o constancia de la negativa ante testigos; copia a la representación legal.
 2. Procedimiento colectivo: comunicación de la intención de iniciar el procedimiento; comunicación de inicio del periodo de consultas con memoria de las causas y documentación; modelo de acta de cada reunión; notificación final a cada trabajador (con o sin acuerdo) con la fecha de efectos.
-3. Nota para el abogado (`nota-modificacion-sustancial-<empresa>-<AAAAMMDD>.docx`): calificación (sustancial, individual o colectiva, art. 41 u 82.3), cómputo del umbral en tabla, causa y prueba, calendario con fechas, riesgos de nulidad detectados, artículos del ET y del convenio leídos y doctrina literal si existe.
+3. Nota para el abogado, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-modificacion-sustancial-<empresa>-<AAAAMMDD>.docx`: calificación (sustancial, individual o colectiva, art. 41 u 82.3), cómputo del umbral en tabla, causa y prueba, calendario con fechas, riesgos de nulidad detectados, artículos del ET y del convenio leídos y doctrina literal si existe.
 
 **Posición del trabajador:**
 
 1. Nota de estrategia (`nota-modificacion-sustancial-<apellido-trabajador>-<AAAAMMDD>.docx`): calificación, defectos de procedimiento, causa, opciones en tabla con su plazo (fecha inicial, precepto, fecha final) y recomendación.
 2. Demanda por el art. 138 LRJS (`demanda-modificacion-sustancial-<apellido-trabajador>-<AAAAMMDD>.docx`), dirigida al Tribunal de Instancia, Sección de lo Social (apartado 3 del formato; competencia territorial del art. 10 LRJS): hechos (relación laboral, condición anterior, notificación y su fecha, medida, perjuicio, circunstancias protegidas); fundamentos (plazo; carácter sustancial; individual o colectiva y procedimiento incumplido; falta de causa; nulidad si procede, acumulando la tutela con el art. 184 LRJS y citando al Ministerio Fiscal); súplica (nulidad o, subsidiariamente, injustificación con reposición en las condiciones anteriores y daños y perjuicios); otrosíes de prueba, incluida la petición de informe de la Inspección del art. 138.3 LRJS si conviene. Sin papeleta previa (art. 64.1 LRJS). Si la vía es el procedimiento ordinario, dilo y usa `papeleta-conciliacion`.
 3. Carta de rescisión del art. 41.3 ET y hoja de cálculo de la indemnización: salario anual real, salario diario (anual / 365), antigüedad en años y meses (prorrateo por meses), 20 días por año, tope de nueve mensualidades y resultado, con cada operación visible (apartado 7 del formato).
+
+**Reparto para la redacción rápida:** las cartas (individual, de intención, de inicio de consultas, de rescisión) son cortas: una sección cada una, sin equipo. La demanda del art. 138 LRJS: hechos / fundamentos procesales y plazo / carácter sustancial, procedimiento y falta de causa (y nulidad con tutela) / súplica y otrosíes.
 
 ## Comprobación final
 
@@ -158,6 +162,6 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 - [ ] Plazo con fecha de notificación escrita, precepto y fecha final; agosto contado como hábil conforme al art. 43.4 LRJS.
 - [ ] Cálculo de la indemnización del art. 41.3 visible y con el tope de nueve mensualidades.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`; ninguna jurisprudencia en la carta.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos de «posible disonancia» contrastados con el apartado exacto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); los avisos de «posible disonancia» contrastados con el apartado exacto leído.
 - [ ] Marcadores en lugar de datos no facilitados.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, para quién y ante qué órgano; plazo; cálculos; riesgos y documentos que faltan; tabla de jurisprudencia; próximo paso.

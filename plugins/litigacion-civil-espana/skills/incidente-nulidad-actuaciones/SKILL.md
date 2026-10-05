@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo activar
 
 - "Incidente de nulidad de actuaciones", "nulidad de actuaciones"
@@ -165,6 +167,8 @@ vulnerado.
 OTROSÍ DIGO [si procede: suspensión de la ejecución de la resolución impugnada].
 OTROSÍ SEGUNDO DIGO [si procede: designación de domicilio / otros].
 ```
+
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y hechos (resolución impugnada y su firmeza, el defecto y el cómputo del plazo, por qué no pudo denunciarse antes); sección 2 = admisibilidad del incidente (carácter excepcional y subsidiario, firmeza, inexistencia de recurso, plazo); sección 3 = el derecho fundamental vulnerado, con la doctrina del TC y del TS; sección final = retroacción de actuaciones, suspensión si procede, súplica, otrosíes, lugar, fecha y firmas.
 
 ## Salida
 

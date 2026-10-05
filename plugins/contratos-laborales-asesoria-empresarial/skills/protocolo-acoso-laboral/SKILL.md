@@ -6,8 +6,8 @@ description: >-
   medidas cautelares, entrevistas, confidencialidad, informe y propuesta de sanción. Úsala cuando digan
   «protocolo de acoso», «nos han denunciado un acoso», «investigación interna», «comisión instructora»,
   «informe de conclusiones» o «protocolo LGTBI». Sirve a la empresa y al trabajador denunciante o denunciado
-  que quiere saber si el protocolo se ha cumplido. Entrega el protocolo en Word, el informe de instrucción
-  modelo si se pide y nota. Para el canal de la Ley 2/2023 usa canal-denuncias-informantes; para despedir al
+  que quiere saber si el protocolo se ha cumplido. Entrega el protocolo en Word y, si se piden, el informe de instrucción
+  modelo y una nota. Para el canal de la Ley 2/2023 usa canal-denuncias-informantes; para despedir al
   acosador, carta-despido-disciplinario; para demandar, tutela-derechos-fundamentales o
   extincion-contrato-trabajador.
 ---
@@ -26,7 +26,7 @@ description: >-
 - **Faltas, sanciones y procedimiento disciplinario del convenio** → `buscar_convenio` + `leer_convenio` (`buscar_en="acoso"` y `buscar_en="faltas muy graves"`) + `vigencia_convenio`. Si el convenio aplicable no regula faltas y sanciones, busca su artículo de prelación o remisión y lee el régimen disciplinario del acuerdo o convenio estatal del sector (con `leer_convenio` sobre su código). Si `vigencia_convenio` registra una modificación posterior al texto que devuelve `leer_convenio`, localízala con `novedades_boe` o `buscar_boe` (o en el boletín autonómico o provincial) y léela con `leer_boe`: los acuerdos sectoriales están añadiendo una audiencia previa al despido con forma y plazo propios y capítulos LGTBI que remiten al anexo II del Real Decreto 1026/2024.
 - **Doctrina sobre garantías de la investigación, audiencia previa, prescripción y responsabilidad de la empresa** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`; para aplicación de protocolos, `base="AN"`, `jurisdiccion="SOCIAL"`, `tipo_organo="TSJ"`) + `leer_sentencias` (`parrafos=3`).
 - **Convenio 190 de la OIT** (violencia y acoso, también de terceros): no lo devuelve el conector; léelo en internet en el instrumento publicado en el BOE (punto 3 de la puerta).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -62,7 +64,7 @@ Pregunta primero qué necesita y para quién:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 **Para el protocolo:**
 
@@ -149,9 +151,11 @@ Word maquetado según `references/formato-y-organos-laboral.md`.
 11. Difusión, vigencia, revisión y seguimiento; negociación o consulta con la representación y fecha.
 12. Anexos: formulario de denuncia, modelo de consentimiento del tercero, acta de entrevista, compromiso de confidencialidad.
 
+**Reparto para la redacción rápida:** tres secciones por bloques de apartados: 1-4 (principios, ámbito, definiciones y medidas preventivas) / 5-7 (órganos, garantías y procedimiento con sus plazos, incluido el autor ajeno a la empresa) / 8-12 (consecuencias, datos, relación con otras vías, difusión y anexos). El informe de instrucción modelo, una sola sección.
+
 **2. Informe de instrucción modelo**, si se pide — `informe-instruccion-acoso-<empresa>-<AAAAMMDD>.docx`: referencia del expediente, instructores y declaración de ausencia de conflicto; denuncia y fecha de conocimiento; medidas cautelares; diligencias con fecha (entrevistas, documentos); hechos que se consideran acreditados y no acreditados, cada uno con su prueba; valoración según las definiciones del protocolo; conclusión (indicios o no); propuesta (expediente disciplinario, medidas correctoras, archivo); fecha límite de prescripción calculada con el art. 60.2 ET. Con marcadores (`[PERSONA DENUNCIANTE]`, `[PERSONA DENUNCIADA]`, `[TESTIGO 1]`) y sin datos de salud innecesarios.
 
-**3. Nota para el abogado** — `nota-abogado-protocolo-acoso-<empresa>-<AAAAMMDD>.docx`: artículos leídos, convenio y artículos citados (y de dónde sale el régimen disciplinario si el convenio remite a otro), decisiones de diseño (instructor, cautelares, traslado de conclusiones, carácter vinculante del informe, terceros), doctrina con párrafo literal, riesgos y, en una denuncia concreta, calendario día a día hasta la fecha de prescripción (remisión al Responsable del Sistema, acuse, cautelares, informe, expediente contradictorio, audiencia previa, último día útil para notificar la sanción).
+**3. Nota para el abogado**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega) — `nota-abogado-protocolo-acoso-<empresa>-<AAAAMMDD>.docx`: artículos leídos, convenio y artículos citados (y de dónde sale el régimen disciplinario si el convenio remite a otro), decisiones de diseño (instructor, cautelares, traslado de conclusiones, carácter vinculante del informe, terceros), doctrina con párrafo literal, riesgos y, en una denuncia concreta, calendario día a día hasta la fecha de prescripción (remisión al Responsable del Sistema, acuse, cautelares, informe, expediente contradictorio, audiencia previa, último día útil para notificar la sanción).
 
 ## Comprobación final
 
@@ -161,7 +165,7 @@ Word maquetado según `references/formato-y-organos-laboral.md`.
 - [ ] Cada fase del procedimiento con plazo concreto y compatible con el art. 60.2 ET; en una denuncia concreta, fecha límite de prescripción calculada con fecha inicial y precepto (desde la recepción si no había protocolo), y comprobado si la denuncia llegó fuera del Sistema interno y si venció el acuse de recibo.
 - [ ] El protocolo prevé cómo actuar cuando el autor es un cliente, un proveedor o personal de una contrata o de una ETT.
 - [ ] Cada ECLI citado leído con `leer_sentencias` (fundamentos, sin hechos ajenos) o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y corregido lo que señale.
 - [ ] Marcadores en lugar de nombres, sin datos personales de víctimas ni testigos.
 - [ ] Lo obtenido en internet (convenios de la OIT, guías oficiales) citado con enlace y fecha de consulta y señalado en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y para quién, plazos con precepto, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

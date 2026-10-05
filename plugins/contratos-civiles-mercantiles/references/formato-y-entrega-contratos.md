@@ -15,6 +15,7 @@ se maqueta, cómo se justifica y cómo se cita.
 8. Cuándo es imprescindible la jurisprudencia
 9. Plazos
 10. Resumen para el abogado
+11. Redacción rápida: reparto, definiciones y nota
 
 ## 1. Entregables y nombres de archivo
 
@@ -177,3 +178,22 @@ Acompaña cada entrega con un resumen breve en el chat:
 3. Datos y documentos que faltan, y riesgos detectados.
 4. Tabla de jurisprudencia citada: ECLI · órgano · fecha · qué sostiene (si la hay).
 5. Plazos con su precepto, si los hay, y próximo paso recomendado.
+
+## 11. Redacción rápida: reparto, definiciones y nota
+
+Los documentos de este plugin se redactan con la skill `redaccion-rapida`. Lo propio de contratos y notas:
+
+- **Un redactor por bloque.** Cada skill indica cómo se reparte su documento. El plan (`caso.md`) lista las
+  estipulaciones en su orden final y los términos definidos (un término por concepto, apartado 2), para que cada
+  bloque remita a las demás por su número y use las mismas definiciones; el ensamblado numera solo, por orden de
+  archivo, los rótulos `### [ESTIPULACION]` (o `### [CLAUSULA]`). El nombre del Word es el del apartado 1.
+- **A cada redactor, lo suyo.** El encargo le indica el apartado de la skill que le toca (régimen jurídico y
+  cláusulas clave de su bloque). El texto del contrato no cita jurisprudencia (apartado 1): el redactor la lee solo
+  si la validez de su cláusula depende de ella (apartado 8) y la tiene en cuenta sin citarla.
+- **Datos que faltan.** Se escriben como `[PENDIENTE: …]` con el marcador del apartado 7 (por ejemplo,
+  `[PENDIENTE: DNI/NIE del comprador]`), para que el ensamblado los liste en la entrega.
+- **La nota para el abogado** (apartado 3) es un segundo Word con su propia mesa de trabajo (la orden `iniciar` de
+  `redaccion-rapida`, con tipo «nota»), que lanzas a la vez que la del contrato: una o dos secciones (régimen y
+  cláusulas críticas con su jurisprudencia / pendientes, riesgos y tributos). Sus redactores leen ellos mismos las
+  sentencias que citan, porque el ensamblado de la nota solo acepta los ECLI de sus propias fuentes.
+- Un documento de una o dos páginas (requerimiento, comunicación, carta de remisión) no necesita equipo.

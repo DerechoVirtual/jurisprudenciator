@@ -25,7 +25,7 @@ description: >-
 - **Garantía de conformidad de bienes y de contenidos o servicios digitales** → `buscar_articulo` (`ley="TRLGDCU"`, artículos `"114"`, `"115 bis"`, `"115 ter"`, del `"117"` al `"121"`, `"124"`, `"126"`, `"126 bis"` y `"127"`).
 - **Doctrina sobre incorporación, transparencia y abusividad** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; `base="TJUE"` para la Directiva 93/13; `base="AN"`, `jurisdiccion="CIVIL"`, `tipo_organo="AP"` si el Supremo no ha tratado el punto) + `leer_sentencias` (`parrafos=3`, `terminos` con la cláusula).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (el predisponente: denominación, domicilio y datos registrales que la web debe publicar).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). En los documentos, nombra las normas así (las reconoce `verificar_escrito`): «artículo 5 de la Ley 7/1998, de 13 de abril, sobre condiciones generales de la contratación», «artículo 80 del Real Decreto Legislativo 1/2007», «artículo 27 de la Ley 34/2002, de 11 de julio», «artículo 2 de la Ley 10/2025, de 26 de diciembre, por la que se regulan los servicios de atención a la clientela», «artículo 40 de la Ley 7/2017, de 2 de noviembre», «artículo 9 de la Ley 3/2004, de 29 de diciembre, por la que se establecen medidas de lucha contra la morosidad en las operaciones comerciales». Cada artículo con su norma: si enumeras artículos detrás de otra norma o escribes «apartado 2 del mismo artículo» después de nombrar otra ley, el verificador los atribuye a la última nombrada. El conector no devuelve el anexo I del Real Decreto Legislativo 1/2007 (modelos de información y de formulario de desistimiento): léelo en internet en el texto consolidado del BOE y cópialo literal con enlace y fecha de consulta, nunca de memoria (ver «Documentos que se entregan»).
 
@@ -38,11 +38,13 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
-Tiene dos modos. Pregunta cuál y a quién defiende el abogado:
+Tiene dos modos. Deduce cuál y a quién defiende el abogado de lo que pida y aporte (pregunta solo si no queda claro):
 
 - **Redactar**: condiciones generales de una tienda online, de un servicio (formación, software, mantenimiento, gimnasio) o de una suscripción; formulario de pedido; condicionado de un contrato de adhesión en papel. El cliente es el predisponente.
 - **Auditar**: condiciones ya publicadas o firmadas, del propio cliente (para corregirlas) o de un empresario frente al que el cliente es adherente (para saber qué cláusulas no le obligan).
@@ -62,7 +64,7 @@ Si encaja otra figura, dilo al abogado y deriva:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato ★, pídelo antes de redactar o de auditar.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar o de auditar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ Modo (redactar o auditar) y posición del cliente: predisponente o adherente.
 2. ★ Predisponente: denominación, CIF, domicilio, inscripción registral, correo y teléfono de contacto; si ejerce una profesión regulada, colegio, número y título (art. 10 de la Ley 34/2002).
@@ -163,9 +165,12 @@ Si para una cláusula de ponderación o de transparencia no aparece ninguna reso
    14. Ley aplicable y jurisdicción.
    - **Anexo**: modelo de formulario de desistimiento del anexo I, letra B, del Real Decreto Legislativo 1/2007, copiado literal del texto consolidado del BOE en internet (`https://www.boe.es/buscar/act.php?id=BOE-A-2007-20555`), con la fecha de consulta en la nota; si no lo obtienes, deja el marcador `[MODELO DE FORMULARIO DE DESISTIMIENTO — ANEXO I, LETRA B]` y dilo en el resumen.
    - Legibilidad: advierte en la nota que los mínimos del art. 80.1.b) se miden en el soporte final (pantalla, papel) y que el diseñador debe comprobarlos.
+   - **Reparto para la redacción rápida:** una sección por bloque de cláusulas (`### [CLAUSULA]`): identificación, objeto y proceso de contratación / productos, precio, pago y entrega / duración, baja, desistimiento y garantía / atención al cliente, responsabilidad, modificación, datos, ley y jurisdicción / anexo del formulario de desistimiento. La nota: apartado 11 del formato.
 2. `nota-condiciones-generales-<predisponente>-<AAAAMMDD>.docx` (apartado 3 del formato), con una lista de control del proceso de compra: condiciones accesibles y descargables antes de contratar, casilla no premarcada, información destacada y botón del art. 98.2, restricciones de entrega al inicio, confirmación en soporte duradero, formulario de desistimiento, y lo que la web debe publicar además (aviso legal del art. 10 Ley 34/2002 y política de privacidad).
 
 **Al auditar**: `revision-condiciones-generales-<predisponente>-<AAAAMMDD>.docx` con el semáforo del apartado 4 del formato. En «Motivo y base legal», di qué control falla (incorporación, transparencia, abusividad o norma imperativa) con su artículo y, si la cláusula es de ponderación o de transparencia, el párrafo literal de la resolución; si es de la lista de los arts. 85 a 90 o contraria a norma imperativa, el artículo y, si existe, la resolución. Después: información obligatoria que falta (arts. 60 y 97 TRLGDCU; arts. 10 y 27 Ley 34/2002), defectos del proceso de compra y conclusión. Si el cliente es el predisponente, añade las cláusulas corregidas en limpio; si es el adherente, los efectos (no incorporada o nula, se tiene por no puesta, subsistencia del contrato), las cantidades que puede recuperar o que no debe, calculadas con sus fechas, y el paso siguiente: reclamación al empresario (respuesta en quince días, art. 21.3 TRLGDCU, si es consumidor), negociación previa a la demanda (art. 5 de la Ley Orgánica 1/2025, `ley="LO 1/2025"`), `requerimiento-cumplimiento` para el escrito y el plugin de litigación civil para la demanda, con el tribunal competente (art. 52 LEC).
+
+**Reparto para la redacción rápida (auditoría):** como en `revision-contrato-semaforo`: una sección por bloque de cláusulas del texto auditado, cada una con su tabla `Cláusula | Riesgo | Motivo y base legal | Propuesta` / información obligatoria que falta y defectos del proceso de compra / cláusulas corregidas en limpio (o efectos para el adherente) y conclusión.
 
 ## Comprobación final
 
@@ -176,6 +181,6 @@ Si para una cláusula de ponderación o de transparencia no aparece ninguna reso
 - [ ] Cada cláusula en ROJO o ÁMBAR dice qué control falla, con artículo y, si es de ponderación o de transparencia, jurisprudencia leída con `leer_sentencias` o comprobada con `buscar_por_cita`; el informe cita al menos una resolución.
 - [ ] Información obligatoria completa, botón del art. 98.2 y formulario de desistimiento copiado del BOE con enlace y fecha (o su marcador), nunca de memoria; los datos sacados de internet, señalados en el resumen.
 - [ ] Plazos con su precepto: 14 o 30 días (art. 102), 12 meses (art. 105), 14 días de reembolso y devolución (arts. 107 y 108), 3 o 2 años (art. 120), 2 o 1 año de presunción (art. 121), 5 años (art. 124).
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos de «posible disonancia» contrastados con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos de «posible disonancia» contrastados con el apartado leído.
 - [ ] Marcadores (`[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DOMICILIO]`, `[IMPORTE]`) en vez de datos inventados; sin tipos de IVA ni importes no leídos en una norma.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado, cláusulas críticas, datos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

@@ -15,7 +15,7 @@ description: >-
 - **Doctrina de la Sala Segunda sobre el art. 782.2 y la acusación que sostiene sola la causa** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`) + `leer_sentencias` con `parrafos=3`.
 - **Tutela judicial de la acusación frente a un archivo sin investigar** → `buscar_sentencias` (`base="TC"`, consulta sobre tutela judicial efectiva del denunciante y archivo prematuro).
 - **Resoluciones que invoque el Fiscal o la defensa para pedir el archivo** → `buscar_por_cita` con su ECLI o ROJ.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Redacta el escrito con el que la acusación se opone al archivo. Orden: **identificar el cauce y la
 clase de sobreseimiento → estándar indiciario → escrito**. Equivocar el cauce o la clase es el error
 que más veces convierte una oposición sólida en un escrito inútil.
@@ -35,6 +37,9 @@ que más veces convierte una oposición sólida en un escrito inútil.
 ---
 
 ## Bloque previo de comprobaciones (OBLIGATORIO)
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **¿Qué resolución o trámite exactamente?** No es lo mismo:
    - **Traslado del art. 780.1** para acusar o pedir sobreseimiento (10 días comunes).
@@ -280,6 +285,8 @@ Al acordar el sobreseimiento, el juez **deja sin efecto la prisión y demás med
    de la comunicación del auto (art. 779.1.1.ª); copias.
 7. Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y referencia al traslado (con el rótulo de las alegaciones) · 02 alegaciones I-III (motivo del archivo, indicios con su folio y rebate individualizado por investigado) · 03 alegaciones IV-V (estándar de la instrucción y apoyo jurisprudencial, con sus búsquedas) · 04 alegación VI, suplico con subsidiarios, otrosíes, lugar, fecha y firma.
+
 > **Anclaje al folio — regla innegociable y aquí más que en ninguna otra skill.** Un escrito de
 > oposición al archivo **es una enumeración de indicios**; un indicio sin folio **no es un indicio, es
 > una opinión**. Todo hecho afirmado, con su folio.
@@ -383,5 +390,6 @@ Al acordar el sobreseimiento, el juez **deja sin efecto la prisión y demás med
 
 ## Entrega
 
-Escrito final en **Word `.docx`** con la skill **`docx`**, maquetado como escrito judicial
-(encabezamiento, alegaciones, suplico principal y subsidiarios, otrosíes), listo para **LexNET**.
+Escrito final en **Word `.docx`**, que genera el ensamblado de `redaccion-rapida`, maquetado como
+escrito judicial (encabezamiento, alegaciones, suplico principal y subsidiarios, otrosíes), listo para
+**LexNET**.

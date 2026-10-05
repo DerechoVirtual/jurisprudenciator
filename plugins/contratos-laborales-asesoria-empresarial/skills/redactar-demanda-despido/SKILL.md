@@ -25,7 +25,7 @@ description: >-
 - **Audiencia previa, suficiencia de la carta, nulidad y daño moral** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`; para la aplicación por los TSJ, `base="AN"`, `tipo_organo="TSJ"`, `provincia` = sede de la Sala) y (`base="TC"`) para indicios + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
 - **Convenio aplicable y sus artículos** → `buscar_convenio` + `leer_convenio` (`buscar_en="faltas y sanciones"`, `buscar_en="despido"` para exigencias formales añadidas, categoría y complementos) + `vigencia_convenio` en la fecha del despido.
 - **Empresa** → `buscar_empresa_mercantil` (denominación exacta, domicilio social, administradores, grupo, concurso o disolución).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). El Convenio 158 de la OIT y la disposición transitoria undécima del ET no los devuelve el conector: léelos en internet (instrumento de ratificación publicado en el BOE o base oficial de la OIT; texto consolidado del ET en el BOE) y cítalos con su enlace y la fecha de consulta, o a través del párrafo leído de la sentencia que los aplica (anclas, apartado 7).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Esta skill también está en el plugin de litigación laboral. En este plugin la
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo: si falta un dato imprescindible (★), pregúntalo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado.
 2. ★ Fecha de efectos del despido, forma (carta, verbal, tácito) y, si hubo preaviso, su fecha; fecha de presentación de la papeleta, fecha y resultado del acto (o si pasaron quince días hábiles sin celebrarse).
@@ -135,9 +137,11 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 6. OTROSÍES: tramitación urgente (art. 103.4), si procede; prueba: interrogatorio con el apercibimiento del art. 91.2 LRJS, documental en poder de la empresa (expediente, registro de jornada, comunicaciones) pedida como diligencia de preparación (art. 90.3) con el apercibimiento del art. 94.2, testifical y pericial.
 7. Lugar, fecha y firma; relación de documentos.
 
-**2. Hoja de cálculo** (`calculo-indemnizacion-<apellido-trabajador>-<AAAAMMDD>.docx`): tabla del apartado 7 del formato (salario anual, diario, antigüedad, días por año, tope, resultado, salarios de tramitación por día).
+**Reparto para la redacción rápida:** encabezamiento, comparecencia y hechos (PRIMERO a OCTAVO; dos secciones si pasan de 1.200 palabras) / fundamentos procesales (jurisdicción, competencia, conciliación y plazo, modalidad y carga de la prueba) / nulidad (art. 55.5 ET, discriminación, indicios, derechos fundamentales y daño moral) / improcedencia (forma y audiencia previa, fondo e indemnización) / súplica, otrosíes, firma y documentos.
 
-**3. Nota** (`nota-despido-<empresa>-<AAAAMMDD>.docx`): para el trabajador, plazo con fechas, riesgos y prueba que falta; para la empresa, la nota de defensa descrita arriba, con la exposición económica por escenario en tabla. En ambas, la jurisprudencia literal usada.
+**2. Hoja de cálculo**, solo si el abogado la pide (si no, la tabla va en el resumen): `calculo-indemnizacion-<apellido-trabajador>-<AAAAMMDD>.docx`, con la tabla del apartado 7 del formato (salario anual, diario, antigüedad, días por año, tope, resultado, salarios de tramitación por día).
+
+**3. Nota**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega), `nota-despido-<empresa>-<AAAAMMDD>.docx`: para el trabajador, plazo con fechas, riesgos y prueba que falta; para la empresa, la nota de defensa descrita arriba, con la exposición económica por escenario en tabla. En ambas, la jurisprudencia literal usada.
 
 ## Comprobación final
 
@@ -149,7 +153,7 @@ Lee cada artículo con `buscar_articulo` en esta conversación y anota su «vige
 - [ ] Hechos de la demanda iguales a los de la papeleta (art. 80.1.c LRJS); lo nuevo, justificado como nuevo o desconocido.
 - [ ] Cálculos en tabla con cada operación; antigüedad anterior al 12/02/2012 calculada con la disposición transitoria undécima leída en el BOE consolidado (enlace y fecha) o remitida a `calculo-indemnizacion-despido`.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; párrafos de fundamentos, sin datos de aquel pleito.
-- [ ] `verificar_escrito` pasado sobre cada documento; avisos de «posible disonancia» (por ejemplo, art. 181 LRJS, cuyo título es «Conciliación y juicio») contrastados con el apartado leído; su veredicto sobre el Convenio 158 de la OIT ignorado (anclas, apartado 7).
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); avisos de «posible disonancia» (por ejemplo, art. 181 LRJS, cuyo título es «Conciliación y juicio») contrastados con el apartado leído; su veredicto sobre el Convenio 158 de la OIT ignorado (anclas, apartado 7).
 - [ ] Marcadores en lugar de datos no facilitados; ningún importe de sanción de la LISOS escrito de memoria.
 - [ ] Los datos obtenidos en internet (Convenio 158 de la OIT, disposición transitoria undécima, denominación del órgano si hizo falta) figuran con su enlace en el documento y en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

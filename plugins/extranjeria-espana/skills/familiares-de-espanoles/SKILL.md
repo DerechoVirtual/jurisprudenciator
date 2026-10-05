@@ -17,7 +17,7 @@ description: >-
 - **Régimen transitorio (solicitudes anteriores al 20/05/2025, tarjetas y arraigos familiares vigentes)** → `leer_boe` (`identificador="BOE-A-2024-24099"`, disposiciones transitorias del real decreto aprobatorio).
 - **Frontera con el régimen de la Unión** → `buscar_articulo` (`ley="Real Decreto 240/2007"`, artículos `"2"` y `"7"`), `buscar_articulo` (`ley="Directiva 2004/38/CE"`, `articulo="3"`) y el fallo que anuló expresiones del Real Decreto 240/2007 con `leer_boe` (`identificador="BOE-A-2010-16822"`): el art. 2 que devuelve el conector conserva sin marcar las expresiones anuladas «otro Estado miembro» y «separación legal»; no las cites como vigentes.
 - **Doctrina sobre el nuevo régimen, el «a cargo», la pareja estable y el art. 20 TFUE** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"` o `base="AN"`; `base="TJUE"` para la doctrina europea) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -29,6 +29,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -54,7 +56,7 @@ Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `referen
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Los marcados con ★ son imprescindibles: sin ellos no se redacta.
+Los marcados con ★ son imprescindibles: sácalos de la documentación aportada (paso 2 de `redaccion-rapida`) y, si faltan, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; sin ellos no se redacta.
 
 1. ★ Persona española: cómo acredita la nacionalidad, si es **española de origen** (decide la letra h), dónde reside y si ha vivido con el familiar en otro Estado miembro (fechas y prueba de residencia efectiva allí).
 2. ★ Familiar extranjero: nacionalidad, pasaporte (vigencia), dónde está hoy, fecha de entrada en España si está aquí y si su estancia es regular o no.
@@ -153,6 +155,8 @@ En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024�
 
 **B) Solicitud de residencia independiente (art. 99)** — `solicitud-residencia-independiente-<apellido-cliente>-<AAAAMMDD>.docx`. Misma estructura; los hechos se centran en el hecho causante, su fecha y la comunicación a extranjería; el fundamento principal es el apartado del art. 99 aplicable y, en subsidio, la modificación del art. 191.8. Aprovecha el escrito para comunicar los cambios pendientes (domicilio y estado civil, art. 98.2; nulidad o divorcio, art. 99.4) y, si alguno está fuera de plazo, dilo al abogado. El art. 99 no fija plazo de resolución ni sentido del silencio: no afirmes ninguno que no hayas obtenido con Jurisprudenciator. Para el plan B del art. 191.8, lee con `buscar_articulo` los requisitos de la autorización a la que se pasaría antes de afirmar que se cumplen.
 
+**Reparto para la redacción rápida:** solicitud A: 01 encabezamiento, comparecencia y hechos; 02 régimen aplicable, competencia y vía de presentación; 03 encaje en el art. 94.1 con su prueba y persona a cargo; 04 orden público, art. 20 TFUE y doctrina; 05 efectos, solicita, otrosí, firma y relación de documentos. La solicitud B sigue el mismo reparto, con el art. 99 en la sección 03.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -161,6 +165,6 @@ En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024�
 - [ ] Ningún inciso anulado citado como vigente (arts. 94.1.f, 97.4, 98.1 y 196.2.b del Reglamento; «otro Estado miembro» y «separación legal» del art. 2 del Real Decreto 240/2007).
 - [ ] Vía del art. 97 y destinatario correctos; plazos de visado, subsanación, resolución y TIE con su precepto.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; solo fundamentos, sin datos del pleito ajeno.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregido lo que señale.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[DOMICILIO]`, `[FECHA DE ENTRADA EN ESPAÑA]`) en lugar de datos inventados; sin importes ni cifras del IPREM, PIB o pensiones no confirmadas por el abogado.
 - [ ] Resumen para el abogado según el apartado 7 del formato: qué se ha preparado y ante quién; plazos (visado, residencia independiente, TIE) con su fecha y precepto; documentos que faltan y riesgos; tabla de jurisprudencia; próximo paso.

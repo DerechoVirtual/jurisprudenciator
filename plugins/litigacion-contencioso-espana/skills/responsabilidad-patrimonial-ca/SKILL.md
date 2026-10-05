@@ -15,7 +15,7 @@ description: Asiste en reclamaciones de responsabilidad patrimonial de la Admini
 - **Daño en la vía pública** → `consultar_catastro` (dirección o coordenadas del lugar; `callejero_catastro` si la vía no casa) y `buscar_ordenanzas` + `leer_ordenanza` (ordenanza de vía pública o de conservación).
 - **Actualización e intereses del art. 34.3** → `buscar_articulo` (`ley="Ley 47/2003"`).
 - **Aseguradora codemandada** → `buscar_empresa_mercantil` (denominación inscrita y domicilio).
-- **Antes de presentar** → `verificar_escrito`.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -281,6 +283,8 @@ Texto verificado. La regla general es **1 año**, pero **el dies a quo cambia** 
 8. **PROPOSICIÓN DE PRUEBA**, concretando los medios (art. 67.2): documental, pericial, testifical.
 9. **SUPLICO** y otrosíes.
 
+**Reparto para la redacción rápida (reclamación):** encabezamiento, hechos con cronología y lesiones (una sección) · relación de causalidad y antijuridicidad, cada una con su propia investigación (lex artis y demás doctrina jurisprudencial) · evaluación económica con los tres conceptos del art. 34.3, prescripción y proposición de prueba · cierre con suplico y otrosíes.
+
 **B) Recurso contencioso / demanda:** aplicar `interposicion-recurso-contencioso-ca` y
 `demanda-contencioso-administrativa`. En la demanda, además: acreditar el **agotamiento de la vía**,
 la **cuantía** (arts. 40-42 LJCA), el **recibimiento a prueba** (art. 60 LJCA), y **rebatir el informe
@@ -331,4 +335,4 @@ del art. 81.1** con pericial propia. **Nada de MASC:** es del orden civil.
   ordenanzas en responsabilidad viaria. **Pedírsela al usuario; no citarla de memoria.**
 - **Nada de MASC:** requisito del orden civil; no existe aquí. El equivalente funcional es el
   **agotamiento de la vía administrativa** (art. 25.1 LJCA).
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

@@ -14,7 +14,7 @@ description: Catálogo (sin plantilla). Redacta escritos solicitando la práctic
 - **Destinatarios de los oficios** → `buscar_empresa_mercantil` (sociedad: administradores, objeto, domicilio) y `consultar_catastro` (inmuebles en la averiguación patrimonial).
 - **Oficio a la operadora: acceso a datos de tráfico** → `buscar_sentencias` (`base="TJUE"`, consulta sobre la Directiva 2002/58/CE) y (`jurisdiccion="PENAL"`, `base="TS"`).
 - **Denegación de diligencias e indefensión** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="AN"`, `tipo_organo="AP"`, `provincia` de la causa, `tipo_resolucion="AUTO"`) + `leer_sentencias` con `parrafos=3`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Redacta el escrito por el que una parte interesa la práctica de diligencias de investigación.
 Construye desde el marco legal. Orden: **control del plazo (324) → necesidad y relevancia → escrito**.
@@ -85,6 +87,9 @@ escrito sirve para algo.
 ---
 
 ## Bloque previo de comprobaciones (OBLIGATORIO)
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Plazo del art. 324** → § anterior. **Innegociable.**
 2. **¿Estás personado?** Solo el Ministerio Fiscal y **las partes personadas** proponen diligencias
@@ -320,6 +325,8 @@ Estándar de motivación **radicalmente superior**. Si no puedes motivarlas así
 8. **OTROSÍES:** urgencia; designación de domicilio/dirección electrónica; copias.
 9. Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** escrito corto (2-5 páginas): 01 encabezamiento, comparecencia y apartados PRIMERO y SEGUNDO (estado de las actuaciones y plazo del 324, objeto de la investigación) · 02 apartado TERCERO, diligencias interesadas con su tabla y, en sección propia, las que afecten a derechos fundamentales con motivación reforzada (sus búsquedas) · 03 apartado CUARTO (encaje temporal y prórroga), suplico, otrosíes, lugar, fecha y firma. Si cabe en tres páginas, redáctalo sin equipo.
+
 > **Anclaje al folio — regla innegociable.** Cada extremo que se dice pendiente, cada prórroga, cada
 > diligencia ya practicada: **con su folio**. Un escrito de diligencias sin folios parece un formulario
 > y se trata como tal.
@@ -390,5 +397,5 @@ Estándar de motivación **radicalmente superior**. Si no puedes motivarlas así
 
 ## Entrega
 
-Escrito final en **Word `.docx`** con la skill **`docx`**, maquetado como escrito judicial
-(encabezamiento, alegaciones numeradas, suplico, otrosíes), listo para **LexNET**.
+Escrito final en **Word `.docx`**, que genera el ensamblado de `redaccion-rapida`, maquetado como
+escrito judicial (encabezamiento, alegaciones numeradas, suplico, otrosíes), listo para **LexNET**.

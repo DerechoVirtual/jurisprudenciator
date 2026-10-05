@@ -7,7 +7,7 @@ description: >-
   protección de datos y protección frente a represalias. Úsala cuando digan «canal de denuncias», «canal
   ético», «whistleblowing», «Ley 2/2023», «responsable del sistema», «nos piden el canal» o «me han
   represaliado por denunciar». Sirve a la empresa y al informante o al denunciado. Entrega procedimiento y
-  política en Word y nota. Para instruir un acoso usa protocolo-acoso-laboral; para demandar un despido por
+  política en Word (y nota, si la pides). Para instruir un acoso usa protocolo-acoso-laboral; para demandar un despido por
   represalia, redactar-demanda-despido; para la tutela sin despido, tutela-derechos-fundamentales.
 ---
 
@@ -24,7 +24,7 @@ description: >-
 - **Protección del informante y del afectado** → `buscar_articulo` (`ley="BOE-A-2023-4513"`, artículos `"35"` a `"40"`); nulidad del despido lesivo de derechos fundamentales → (`ley="ET"`, `articulo="55"`).
 - **Régimen sancionador** → `buscar_articulo` (`ley="BOE-A-2023-4513"`, artículos `"61"` a `"66"`); las multas, del artículo `"65"` en el momento, sin escribirlas de memoria.
 - **Doctrina sobre represalias, garantía de indemnidad y uso de denuncias internas como prueba** → `buscar_sentencias` (`base="AN"`, `jurisdiccion="SOCIAL"`, `tipo_organo="TSJ"`; y `base="TS"`, `jurisdiccion="SOCIAL"`) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -58,7 +60,7 @@ Esta skill no cubre el sector público ni el canal externo de la Autoridad Indep
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ Forma jurídica, actividad y plantilla (número de trabajadores contratados), si opera en servicios financieros, prevención del blanqueo, seguridad del transporte o medio ambiente, y si recibe o gestiona fondos públicos.
 2. ★ Si forma parte de un grupo (art. 42 del Código de Comercio) y qué quiere hacer la dominante; si quiere compartir el sistema con otras empresas.
@@ -145,9 +147,11 @@ Word maquetado según `references/formato-y-organos-laboral.md`. Cita cada artí
 
 **2. Procedimiento de gestión de informaciones** — `procedimiento-gestion-informaciones-<empresa>-<AAAAMMDD>.docx`: canales asociados; recepción y registro con código; comunicaciones verbales y reunión presencial; acuse de recibo en siete días naturales; admisión o inadmisión motivada; investigación (instructor, diligencias, audiencia del afectado, comunicación con el informante); plazo máximo de tres meses y su ampliación; conclusión y medidas; remisión al Ministerio Fiscal; comunicaciones recibidas por vías no previstas; conflicto de interés; libro-registro y conservación; protección de datos; coordinación con el protocolo de acoso y con RR. HH.; anexos (formulario, cláusula informativa de datos, modelo de acuse, acta de comunicación verbal).
 
+**Reparto para la redacción rápida:** la política y el procedimiento son dos Word, cada uno con su equipo. Política (3-4 páginas): una sección. Procedimiento, por apartados: canales, recepción, acuse y admisión / investigación, audiencia del afectado, plazos, conclusión y remisión al Ministerio Fiscal / libro-registro, datos, coordinación con el protocolo de acoso y anexos.
+
 **3. Si el abogado lo pide:** acuerdo del órgano de administración de implantación y nombramiento del Responsable, y texto de la comunicación del nombramiento a la autoridad competente dentro de los diez días hábiles, ajustado al formulario oficial que encuentres en su sede (cita el enlace); si no hay formulario, redacta la comunicación con los datos del art. 8.3.
 
-**4. Nota para el abogado** — `nota-abogado-canal-denuncias-<empresa>-<AAAAMMDD>.docx`: si la entidad está obligada y por qué letra del art. 10.1; decisiones de diseño; artículos leídos con su vigencia; autoridad competente según la comunidad; plazos (notificación del Responsable, acuse, respuesta) con fechas si hay calendario; doctrina leída; riesgos y sanciones aplicables con remisión al art. 65.
+**4. Nota para el abogado**, solo si el abogado la pide, salvo cuando la entidad no está obligada o se asesora al informante o a la persona afectada, que es el único entregable (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega) — `nota-abogado-canal-denuncias-<empresa>-<AAAAMMDD>.docx`: si la entidad está obligada y por qué letra del art. 10.1; decisiones de diseño; artículos leídos con su vigencia; autoridad competente según la comunidad; plazos (notificación del Responsable, acuse, respuesta) con fechas si hay calendario; doctrina leída; riesgos y sanciones aplicables con remisión al art. 65.
 
 **Si la entidad no está obligada** (por ejemplo, menos de cincuenta trabajadores y fuera de las letras b) y c) del art. 10.1), dilo con claridad y descarta cada letra con el dato que la excluye. No prepares política ni procedimiento salvo que el abogado quiera un sistema voluntario: basta la nota, que explica lo que la ley le aplica igualmente (sus trabajadores pueden acudir al canal externo, art. 16; las represalias están prohibidas y son sancionables para cualquier persona, arts. 36, 62 y 63; nulidad del despido lesivo, art. 55.5 ET), que un sistema voluntario debe cumplir todos los requisitos (art. 10.2) con su propia base de licitud (art. 30.2, segundo párrafo), que no puede usar como propio el canal de otra entidad fuera de los casos del art. 12 (art. 5.2, letra f) y que la ley no fija cómo se computan los cincuenta trabajadores.
 
@@ -160,6 +164,6 @@ Word maquetado según `references/formato-y-organos-laboral.md`. Cita cada artí
 - [ ] Ninguna cuantía de multa escrita sin leer el art. 65 en esta conversación.
 - [ ] Autoridad competente, vía de notificación del Responsable y normativa autonómica comprobadas; lo obtenido en internet, citado con enlace y fecha de consulta y señalado en el resumen.
 - [ ] Cada ECLI citado leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y corregido lo que señale.
 - [ ] Marcadores (`[DENOMINACIÓN SOCIAL]`, `[ÓRGANO DE ADMINISTRACIÓN]`, `[RESPONSABLE DEL SISTEMA]`, `[DIRECCIÓN DEL CANAL]`) en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y para quién, plazos con su precepto, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 > **Fuente:** LO 6/1984 (arts. 1 a 9) y art. 17 CE, **verificados con `buscar_articulo` el
 > 2026-07-17**. El art. 3 tiene redacción de la **LO 5/2024** (vigente 4-12-2024).
 
@@ -203,6 +205,8 @@ Por **AUTO MOTIVADO**, **una** de estas:
 
 ### (a) Triaje previo — decide ANTES de redactar
 
+Se rellena con lo que dicen la documentación y el abogado (paso 2 de `redaccion-rapida`); pregunta solo lo que falte para decidir, en una única ronda.
+
 ```markdown
 | Pregunta | Respuesta | Consecuencia |
 |---|---|---|
@@ -238,6 +242,8 @@ Por **AUTO MOTIVADO**, **una** de estas:
    (8.2.b); c) **puesta inmediata a disposición judicial** (8.2.c).
 7. **OTROSÍ** si procede: deducción de testimonio (art. 9); **constancia de la HORA de presentación**. Cierra con
    lugar, **fecha y HORA**, y firma.
+
+**Reparto para la redacción rápida:** escrito breve (1-2 páginas) y urgente: no necesita equipo; redáctalo tú en un único archivo de `secciones/`, con las consultas de la LO 6/1984 y del art. 520 lanzadas en paralelo, y entrégalo en cuanto el triaje lo permita.
 
 > **¿Qué hago ahora?**
 > 1. **Preséntalo YA** si hay motivo del art. 1 — el objeto se pierde con la libertad

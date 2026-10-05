@@ -7,7 +7,7 @@ description: >-
   la Ley 23/2015 y la LISOS. Úsala cuando digan «nos ha llegado un acta», «requerimiento de la Inspección»,
   «citación para comparecer», «alegaciones al acta», «acta de liquidación», «¿pagamos con el 40 %?» o
   «recurso de alzada contra la sanción». Sirve a la empresa y, para valorar su posición de interesados, al
-  trabajador o a la representación. Entrega escrito en Word y nota. Si el acta es sobre plan de igualdad o
+  trabajador o a la representación. Entrega escrito en Word (y nota, si la pides). Si el acta es sobre plan de igualdad o
   registro retributivo, lee también plan-igualdad-registro-retributivo; si es por cesión ilegal o contratas,
   sucesion-empresa-contratas.
 ---
@@ -25,7 +25,7 @@ description: >-
 - **La norma sustantiva que el acta dice infringida** (ET, LPRL, LGSS, convenio) → `buscar_articulo` con el valor de `ley` de las anclas y, si es un convenio, `buscar_convenio` + `leer_convenio` + `vigencia_convenio`.
 - **Doctrina sobre presunción de certeza, caducidad, plazo de las actuaciones, graduación y non bis in idem** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`; actas de liquidación, `jurisdiccion="CONTENCIOSO"`; TSJ con `base="AN"`, `jurisdiccion="SOCIAL"`, `tipo_organo="TSJ"`) + `leer_sentencias` (`parrafos=3`); estructura del recurso de alzada → `guia_escrito` (`escrito="recurso-alzada-reposicion-ca"`, `jurisdiccion="contencioso"`).
 - **Empresa y responsables solidarios** → `buscar_empresa_mercantil`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Tras agotar la vía administrativa, la impugnación judicial va al orden social 
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ El documento completo (acta, diligencia, requerimiento o resolución) con sus anexos, y **fecha de notificación**; si fue electrónica, la fecha de acceso o de puesta a disposición.
 2. ★ Fecha de la primera visita o de la comparecencia con la documentación completa, y fechas de cada actuación posterior (para el plazo de las actuaciones).
@@ -140,7 +142,9 @@ Word maquetado según `references/formato-y-organos-laboral.md`, con prosa foren
 
 **3. Recurso de alzada** — `recurso-alzada-sancion-<empresa>-<AAAAMMDD>.docx`: con la estructura de la guía `recurso-alzada-reposicion-ca`, dirigido al órgano que indique el pie de recursos de la resolución; reitera y desarrolla lo no resuelto y combate la motivación de la resolución.
 
-**4. Nota para el abogado** — `nota-abogado-inspeccion-<empresa>-<AAAAMMDD>.docx`: calendario en tabla (hito · fecha · precepto: alegaciones, caducidad del expediente, plazo de las actuaciones, prescripción, pago con reducción, alzada, vía judicial y orden competente); cálculo de la sanción propuesta y de la reducida con el art. 40 LISOS leído; valoración de cada motivo; doctrina con párrafo literal.
+**Reparto para la redacción rápida:** alegaciones: encabezamiento, comparecencia y plazo en una sección; una por alegación de fondo o grupo de ellas, en el orden de la estrategia (caducidad y prescripción / defectos del acta / tipicidad y hechos desvirtuados / graduación); solicito, otrosí, firma y documentos en la de cierre. La comparecencia, sin equipo; el recurso de alzada, una sección por motivo.
+
+**4. Nota para el abogado**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega) — `nota-abogado-inspeccion-<empresa>-<AAAAMMDD>.docx`: calendario en tabla (hito · fecha · precepto: alegaciones, caducidad del expediente, plazo de las actuaciones, prescripción, pago con reducción, alzada, vía judicial y orden competente); cálculo de la sanción propuesta y de la reducida con el art. 40 LISOS leído; valoración de cada motivo; doctrina con párrafo literal.
 
 ## Comprobación final
 
@@ -150,7 +154,7 @@ Word maquetado según `references/formato-y-organos-laboral.md`, con prosa foren
 - [ ] Cálculos de la sanción y de la reducción visibles y con el artículo del que salen.
 - [ ] Convenio, si el acta lo invoca, con código, artículo leído y vigencia en la fecha de los hechos.
 - [ ] Cada ECLI citado leído con `leer_sentencias` (fundamentos) o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada escrito y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y corregido lo que señale.
 - [ ] Marcadores en vez de datos inventados; ningún importe sin artículo leído.
 - [ ] Lo obtenido en internet (criterios técnicos, sede de presentación) citado con enlace y fecha de consulta y señalado en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y ante qué órgano, plazo y fecha límite con su precepto, cálculos, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso (pagar, alegar o recurrir).

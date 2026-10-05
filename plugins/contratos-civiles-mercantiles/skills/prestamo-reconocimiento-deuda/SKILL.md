@@ -25,7 +25,7 @@ description: >-
 - **Fiscalidad que debe comprobarse** → `buscar_articulo` (`ley="BOE-A-1993-25359"`, artículos `"7"` y `"45"`; `ley="BOE-A-2006-20764"`, artículos `"6"` y `"40"`) y doctrina con `buscar_consultas_hacienda` (préstamo entre particulares, gratuidad, garantías) y, si hace falta, `buscar_doctrina_teac`.
 - **Doctrina sobre usura, intereses de demora, vencimiento anticipado, fianza y reconocimiento de deuda** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o se litigará en esa plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, estado, administradores, concurso; en préstamos socio-sociedad, cargos del socio).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Cita con fecha las leyes con número repetido: «Ley 2/2009, de 31 de marzo», «Ley 16/2011, de 24 de junio», «Ley 5/2019, de 15 de marzo», «Ley 7/2012, de 29 de octubre». `verificar_escrito` no identifica la Ley de 23 de julio de 1908 (con cualquier denominación la da por no localizada o atribuye su artículo al Código Civil o al de Comercio): comprueba sus artículos con `buscar_articulo` (`ley="Ley de 23 de julio de 1908"`), cítala como «artículo N de la Ley de 23 de julio de 1908, sobre nulidad de los contratos de préstamos usurarios» e ignora el veredicto del verificador sobre ella; explícalo en el resumen.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Antes de redactar, pasa este detector:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: prestamista o acreedor, prestatario o deudor, o fiador.
 2. ★ Partes: identificación; si son personas físicas casadas, régimen económico matrimonial (pregunta si el cónyuge debe intervenir: lee los arts. 1365 y 1367 CC, que deciden si responden los bienes gananciales); si son sociedades, cargo del firmante y relación entre ellas (socio con qué porcentaje, administrador, grupo).
@@ -144,6 +146,8 @@ Estructura del contrato de préstamo:
 
 Estructura del reconocimiento de deuda: comparecencia; EXPONEN (origen de la deuda y documentos); PRIMERA.- Reconocimiento del importe con desglose; SEGUNDA.- Carácter no novatorio (o novatorio, si se pacta) y subsistencia de garantías; TERCERA.- Plan de pagos; CUARTA.- Quita condicionada, si la hay; QUINTA.- Intereses; SEXTA.- Vencimiento anticipado; SÉPTIMA.- Consentimiento del fiador a la espera; OCTAVA.- Efecto interruptivo de la prescripción; NOVENA.- Gastos, notificaciones y fuero; firmas.
 
+**Reparto para la redacción rápida:** contratos cortos, una sección por bloque de estipulaciones (`### [ESTIPULACION]`). Préstamo: comparecencia, expositivos, objeto, entrega, intereses y plazo / pagos, mora, vencimiento anticipado, garantías y liquidación / gastos, notificaciones, ley, fuero, firmas y anexos. Reconocimiento de deuda: comparecencia y expositivos (origen y documentos) / reconocimiento con desglose, carácter no novatorio, plan de pagos, quita e intereses / vencimiento anticipado, consentimiento del fiador, efecto interruptivo, gastos, fuero y firmas. La nota: apartado 11 del formato.
+
 La nota sigue el apartado 3 del formato e incluye siempre: régimen aplicable (civil o mercantil, consumo o no, Ley 5/2019 o no), análisis de usura con el término de comparación, valor probatorio y ejecutivo del documento elegido, riesgos concursales si hay socios y fiscalidad que debe comprobarse.
 
 ## Comprobación final
@@ -159,7 +163,7 @@ La nota sigue el apartado 3 del formato e incluye siempre: régimen aplicable (c
 - [ ] Reconocimiento con causa identificada, decisión expresa sobre la novación y quita condicionada, si la hay.
 - [ ] Forma elegida coherente con la ejecución que se quiere (monitorio o ejecución directa) y pacto de liquidación si hay saldo.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; la Ley de 1908 comprobada con `buscar_articulo` al margen del veredicto; cada «posible disonancia» contrastada con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); la Ley de 1908 comprobada con `buscar_articulo` al margen del veredicto; cada «posible disonancia» contrastada con el apartado leído.
 - [ ] Sociedades comprobadas con `buscar_empresa_mercantil`.
 - [ ] Marcadores (`[IMPORTE]`, `[IBAN]`, `[FECHA DE ENTREGA]`, `[TIPO DE INTERÉS]`…) en lugar de datos inventados; cuadro de amortización cuadrado con importe, tipo y plazo.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas, datos y documentos que faltan, tabla de jurisprudencia, plazos con su precepto (vencimientos, prescripción desde cada cuota, art. 313 CCom si no hay plazo) y próximo paso, incluida la fiscalidad que debe comprobar.

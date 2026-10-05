@@ -24,7 +24,7 @@ description: >-
 - **Inmueble, certificado energético y temporada en plataformas** → `consultar_catastro` y `buscar_articulo` (`ley="Real Decreto Legislativo 1/2004"`, artículos `"38"` y `"40"`), (`ley="BOE-A-2021-9176"`, artículos `"3"` y `"17"`) y, si es temporada ofertada en plataformas, (`ley="BOE-A-2024-26931"`, artículos `"1"`, `"2"` y `"3"`).
 - **Doctrina sobre indemnización del art. 34, renuncias, desistimiento y moderación, licencia, cesión e IBI** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o el asunto se litigará en esa plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, administradores, apoderados, concurso); **IVA y retenciones de la renta** → `buscar_consultas_hacienda`; **depósito autonómico de la fianza** → `buscar_boe` (`consulta="depósito de fianzas"`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Cita la ley como «artículo N de la Ley 29/1994, de 24 de noviembre, de Arrendamientos Urbanos» y el IBI como «artículo 63 del Real Decreto Legislativo 2/2004, de 5 de marzo, por el que se aprueba el texto refundido de la Ley Reguladora de las Haciendas Locales»: así los reconoce `verificar_escrito`.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Pasa este detector antes de redactar. Si encaja otra figura, díselo al abogado 
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: arrendador o arrendatario.
 2. ★ Partes: si son sociedades, denominación y CIF para `buscar_empresa_mercantil`, y quién firma con qué cargo o poder; avalistas o garantes.
@@ -138,6 +140,8 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - **ESTIPULACIONES**: PRIMERA.- Objeto y destino (Actividad concreta; prohibición de otras). SEGUNDA.- Régimen jurídico (art. 4.3 LAU y exclusión expresa, artículo por artículo, de los preceptos del título III que no se quieran aplicar). TERCERA.- Duración, obligado cumplimiento, prórrogas y exclusión de la tácita reconducción. CUARTA.- Renta, IVA y pago. QUINTA.- Actualización. SEXTA.- Carencia y obras de adecuación. SÉPTIMA.- Licencias. OCTAVA.- Gastos, tributos, suministros y seguros. NOVENA.- Conservación y obras. DÉCIMA.- Cesión, subarriendo y cambio de control. UNDÉCIMA.- Adquisición preferente. DUODÉCIMA.- Desistimiento e indemnización. DECIMOTERCERA.- Indemnización del art. 34 LAU (mantenida, cuantificada o renunciada). DECIMOCUARTA.- Fianza y garantías adicionales. DECIMOQUINTA.- Incumplimiento y resolución. DECIMOSEXTA.- Devolución del Local. DECIMOSÉPTIMA.- Notificaciones y dirección electrónica. DECIMOCTAVA.- Datos, ley aplicable, negociación previa y fuero o arbitraje.
 - Firmas en dos columnas y **ANEXOS**: plano, inventario de instalaciones, etiqueta energética, proyecto de obras, modelo de aval, consulta catastral.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, objeto y régimen jurídico (con las exclusiones del título III, artículo por artículo) / duración, renta, actualización, carencia, obras y licencias / gastos, conservación, cesión y subarriendo, adquisición preferente / desistimiento, indemnización del art. 34, fianza y garantías, resolución y devolución / notificaciones, datos, ley, fuero, firmas y anexos. La nota: apartado 11 del formato.
+
 **Nota para el abogado** (2-5 páginas): régimen aplicable (imperativo frente a pactado) con los artículos leídos; preceptos del título III excluidos y por qué; cláusulas críticas con su fundamento y, cuando lo exija el apartado 8, párrafo literal con órgano, fecha y ECLI; compatibilidad de la actividad (ordenanza leída o informe pendiente); pendientes (nota simple, estatutos, licencia, depósito de la fianza); riesgos para la posición del cliente; tributos que hay que comprobar.
 
 ## Comprobación final
@@ -149,6 +153,6 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - [ ] Fianza de dos mensualidades en metálico; garantías adicionales con importe, duración y forma de ejecución.
 - [ ] Actividad contrastada con estatutos y ordenanzas (`buscar_ordenanzas` o, si el municipio no está cubierto, ordenanza oficial en internet con enlace) o marcada como pendiente de informe urbanístico.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; ninguno en el contrato.
-- [ ] `verificar_escrito` pasado sobre contrato y nota; cada «posible disonancia» contrastada con el artículo leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); cada «posible disonancia» contrastada con el artículo leído.
 - [ ] Marcadores en lugar de datos inventados; renta, carencia, plazos, preavisos y definiciones coherentes.
 - [ ] Resumen para el abogado según el apartado 10 del formato, con fecha de inicio, fin del obligado cumplimiento, fechas de preaviso (incluido el de cuatro meses del art. 34 si se mantiene) y primera actualización, cada una con su precepto o cláusula.

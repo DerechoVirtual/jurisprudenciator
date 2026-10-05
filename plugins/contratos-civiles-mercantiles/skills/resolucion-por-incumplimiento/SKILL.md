@@ -25,7 +25,7 @@ description: >-
 - **Retención de pagos y compensación** → `buscar_articulo` (`ley="CC"`, `articulo="1196"`) y, si las dos partes son empresas, (`ley="BOE-A-2004-21830"`, artículos `"5"`, `"7"` y `"8"`) con el tipo del semestre (`novedades_boe` con `contiene="interés de demora"`, `desde` y `hasta` en una ventana de 31 días, y `leer_boe`).
 - **Doctrina de la Sala Primera** (incumplimiento esencial y frustración del fin, resolución extrajudicial, cláusula resolutoria expresa, efectos restitutorios, moderación de la pena, excepción de contrato no cumplido, lucro cesante) → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil`; **inmuebles** → `consultar_catastro` (y nota simple del Registro de la Propiedad, que pide el abogado).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Si `buscar_articulo` devuelve una nota «Téngase en cuenta…» seguida de un texto entre comillas, ese texto entrecomillado es la redacción anterior: aplica la que encabeza la respuesta.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -57,7 +59,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: a quien quiere resolver o a quien recibe la resolución.
 2. ★ Contrato íntegro con anexos: tipo, fecha, prestaciones de cada parte y sus plazos, cláusula resolutoria, cláusula penal, plazos de subsanación o preaviso, notificaciones, ley aplicable, fuero, mediación o arbitraje.
@@ -157,6 +159,8 @@ Para quien recibe la resolución: **contestación** (`contestacion-resolucion-<r
 
 **2. Dictamen breve** (`dictamen-resolucion-<parte-principal>-<AAAAMMDD>.docx`, 3-6 páginas), que se entrega siempre y, si se desaconseja resolver, es el único documento: cuestión planteada y conclusión al principio; hechos relevantes; régimen aplicable con artículos leídos; análisis de la esencialidad con el párrafo literal, órgano, fecha y ECLI de cada resolución; vía recomendada (extrajudicial o judicial) y riesgo de resolución indebida; efectos y tabla de liquidación; daños y cláusula penal con su doctrina; plazos; datos y documentos pendientes; próximos pasos (MASC y demanda).
 
+**Reparto para la redacción rápida:** el dictamen (3-6 páginas), en equipo y sin rótulos que se numeren solos (`## …`): cuestión, conclusión, hechos y régimen aplicable / esencialidad del incumplimiento y vía recomendada, con su jurisprudencia / efectos y tabla de liquidación, daños y cláusula penal / plazos, pendientes y próximos pasos. La comunicación de resolución y la contestación (1-2 páginas) las redactas tú, y solo si el plan concluye que el incumplimiento es resolutorio.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió; ninguna consulta imprescindible quedó sin resultado, y lo que Jurisprudenciator no tenía se obtuvo de una fuente oficial en internet, con enlace y fecha de consulta, y se señala en el resumen.
@@ -167,6 +171,6 @@ Para quien recibe la resolución: **contestación** (`contestacion-resolucion-<r
 - [ ] Forma de la comunicación adecuada al supuesto (acta notarial para el art. 1504 CC) y fecha de efectos expresada.
 - [ ] Tabla de restitución y daños coherente con el contrato; cláusula penal analizada desde la posición del cliente.
 - [ ] Plazo de la acción con fecha inicial, precepto y fecha final; régimen transitorio señalado si la obligación es anterior al 7 de octubre de 2015.
-- [ ] `verificar_escrito` pasado sobre la comunicación y sobre el dictamen; avisos de «posible disonancia» contrastados con el texto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); avisos de «posible disonancia» contrastados con el texto leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DOMICILIO]`, `[IMPORTE]`, `[DATOS REGISTRALES]`) en lugar de datos inventados; importes, fechas y definiciones coherentes.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cómo se resuelve cada punto crítico, datos que faltan y riesgos, tabla de jurisprudencia, plazos y próximo paso.

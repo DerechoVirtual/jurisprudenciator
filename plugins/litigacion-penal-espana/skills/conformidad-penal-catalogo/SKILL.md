@@ -15,7 +15,7 @@ description: >-
 - **Doctrina de la Sala Segunda sobre el control judicial y los límites de la conformidad** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`; para el régimen de la LO 1/2025, `fecha_desde="03/04/2025"`) + `leer_sentencias` con `parrafos=3`.
 - **Criterio de la Audiencia en conformidades de guardia y del abreviado** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="AN"`, `tipo_organo="AP"`, `provincia` de la causa).
 - **Persona jurídica que se conforma (art. 785.11)** → `buscar_empresa_mercantil` para comprobar quién la administra y puede representarla.
-- **Revisar el escrito o el acta y el documento del art. 785.7 in fine** → `verificar_escrito`.
+- **Comprobar las citas de normas del escrito o acta y del documento del art. 785.7 in fine** → `verificar_escrito` con las frases que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Elige el cauce de conformidad, verifica sus requisitos y redacta el escrito o acta. **Cuatro cauces
 distintos, con requisitos distintos.** Confundirlos es el error nuclear de esta materia.
@@ -85,6 +87,9 @@ La LO 1/2025 **no** actualizó las remisiones internas. Verificado literalmente:
 ---
 
 ## Comprobaciones previas — antes de negociar nada
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Prescripción del delito (art. 131 CP).** Conformarse con un delito prescrito es mala praxis.
    5 años el común; 1 año delitos leves e injurias/calumnias. Ver `references/anclas-normativas-penal.md` § 3.3.
@@ -233,6 +238,8 @@ previsto en el Código Penal» (801.2). Requisitos **ACUMULATIVOS** (801.1) — 
 11. SUPLICO: que se dicte sentencia de conformidad. Lugar, fecha y **firma del letrado y del
     acusado** cuando el cauce lo exija (784.3).
 
+**Reparto para la redacción rápida:** es un escrito corto (2-4 páginas): 01 encabezamiento, comparecencia, cauce invocado y escrito de acusación aceptado · 02 pena aceptada con su cálculo, información y voluntariedad, responsabilidad civil y persona jurídica · 03 pronunciamientos del 785.9, suplico, fecha y firmas. Si cabe en dos páginas, redáctalo sin equipo.
+
 ## Entregable 2 — ⭐ Información escrita al defendido (art. 785.7 in fine / 655.1)
 
 **Obligatorio. Genéralo siempre, como documento separado**, dirigido a `[ACUSADO]` y no al juzgado:
@@ -252,6 +259,8 @@ previsto en el Código Penal» (801.2). Requisitos **ACUMULATIVOS** (801.1) — 
 8. Alternativa: qué ocurriría si fuera a juicio (pena máxima solicitada, prueba de cargo, riesgos).
 9. Fecha, firma del letrado y **acuse de recibo firmado por el defendido**. Consérvalo en el
    expediente.
+
+**Reparto para la redacción rápida:** documento de 1-2 páginas: un único archivo de `secciones/` (puntos 1-8 en lenguaje llano para el defendido, y el 9 como cierre), redactado por ti mientras el equipo escribe el escrito de conformidad.
 
 ---
 
@@ -284,5 +293,5 @@ previsto en el Código Penal» (801.2). Requisitos **ACUMULATIVOS** (801.1) — 
 
 ## Entrega
 
-Dos documentos Word `.docx` (skill `docx`): el **escrito/acta de conformidad** listo para LexNET y la
-**información escrita al defendido** del art. 785.7 in fine.
+Dos documentos Word `.docx`, que genera el ensamblado de `redaccion-rapida`: el **escrito/acta de
+conformidad** listo para LexNET y la **información escrita al defendido** del art. 785.7 in fine.

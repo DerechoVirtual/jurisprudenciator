@@ -15,7 +15,7 @@ description: >-
 - **Doctrina sobre acumulación de condenas, abono de la preventiva y revocación** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`; y `base="AN"`, `tipo_organo="AP"` para la Audiencia de la ejecutoria) + `leer_sentencias` con `parrafos=3`.
 - **Expulsión sustitutiva de ciudadanos de la UE o residentes de larga duración** → `buscar_sentencias` (`base="TJUE"`).
 - **Indulto concedido o requisitoria publicada en la ejecutoria** → `novedades_boe` (por órgano o número de ejecutoria, no por el nombre del penado) → `leer_boe`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -28,11 +28,16 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Escritos de la fase de ejecución. **La LO 1/2026 (vigente 10-4-2026) reescribió el art. 80 CP**: cualquier
 material anterior está obsoleto. Anclas: `references/anclas-normativas-penal.md` (§ 6). Perfil:
 `~/.claude/plugins/config/derecho-virtual/litigacion-penal-espana/`.
 
 ## 1. Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Órgano**: el **sentenciador** (ejecutoria nº). El **abono de prisión provisional en causa distinta** →
    **Juez de Vigilancia Penitenciaria** (58.2). La **refundición** → el que dictó la **última sentencia**
@@ -280,6 +285,8 @@ verifica cauce y plazo con `buscar_articulo` (**794 y ss.**, **983 y ss. LECrim*
    del límite / revisión / no revocación o, subsidiariamente, **86.2**. Otrosíes: **vista** (86.4),
    diligencias, documental. Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia, objeto delimitado y hechos con folio · 02 fundamentos del objeto principal (en suspensión: 80.1 y cada condición del 80.2, con la cláusula de irrelevancia, y sus búsquedas) · 03 fundamentos subsidiarios (80.3, 80.4 y 80.5), plazo del 81, reglas del 83 y medidas del 84, o la revisión por ley más favorable si ese es el objeto · 04 suplico, otrosíes, lugar, fecha y firma. Un escrito de dos páginas (liquidación, abono) no necesita equipo.
+
 ## 10. Errores típicos
 
 - ❌ Citar el **art. 80 en su redacción anterior** (la LO 1/2026 añadió la **cláusula de irrelevancia**, el
@@ -333,4 +340,4 @@ verifica cauce y plazo con `buscar_articulo` (**794 y ss.**, **983 y ss. LECrim*
 - ⛔ **Nada de MASC**: es del orden civil. (La **mediación** del art. 84.1.ª es otra cosa: medida de la
   suspensión, no requisito de procedibilidad.)
 
-## Entrega — escrito final en **Word `.docx`** (skill `docx`), maquetado para LexNET.
+## Entrega — escrito final en **Word `.docx`** (lo genera el ensamblado de `redaccion-rapida`), maquetado para LexNET.

@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cuándo activar
 
 - Tras `/burofax-intake` con intake.md ya escrito
@@ -48,7 +50,7 @@ Cargar todos los campos.
 - ¿Pretensión concreta?
 - ¿Documentos a adjuntar identificados?
 
-Si falta algo crítico: parar y volver al intake.
+Si falta algo crítico y no se deduce de lo aportado: pregunta solo eso, en una única ronda, o vuelve al intake.
 
 ### 3. Redactar Word
 
@@ -116,6 +118,8 @@ Atentamente,
 [Si letrado: colegiado nº + Colegio]
 ```
 
+**Reparto para la redacción rápida:** un burofax (1-2 páginas) no necesita equipo: redáctalo tú en un único archivo de `secciones/` (hechos, base jurídica y requerimiento), con las consultas (artículos, Registro Mercantil, Catastro) lanzadas en paralelo.
+
 ### 4. Maquetación
 
 - Times New Roman 11-12
@@ -127,7 +131,7 @@ Atentamente,
 
 ### 5. Checklist post-envío
 
-Crear `burofaxes/<slug>/checklist.md`:
+En el resumen de la entrega incluye las tres comprobaciones clave (envío por Correos con acuse de recibo y certificado de contenido; anotar la fecha de entrega como inicio del plazo; archivar ambos). Crea `burofaxes/<slug>/checklist.md` solo si el abogado lo pide:
 
 ```markdown
 # Checklist post-envío — Burofax [slug]
@@ -168,7 +172,7 @@ Si el burofax acredita MASC del art. 5 Ley 1/2025, y hay asunto relacionado:
 ### 7. Output
 
 - Word .docx en `burofaxes/<slug>/burofax-v1.docx`
-- Checklist en `burofaxes/<slug>/checklist.md`
+- Checklist en `burofaxes/<slug>/checklist.md`, solo si el abogado lo pide (si no, va resumido en la entrega)
 - Decision tree:
 
 > 1. **Imprimir y llevar a Correos** — recordatorio del acuse + certificado de contenido

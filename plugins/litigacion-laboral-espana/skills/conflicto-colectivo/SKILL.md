@@ -15,7 +15,7 @@ description: >-
 - **Doctrina interpretativa de la Sala Cuarta y de las Salas de lo Social de la AN y de los TSJ** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; `base="AN"` para AN y TSJ) + `leer_sentencias` (`parrafos=3`, `terminos` del concepto discutido).
 - **Arts. 153-162 LRJS y arts. 82-86 ET (eficacia y vigencia del convenio)** → `buscar_articulo`.
 - **Empresas demandadas y posible grupo de empresas** → `buscar_empresa_mercantil`.
-- **Revisión del borrador** → `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Marco normativo
 
@@ -48,7 +50,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Datos del ámbito: centros afectados, número aproximado y grupo genérico de trabajadores.
 - Acta o acuerdo del órgano que decide demandar (comité/sección sindical) — legitimación.
 
-## Fase 2 — Batería de preguntas (AskUserQuestion)
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿Quién demanda? (sindicato / comité / empresa) — comprobar correspondencia entre ámbito del demandante y ámbito del conflicto (art. 154).
 - ¿Ámbito territorial real del conflicto? (un centro / provincia / varias CCAA) → fija el órgano competente.
@@ -65,11 +69,13 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. **SUPLICO**: pretensión declarativa (interpretación correcta) y/o de condena colectiva, con los datos de individualización si procede.
 5. **OTROSÍES**: prueba documental y, en su caso, pericial; comunicación de pleitos individuales suspendidos.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, legitimación y hechos (ámbito, norma o decisión controvertida, intento de conciliación); 02 fundamentos procesales (competencia, adecuación del proceso, legitimación y conciliación previa); una sección de fondo por cada precepto o decisión cuya interpretación se discute, con su doctrina; cierre (suplico y otrosíes).
+
 ## Fase 4 — Verificación y entrega
 
-- Doble check de legitimación y de órgano competente (los dos motivos de inadmisión más frecuentes).
-- Verificar jurisprudencia interpretativa vía jurisprudenciator (Sala IV y Sala de lo Social de la AN para convenios sectoriales).
-- Pulir con `/estilo-escritos-judiciales`. Entregar en Word (.docx).
+- Doble check de legitimación y de órgano competente (los dos motivos de inadmisión más frecuentes), en la preparación, antes de lanzar al equipo.
+- Verificar jurisprudencia interpretativa vía jurisprudenciator (Sala IV y Sala de lo Social de la AN para convenios sectoriales): la lee cada redactor en su sección y el ensamblado rechaza las citas que nadie leyó.
+- El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, sin pasada posterior. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.
 
 ---
 

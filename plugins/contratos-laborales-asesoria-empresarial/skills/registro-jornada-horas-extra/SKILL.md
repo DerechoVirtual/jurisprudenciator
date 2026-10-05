@@ -25,7 +25,7 @@ description: >-
 - **Sistemas de control y datos personales** → `buscar_articulo` (`ley="LOPDGDD"`, artículos `"87"`, `"88"`, `"89"` y `"90"`) y (`ley="RGPD"`, `articulo="9"` si el sistema usa datos biométricos).
 - **Convenio: jornada anual, distribución irregular, precio o compensación de las horas extraordinarias, pausas y regulación del registro** → `buscar_convenio` + `leer_convenio` (`buscar_en="jornada"`, `"horas extraordinarias"`, `"registro de jornada"`, `"descanso"`) + `vigencia_convenio`.
 - **Doctrina sobre registro, carga de la prueba, tiempo de trabajo y compensación** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; los TSJ con `base="AN"`, `tipo_organo="TSJ"` y `provincia` con la sede de la Sala; `base="TJUE"` para la Directiva 2003/88) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -62,7 +64,7 @@ Pregunta primero **a quién defiende el abogado**. La empresa necesita un regist
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende y qué necesita (auditoría, política, cálculo, estrategia).
 2. ★ Convenio aplicable y jornada que fija (anual, semanal, distribución irregular, pausas computables); sector (para jornadas especiales).
@@ -138,6 +140,8 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 1. Informe de auditoría (`nota-auditoria-registro-jornada-<empresa>-<AAAAMMDD>.docx`): resumen de riesgo; hallazgos en tabla (requisito · precepto · situación · evidencia · riesgo · corrección); infracciones posibles con su artículo y la remisión a los arts. 39 y 40 del Real Decreto Legislativo 5/2000; riesgo de reclamaciones (periodo no prescrito, colectivos afectados); plan de corrección con plazos; artículos y convenio leídos; doctrina literal.
 2. Política de registro de jornada (`politica-registro-jornada-<empresa>-<AAAAMMDD>.docx`): ámbito (toda la plantilla y modalidades); sistema y cómo se ficha; inicio, fin y pausas; trabajo a distancia y fuera del centro; correcciones con traza; horas extraordinarias (autorización previa, voluntariedad, pago o descanso en cuatro meses según convenio, totalización y copia en nómina); tiempo parcial (resumen mensual); descansos mínimos; desconexión digital; protección de datos e información a la plantilla; conservación cuatro años y acceso de trabajadores, representación e Inspección; régimen disciplinario remitido al convenio; información mensual de horas extraordinarias a la representación; constancia de la consulta y del informe previo de la representación (letra f) del apartado 5 del artículo 64 ET) o del acuerdo.
 
+**Reparto para la redacción rápida:** informe de auditoría: resumen y hallazgos en tabla / infracciones y riesgo de reclamaciones / plan de corrección y doctrina. Política, por bloques de apartados: ámbito, sistema, inicio, fin y pausas, trabajo a distancia y correcciones / horas extraordinarias, tiempo parcial, descansos y desconexión / datos, conservación, acceso, régimen disciplinario, información a la representación y constancia de la consulta.
+
 **Posición del trabajador:**
 
 1. Cálculo de horas (`calculo-horas-extra-<apellido-trabajador>-<AAAAMMDD>.docx`), en tabla visible: por semana o mes según el cómputo del convenio, horas trabajadas, jornada ordinaria aplicable, exceso, horas ya pagadas o compensadas, horas pendientes, prueba de cada periodo y marca de lo prescrito; valor de la hora (precio del convenio o del contrato; si no lo hay, salario anual de los conceptos que retribuyen la jornada ordinaria dividido por la jornada anual del convenio, nunca inferior a la hora ordinaria) y total; si el precio o el salario salen de la tabla del convenio, búscala en internet en el boletín oficial del año y cítala con su enlace (apartado 3 de las anclas); sin tabla ni salario acreditado no se calcula.
@@ -152,6 +156,6 @@ Todos en Word según `references/formato-y-organos-laboral.md`.
 - [ ] Caso clasificado (horario prefijado o patrón irregular) con la doctrina leída; doctrina del TJUE leída si se invoca.
 - [ ] Cálculo visible, semana a semana o mes a mes, con lo prescrito excluido y fuente de cada cifra; ninguna cuantía de sanción escrita de memoria.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`; ninguna jurisprudencia en la política.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos de «posible disonancia» contrastados con el apartado exacto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); los avisos de «posible disonancia» contrastados con el apartado exacto leído.
 - [ ] Marcadores en lugar de datos no facilitados.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado y para quién; prescripción y fechas; cálculo y de dónde sale cada cifra; riesgos y documentos que faltan; tabla de jurisprudencia; próximo paso.

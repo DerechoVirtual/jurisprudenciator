@@ -25,7 +25,7 @@ description: >-
 - **Gran tenedor, zonas tensionadas, información previa, certificado energético, Catastro y uso turístico** → `buscar_articulo` (`ley="Ley 12/2023"`, artículos `"3"`, `"18"` y `"31"`), (`ley="BOE-A-2021-9176"`, `articulo="17"`), (`ley="Real Decreto Legislativo 1/2004"`, artículos `"38"` y `"40"`), (`ley="Ley 49/1960"`, artículos `"7"` y `"17"`) y (`ley="BOE-A-2024-26931"`, artículos `"1"`, `"2"` y `"3"`); inmueble → `consultar_catastro`.
 - **Doctrina sobre temporada encubierta, renuncias del arrendatario, garantías, gastos y desistimiento** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"`, con `anios=3` en lo reformado por la Ley 12/2023) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Arrendador o arrendatario sociedad** → `buscar_empresa_mercantil`; **depósito autonómico de la fianza** → `buscar_boe` (`consulta="depósito de fianzas"` o `consulta="fianzas de arrendamientos"`); **tributación** → `buscar_articulo` (`ley="BOE-A-2006-20764"`, `articulo="23"`) y `buscar_consultas_hacienda`; **reclamación futura** → `buscar_articulo` (`ley="LEC"`, `articulo="439"`; `ley="LO 1/2025"`, `articulo="5"`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Cita la ley como «artículo N de la Ley 29/1994, de 24 de noviembre, de Arrendamientos Urbanos» y la vivienda como «artículo N de la Ley 12/2023, de 24 de mayo, por el derecho a la vivienda»: así las reconoce `verificar_escrito`.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -60,7 +62,7 @@ Pasa este detector antes de redactar. Si encaja otra figura, díselo al abogado 
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: arrendador o arrendatario.
 2. ★ Arrendador: persona física o jurídica (cambia los plazos de cinco a siete años); número de inmuebles urbanos de uso residencial y superficie que posee, para saber si es gran tenedor (art. 3.k de la Ley 12/2023); si es usufructuario o la vivienda tiene hipoteca (art. 13 LAU). Sociedad: `buscar_empresa_mercantil` y poder de quien firma.
@@ -144,6 +146,8 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - En el contrato, cita artículos solo cuando el efecto dependa de ello (art. 9.3, 11, 25.8 y 36.5 LAU); el resto va a la nota.
 - Firmas en dos columnas y **ANEXOS**: inventario con fotografías, etiqueta energética y recomendaciones de uso, información del art. 31 de la Ley 12/2023, consulta catastral, justificante de la fianza y de las garantías.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, objeto y duración / renta, actualización, gastos, fianza y garantías / entrega, conservación y obras, cesión, adquisición preferente y desistimiento / incumplimiento, devolución, notificaciones, datos, ley, fuero, firmas y anexos. La nota: apartado 11 del formato.
+
 **Nota para el abogado** (2-5 páginas): régimen aplicable (general o del art. 4.2), plazos que resultan según sea persona física o jurídica, límites de renta y actualización aplicados, cláusulas críticas con artículo y, cuando lo exija el apartado 8, párrafo literal con órgano, fecha y ECLI; pendientes (zona tensionada, valor del índice, depósito autonómico de la fianza, certificado energético); riesgos para la posición del cliente; tributos y formalidades que hay que comprobar.
 
 ## Comprobación final
@@ -156,6 +160,6 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - [ ] Fianza de una mensualidad y garantías adicionales dentro del límite del art. 36.5 cuando el contrato no supera cinco o siete años.
 - [ ] Zona tensionada confirmada con la resolución (aportada por el abogado o hallada en internet, con enlace) o marcada como pendiente; renta y actualización dentro de los límites leídos.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; ninguno en el contrato.
-- [ ] `verificar_escrito` pasado sobre contrato y nota; cada «posible disonancia» contrastada con el artículo leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); cada «posible disonancia» contrastada con el artículo leído.
 - [ ] Marcadores en lugar de datos inventados; renta, fechas, plazos y definiciones coherentes.
 - [ ] Resumen para el abogado según el apartado 10 del formato, con la fecha de inicio, el final del plazo mínimo, la primera actualización posible y los preavisos de cada parte calculados con su precepto.

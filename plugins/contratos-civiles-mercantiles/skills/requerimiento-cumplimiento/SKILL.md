@@ -25,7 +25,7 @@ description: >-
 - **Doctrina de la Sala Primera** (requerimiento del art. 1504, carácter recepticio de la reclamación, comunicación frustrada por el destinatario, mora) → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Requerimiento como intento de negociación** → `buscar_sentencias` (`base="AN"`, `jurisdiccion="CIVIL"`, `tipo_organo="AP"`, `fecha_desde="03/04/2025"` y, si se sabe dónde se demandará, `provincia`).
 - **Destinatario que es sociedad** → `buscar_empresa_mercantil` (denominación o CIF: domicilio social vigente, administradores, disolución o concurso).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Si `buscar_articulo` devuelve una nota «Téngase en cuenta…» seguida de un texto entre comillas, ese texto entrecomillado es la redacción anterior: aplica la que encabeza la respuesta.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -58,7 +60,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: al que requiere o al requerido.
 2. ★ Partes: nombre o denominación, DNI/NIE o CIF y **domicilio donde se enviará** (el designado en el contrato para notificaciones, el domicilio social vigente o el lugar de trabajo); medio electrónico que usan habitualmente en sus relaciones. Si hay fiadores o codeudores solidarios, los suyos también.
@@ -122,7 +124,7 @@ El medio lo decide el abogado; tú explicas qué exige cada efecto: acta notaria
 - Identifica la obligación con cláusula y fecha, cuantifica al céntimo (principal, intereses y su cálculo, costes) y adjunta o describe los documentos: un requerimiento genérico no es «justificado» a efectos del art. 395 LEC.
 - Declara que el cliente ha cumplido lo suyo o se allana a cumplir (art. 1100, último párrafo) y ofrece la contraprestación si es simultánea.
 - Si hay fiador o varios deudores, un requerimiento a cada uno.
-- No confundas la intimación del art. 1504 con un simple requerimiento de pago. Pregunta al cliente si quiere resolver o cobrar: si quiere resolver, el acta declara la resolución de forma inequívoca (o la condiciona a que no pague en un último plazo breve); si todavía quiere cobrar, basta un requerimiento de pago ordinario. Hasta que se notifique el acta, el cliente no debe aceptar pagos parciales ni conceder aplazamientos. La liquidación (restitución, cláusula penal, daños) se prepara con `resolucion-por-incumplimiento`.
+- No confundas la intimación del art. 1504 con un simple requerimiento de pago. Si la documentación no lo aclara, incluye en la única ronda de preguntas si el cliente quiere resolver o cobrar: si quiere resolver, el acta declara la resolución de forma inequívoca (o la condiciona a que no pague en un último plazo breve); si todavía quiere cobrar, basta un requerimiento de pago ordinario. Hasta que se notifique el acta, el cliente no debe aceptar pagos parciales ni conceder aplazamientos. La liquidación (restitución, cláusula penal, daños) se prepara con `resolucion-por-incumplimiento`.
 
 **Si defiendes al requerido (contestación):**
 
@@ -162,6 +164,8 @@ Si el efecto exige acta notarial o requerimiento judicial (art. 1504 CC, art. 63
 
 Para el requerido: **contestación** (`contestacion-requerimiento-<remitente>-<AAAAMMDD>.docx`) con la misma estructura de hechos, las defensas y la reserva de acciones.
 
+**Reparto para la redacción rápida:** el requerimiento, el texto para el acta notarial y la contestación (1-2 páginas) no necesitan equipo: los redactas tú en un único archivo, con las consultas en paralelo. La nota (2-4 páginas), en equipo (apartado 11 del formato): efectos buscados y prescripción / intento de negociación y fechas / jurisprudencia y riesgos.
+
 **2. Nota para el abogado** (`nota-requerimiento-<destinatario>-<AAAAMMDD>.docx`, 2-4 páginas, apartado 3 del formato): efectos buscados y precepto de cada uno; forma de envío recomendada y por qué; cálculo de prescripción con fechas; fechas del MASC (recepción prevista, treinta días, un año); jurisprudencia con párrafo literal, órgano, fecha y ECLI; datos pendientes; riesgos; próximo paso (demanda, monitorio, resolución o propuesta de acuerdo).
 
 ## Comprobación final
@@ -172,7 +176,7 @@ Para el requerido: **contestación** (`contestacion-requerimiento-<remitente>-<A
 - [ ] Prescripción calculada por crédito, con fecha inicial, precepto y fecha final; fiadores y codeudores requeridos por separado si procede.
 - [ ] Si sirve de intento de negociación: objeto idéntico al de la futura demanda, invitación expresa, sin propuestas confidenciales, y fechas de treinta días y un año en la nota.
 - [ ] Cada ECLI citado en la nota se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el requerimiento y sobre la nota; cada aviso de «posible disonancia» contrastado con el texto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); cada aviso de «posible disonancia» contrastado con el texto leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DNI/NIE]`, `[CIF]`, `[DOMICILIO]`, `[IMPORTE]`, `[IBAN]`) en lugar de datos inventados; importes, fechas y definiciones coherentes entre documentos.
 - [ ] Sin precios de burofax o notaría; cualquier tipo de interés, con su fuente (Jurisprudenciator o el BOE en internet, con enlace y fecha de consulta).
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, efectos y cómo se aseguran, datos que faltan, tabla de jurisprudencia, plazos con su precepto y próximo paso.

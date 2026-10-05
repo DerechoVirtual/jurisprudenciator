@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Documento contractual entre letrado y cliente que formaliza el encargo de **defensa o acusación en un procedimiento penal** y blinda al despacho frente a impagos, expectativas mal fijadas y discusiones sobre la extensión del encargo.
 
 > 📐 **Cifras: `references/anclas-normativas-penal.md`**; lo que no esté ahí, se verifica con `buscar_articulo` antes de afirmarlo.
@@ -54,6 +56,8 @@ Documento contractual entre letrado y cliente que formaliza el encargo de **defe
 
 ## Flujo — siete fases
 
+Las fases son el contenido que debe tener la hoja, no una cadena de pasos: los datos se cierran antes de redactar (pasos 2-3 de `redaccion-rapida`) y la redacción la hace el equipo.
+
 ### 1. Datos del despacho (auto-rellenar desde el perfil)
 
 Leer de `~/.claude/plugins/config/derecho-virtual/litigacion-penal-espana/CLAUDE.md`:
@@ -64,11 +68,11 @@ Leer de `~/.claude/plugins/config/derecho-virtual/litigacion-penal-espana/CLAUDE
 - Email y teléfono
 - Logo: `[logo del despacho, si se aporta]`
 
-Si algún campo aparece como `[PLACEHOLDER]`, parar y pedir **solo ese dato**.
+Si algún campo aparece como `[PLACEHOLDER]`, déjalo como `[PENDIENTE: dato]` y lístalo en la entrega; pregunta **solo ese dato** si bloquea.
 
-### 2. Datos del cliente — batería mínima
+### 2. Datos del cliente — mínimos
 
-Mediante `AskUserQuestion` (datos que NO se inventan). **Todos van al documento como marcadores hasta que el usuario los aporte:**
+Sácalos de la documentación aportada; los que falten se piden en la única ronda de preguntas del paso 2 de `redaccion-rapida` (datos que NO se inventan). **Todos van al documento como marcadores hasta que el usuario los aporte:**
 
 - `[CLIENTE]` — nombre completo o razón social
 - `[DNI]` — DNI / NIE / CIF
@@ -165,7 +169,7 @@ Bloque destacado, obligatorio en toda hoja de encargo de defensa:
 
 ### 7. Honorarios — modalidad
 
-`AskUserQuestion` con cuatro modalidades:
+Cuatro modalidades. Si el abogado no ha dicho cuál, inclúyela en la única ronda de preguntas del paso 2 de `redaccion-rapida`; si sigue sin decirse, redacta con presupuesto cerrado por fase (la recomendada) y deja las cifras como `[PENDIENTE: importe]`:
 
 1. **Presupuesto cerrado** — cantidad fija acordada, **por fase** (recomendado en penal, dada la estructura del § 4)
 2. **Por hora** — tarifa horaria con estimación
@@ -215,6 +219,8 @@ Bloque obligatorio, con la especialidad penal:
 - **Doble firma:** `[LETRADO]` + `[CLIENTE]`, con DNI debajo
 - Lugar y fecha
 
+**Reparto para la redacción rápida:** las cláusulas llevan el rótulo `### [ESTIPULACION]`, que el ensamblador numera en femenino (PRIMERA.-, SEGUNDA.-…). 01 comparecencia con los datos de las partes (§ 1-2), objeto del encargo y extensión por fases con su tabla (§ 3-4) · 02 costas penales y conformidad (§ 5-6) · 03 honorarios y advertencias obligatorias (§ 7-8) · 04 protección de datos, jurisdicción, lugar, fecha y doble firma (§ 9-10). Si la hoja no pasa de cuatro páginas, redáctala sin equipo.
+
 ## Maquetación del Word
 
 **Diseño corporativo del despacho:**
@@ -236,9 +242,9 @@ Bloque obligatorio, con la especialidad penal:
 
 **Generación:**
 
-- Librería: `docx` (Node.js) o `python-docx` (Python)
+- El Word lo genera el ensamblado de `redaccion-rapida`, que ya incluye tablas con bordes, rótulos y firmas en dos columnas; la paleta, el logo y los cuadros de color de arriba se aplican solo si el abogado los pide o el perfil del despacho los define
 - Logo desde `~/.claude/plugins/config/derecho-virtual/litigacion-penal-espana/brand/logo-despacho.jpg` si se aporta
-- Si no existe, fallback a cabecera de texto plano y flag en la nota del revisor
+- Si no existe, cabecera de texto plano y aviso en el resumen de la entrega
 
 ## Salida
 
@@ -248,7 +254,7 @@ Bloque obligatorio, con la especialidad penal:
 > ⚠️ **Slug: `descriptor-delito-año`. Nunca el nombre del cliente** en la ruta ni en el nombre del archivo. Un directorio que revele quién está investigado es una brecha de datos de categoría especial (art. 10 RGPD).
 
 - La cabecera interna RESERVADO Y CONFIDENCIAL **no** se aplica: la hoja de encargo es un documento que sale al cliente
-- Nota del revisor en mensaje separado, con el checklist pre-firma
+- El checklist pre-firma y los datos pendientes van en el resumen de la entrega, no en un mensaje aparte
 
 ## Reglas
 
@@ -259,7 +265,7 @@ Bloque obligatorio, con la especialidad penal:
 5. **La conformidad la decide el cliente**, y se le informa **por escrito** (art. 785.7 in fine LECrim).
 6. **Costas: régimen penal, nunca el civil.** Verificar con `buscar_articulo` antes de afirmar cualquier extremo. El absuelto **nunca** paga costas (art. 240.2º LECrim).
 7. **Cuota litis pura prohibida.**
-8. **Aplicar estilo de la casa.** Pasada final con `estilo-escritos-judiciales` para el lenguaje (no para la estructura).
+8. **Aplicar estilo de la casa.** Los redactores aplican el estilo del abogado y el lenguaje de `estilo-escritos-judiciales` al escribir (no para la estructura); no hay una pasada final aparte.
 9. ⛔ **No mencionar MASC, burofax previo, ni la Ley 1/2025 como requisito de procedibilidad.** No existen en penal.
 10. ⛔ **No existe el «fiscal instructor».** Instruye el **Juez de Instrucción**. No mencionar la reforma en tramitación (prevista 1-1-2028) como Derecho vigente.
 11. ⛔ **Prohibido citar jurisprudencia concreta** (ECLI/ROJ/fecha) en el documento.

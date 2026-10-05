@@ -29,6 +29,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ---
 
 Anclas: `references/anclas-normativas-ca.md` (§ 10). Lo que no esté allí, verifícalo con
@@ -212,6 +214,8 @@ lo actuado.
 5. **Jurisprudencia** — solo verificada (§ 7).
 6. **SUPLICO** y **OTROSÍES:** vista de actuaciones; documentos; **urgencia**.
 
+**Reparto para la redacción rápida:** encabezamiento, personación y hechos datados · fundamentos procesales (objeto limitado del § 3) y de fondo (art. 18.2 CE, arts. 99 y 100 LPAC y los motivos del § 5.1; una sección más si son muchos motivos) · cierre con petición subsidiaria de acotación, suplico y otrosíes. La urgencia manda: escrito corto, tres secciones como máximo.
+
 > **SUPLICO AL JUZGADO** que, teniendo por presentado este escrito, se sirva admitirlo, tener por
 > **personado y parte** a **[CLIENTE]**, **titular del domicilio** sito en **[DOMICILIO]**, tener por
 > formulada **OPOSICIÓN** a la autorización de entrada solicitada por **[ÓRGANO]** y dictar auto por el que:
@@ -244,4 +248,4 @@ lo actuado.
 - **Nada de MASC:** es del orden **civil**; no existe en esta jurisdicción.
 - **Coordinación obligatoria:** abrir **siempre en paralelo** la impugnación del acto de fondo con
   petición de **medida cautelar** (`medidas-cautelares-ca`) — § 3.
-- **Entregable:** Word `.docx` maquetado (skill `docx`).
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`.

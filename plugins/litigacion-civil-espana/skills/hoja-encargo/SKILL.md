@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Documento contractual entre letrado y cliente que formaliza el encargo y blinda al despacho frente a impagos, reclamaciones por costas inesperadas o impugnaciones de minuta (LEC 35).
 
 ## Marco legal
@@ -45,7 +47,9 @@ Documento contractual entre letrado y cliente que formaliza el encargo y blinda 
 - Tras intake del asunto (`asunto-intake`), antes de iniciar trabajo facturable
 - Cuando se acepta nuevo asunto sin documento previo de provision o presupuesto cerrado
 
-## Flujo — cinco fases
+## Flujo
+
+Los datos de las fases 1-4 se cierran en `caso.md` antes de redactar (pasos 2-3 de `redaccion-rapida`); las baterías de abajo son comprobaciones que se responden con la documentación y el CLAUDE.md del despacho, y solo se pregunta al abogado lo que falte, en una única ronda.
 
 ### 1. Datos del despacho (auto-rellenar desde CLAUDE.md)
 
@@ -57,11 +61,11 @@ Leer del CLAUDE.md a nivel despacho (`## Perfil del despacho`):
 - Email y telefono de contacto
 - Logo: `[logo del despacho, si se aporta]`
 
-Si algun campo aparece como `[PLACEHOLDER]`, parar y pedir solo ese dato (no rellenar la skill completa).
+Si algun campo aparece como `[PLACEHOLDER]`, pedir solo ese dato en la única ronda de preguntas (no rellenar la skill completa).
 
-### 2. Datos del cliente — bateria minima
+### 2. Datos del cliente — comprobacion minima
 
-Mediante `AskUserQuestion` (datos que NO se inventan):
+Se toman de la documentacion aportada; lo que falte se pregunta en la unica ronda, o se deja como `[PENDIENTE: dato]` (datos que NO se inventan):
 
 - Nombre completo o razon social
 - DNI / NIE / CIF
@@ -72,7 +76,7 @@ Mediante `AskUserQuestion` (datos que NO se inventan):
 
 ### 3. Objeto del encargo
 
-Bateria de preguntas:
+Comprobaciones (se responden con lo aportado; pregunta solo lo que bloquee):
 
 - Tipo de procedimiento o gestion (ej. "reclamacion de cantidad por importe de X €, juicio ordinario ante Tribunal de Instancia de Madrid")
 - Contraparte
@@ -81,7 +85,7 @@ Bateria de preguntas:
 
 ### 4. Honorarios — modalidad
 
-`AskUserQuestion` con cuatro modalidades:
+Se elige una de las cuatro modalidades (la que conste en lo aportado; si no consta, se pregunta en la unica ronda):
 
 1. **Presupuesto cerrado** — cantidad fija acordada
 2. **Por hora** — tarifa horaria con estimacion
@@ -126,6 +130,8 @@ Bloque RGPD obligatorio:
 - Doble firma: letrado + cliente, con DNI debajo
 - Fecha y lugar
 
+**Reparto para la redacción rápida:** sección 1 = cabecera, datos del despacho y del cliente y objeto del encargo (alcance); sección 2 = honorarios, provisión de fondos y forma de pago; sección 3 = advertencias obligatorias y cláusula RGPD; sección final = jurisdicción, fecha, lugar y firmas. La hoja de encargo suele ocupar 2-3 páginas: si no pasa de 2, redáctala tú en un único archivo de `secciones/`.
+
 ## Maquetacion del Word
 
 **Diseño corporativo del despacho:**
@@ -148,14 +154,14 @@ Bloque RGPD obligatorio:
 
 - Libreria: `docx` (Node.js) o `python-docx` (Python)
 - Logo cargado desde `~/.claude/plugins/config/derecho-virtual/litigacion-civil-espana-pro/brand/logo-despacho.jpg` (si se aporta logo)
-- Si el logo no existe en esa ruta, fallback a cabecera de texto plano y flag en nota del revisor
+- Si el logo no existe en esa ruta, fallback a cabecera de texto plano y aviso en el resumen de la entrega
 
 ## Salida
 
 - `matters/<slug-asunto>/hoja-encargo/hoja-encargo-v1.docx` cuando workspaces de asunto este habilitado
 - En su defecto, `outputs/hoja-encargo-[cliente-slug]-[YYYY-MM-DD].docx`
 - Cabecera interna RESERVADO Y CONFIDENCIAL del CLAUDE.md NO se aplica — la hoja de encargo es documento que sale al cliente, no interno
-- Nota del revisor en mensaje separado al usuario con el checklist pre-firma
+- Checklist pre-firma en el resumen de la entrega (no en un archivo ni en un mensaje aparte)
 
 ## Reglas
 
@@ -164,7 +170,7 @@ Bloque RGPD obligatorio:
 3. **Consumidor vs empresario.** Si el cliente es persona fisica no profesional, la clausula de jurisdiccion no puede privarle de su fuero natural (domicilio del consumidor).
 4. **Provision de fondos en blanqueo.** Si el asunto cae en supuesto de Ley 10/2010 (operaciones inmobiliarias, sociedades, fideicomisos), provision obligatoria con identificacion reforzada del cliente.
 5. **Asunto en cartera.** Tras generar la hoja de encargo, ofrecer ejecutar `asunto-intake` si no se ha hecho — la hoja firmada es el detonante natural de creacion de asunto.
-6. **Aplicar estilo de la casa.** Pasada final con `estilo-escritos-judiciales` para el lenguaje del documento (no para la estructura, que es la del modelo).
+6. **Aplicar estilo de la casa.** El redactor aplica `estilo-escritos-judiciales` al escribir, para el lenguaje del documento (no para la estructura, que es la del modelo), no en una pasada final.
 
 ## Handoffs
 

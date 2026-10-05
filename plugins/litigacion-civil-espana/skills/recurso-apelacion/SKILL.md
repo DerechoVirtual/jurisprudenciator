@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Cambio crítico LO 1/2025
 
 > **El anuncio del recurso de apelación queda SUPRIMIDO.** Ya no se "anuncia" — se interpone
@@ -96,13 +98,13 @@ Estructurar por DOBLE ATAQUE:
 
 ## Fase 3 — Recomendación letrada
 
-Antes de redactar:
+Antes de redactar (se resuelve con la sentencia y la documentación, y se cierra en `caso.md` y el plan antes de lanzar al equipo):
 - Probabilidad de éxito (alta/media/baja) basado en jurisprudencia de la AP del territorio
 - Riesgo de empeorar: ¿hay riesgo de "reformatio in peius" si la contraria también apela?
 - Costas del recurso: estimar
 - Recomendación al cliente: apelar / no apelar / negociar transacción antes
 
-Outputear este análisis aparte del escrito final, como documento de trabajo para el cliente.
+Dale este análisis al abogado en el resumen de la entrega; solo si lo pide, sácalo aparte del escrito final como documento de trabajo para el cliente.
 
 ## Fase 4 — Jurisprudencia (5-10 STS verificadas)
 
@@ -115,7 +117,7 @@ Mediante el conector MCP `jurisprudenciator` (`buscar_sentencias`/`leer_sentenci
 ### Obtención del párrafo literal — OBLIGATORIO
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=`) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se entrecomillará. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y textual; la paráfrasis sin comillas.
 
-### Ficha por sentencia (preparar antes de redactar)
+### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 Para CADA cita: ECLI; ROJ; Tribunal + Sala + Sección; Fecha; Magistrado ponente; **Párrafo literal** (verificado vía `leer_sentencias`, entrecomillado); *Ratio decidendi* en 1-2 frases; **Hecho/motivo** al que se ancla; **Argumento** de subsunción.
 
 ### Método secuencial de redacción jurisprudencial — REGLA CARDINAL
@@ -187,6 +189,8 @@ de fecha [...], previa elevación de los autos, y, en su día, dicte sentencia p
 [Firmas]
 ```
 
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y antecedentes de hecho (dos si pasan de 1.200 palabras); sección 2 = fundamentos procesales (competencia de la Audiencia Provincial, plazo de 20 días, interposición directa sin anuncio); una sección por cada motivo del recurso (ataque a los hechos, ataque a los fundamentos…), cada una con sus STS (entre todas, 5-10); sección final = costas, súplica, lugar, fecha y firmas.
+
 ### Redacción y estilo discursivo (OBLIGATORIO)
 - **Numeración correlativa, nunca "v1/v2".** Ordinales (PRIMERO.-, SEGUNDO.- …) y, en su caso, motivos del recurso numerados correlativos con título propio ("**1.- ...**"). Prohibido "IV.1", "V.2", "v1", "5.1".
 - **Conectores VARIADOS:** *En primer lugar / En segundo lugar / Siguiendo con lo anterior / A mayor abundamiento / Por su parte / Asimismo / Dicho lo cual / Por último*. Cada punto se aísla, agota y enlaza.
@@ -202,15 +206,14 @@ de fecha [...], previa elevación de los autos, y, en su día, dicte sentencia p
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** de ese motivo y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-## Fase 6-8 — Pulido, subsunción, verificación ECLI
+## Fase 6-8 — Estilo, subsunción y verificación ECLI (dentro del método rápido)
 
-Aplicar automáticamente `estilo-escritos-judiciales`, `subsuncion-juridica`, y verificar los ECLI/ROJ con `jurisprudenciator` (`buscar_por_cita`).
+Los redactores aplican `estilo-escritos-judiciales` y `subsuncion-juridica` al escribir, no en una pasada posterior. Los ECLI/ROJ los comprueba el ensamblado (solo se admiten las sentencias que algún redactor leyó con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas.
 
 ## Salida
 
 - Word .docx en `matters/<slug>/escritos/recurso-apelacion-v1.docx`
-- Análisis de viabilidad (separado) para el cliente: `matters/<slug>/escritos/dictamen-apelacion.docx`
-- Fichas jurisprudencia
+- Solo si el abogado lo pide: análisis de viabilidad (separado) para el cliente (`matters/<slug>/escritos/dictamen-apelacion.docx`) y fichas de jurisprudencia (la tabla de fuentes ya va en el informe del ensamblado)
 - Decision tree:
 
 > 1. **Refinar tonalidad/longitud** — dime objetivo de palabras

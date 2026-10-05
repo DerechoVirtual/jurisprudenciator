@@ -13,7 +13,7 @@ description: Catálogo (sin plantilla). Redacta recurso de apelación penal cont
 - **Criterio de la Sala que resolverá** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="AN"`, `tipo_organo="AP"` o `"TSJ"`, `provincia`) + `leer_sentencias` con `parrafos=3`.
 - **Revisión de absoluciones y de la prueba personal en segunda instancia** → `buscar_sentencias` (`base="TC"`) y (`jurisdiccion="PENAL"`, `base="TS"`).
 - **Resoluciones que cita la sentencia recurrida** → `buscar_por_cita`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Redacta la apelación penal contra sentencia. Consulta `references/anclas-normativas-penal.md` (§ 3.2)
 antes de citar plazos. Perfil del despacho:
 `~/.claude/plugins/config/derecho-virtual/litigacion-penal-espana/`.
@@ -33,6 +35,9 @@ antes de citar plazos. Perfil del despacho:
 ---
 
 ## 1. Comprobaciones previas (bloque obligatorio antes de redactar)
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Recurribilidad y órgano** (verificado):
    - Sentencia del **Juez de lo Penal** → apelación ante la **Audiencia Provincial** (art. 790.1).
@@ -245,6 +250,8 @@ En el **mismo escrito de formalización** puede pedirse la práctica de las dili
    acusación: anulación** (art. 792.2), no condena directa. Otrosíes: prueba, vista, costas.
 7. Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** una sección por motivo que se alegue, con el rótulo `### [MOTIVO]`: 01 encabezamiento, comparecencia, interposición en plazo, antecedentes y gravamen · 02 motivo de quebrantamiento de garantías (si se alega) · 03 motivo de error en la apreciación de la prueba, con folios y minutaje (y filtro del § 5 si acusas) · 04 motivo de infracción de normas sustantivas (con sus búsquedas) · 05 motivo de pena y responsabilidad civil · 06 prueba en segunda instancia, vista, suplico, otrosíes, lugar, fecha y firma. Se omiten las secciones de los motivos que no se aleguen.
+
 ---
 
 ## 10. Errores típicos
@@ -288,4 +295,4 @@ En el **mismo escrito de formalización** puede pedirse la práctica de las dili
 
 ## Entrega
 
-Escrito final en **Word `.docx`** (skill `docx`), maquetado para LexNET.
+Escrito final en **Word `.docx`** (lo genera el ensamblado de `redaccion-rapida`), maquetado para LexNET.

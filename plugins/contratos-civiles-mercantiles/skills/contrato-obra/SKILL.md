@@ -25,7 +25,7 @@ description: >-
 - **Pago de certificaciones, intereses y pactos abusivos; dueño consumidor** → `buscar_articulo` (`ley="BOE-A-2004-21830"`, artículos `"3"`, `"4"`, `"5"`, `"7"`, `"8"` y `"9"`) y, si el dueño es consumidor, (`ley="TRLGDCU"`, artículos `"3"`, `"82"`, `"83"`, `"85"`, `"86"`, `"87"`, `"88"` y `"90"`; si el contrato se celebra fuera del establecimiento del contratista o a distancia, además `"92"`, `"93"`, `"97"`, `"99"`, `"102"`, `"103"`, `"104"`, `"105"`, `"106"` y `"108"`; `ley="LEC"`, artículos `"52"` y `"54"`).
 - **Doctrina sobre precio, modificaciones, penalizaciones, desistimiento, retenciones, recepción y acción directa** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o el asunto se litigará en esa plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, estado, administradores, concurso); **inmueble de la obra** → `consultar_catastro` (referencia catastral, uso, superficie, año; no da titular: pide al abogado nota simple o título del dueño); usos y licencias municipales, si el municipio está cubierto → `buscar_ordenanzas` / `leer_ordenanza`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral o catastral...). Cita la LOE como «artículo N de la Ley 38/1999, de 5 de noviembre, de Ordenación de la Edificación» (con «LOE» a secas el conector encuentra la Ley Orgánica de Educación), la subcontratación como «artículo N de la Ley 32/2006, de 18 de octubre, reguladora de la subcontratación en el Sector de la Construcción» y la morosidad como «artículo N de la Ley 3/2004, de 29 de diciembre».
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -58,7 +60,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: dueño o promotor, contratista o subcontratista.
 2. ★ Partes: datos de identificación y poder; si el dueño es una persona física que reforma su vivienda (consumidor, art. 3 TRLGDCU) o actúa en su actividad empresarial. Si es consumidor, pregunta también **dónde se negocia y se firma** (en el establecimiento del contratista, en la vivienda del dueño o por medios a distancia) y si la visita la pidió el dueño.
@@ -160,6 +162,8 @@ Estructura del contrato:
 16. DECIMOQUINTA.- Cesión, notificaciones, negociación previa, ley aplicable y fuero.
 17. Cierre, firmas y ANEXOS: proyecto o memoria, presupuesto y mediciones, plan de obra, modelo de certificación, modelo de acta de recepción, avales, pólizas.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, objeto y documentos contractuales / precio, modificaciones, plazos, certificaciones y pagos / retenciones y garantías, obligaciones de las partes y subcontratación / materiales, riesgo y seguros, penalizaciones, recepción y responsabilidad por defectos / suspensión, desistimiento y resolución, cesión, notificaciones, ley, fuero, firmas y anexos. La nota: apartado 11 del formato.
+
 La nota sigue el apartado 3 del formato: si la obra está en el ámbito de la LOE (y consecuencias), sistema de precio elegido y riesgo, cláusulas críticas con su artículo y jurisprudencia literal, garantías obligatorias según la disposición adicional segunda consolidada (con su enlace), datos pendientes (licencia, nota simple, pólizas), fiscalidad a comprobar.
 
 ## Comprobación final
@@ -175,7 +179,7 @@ La nota sigue el apartado 3 del formato: si la obra está en el ámbito de la LO
 - [ ] Plazo de pago de certificaciones no superior al máximo legal; retenciones y pena con tope y regla de devolución.
 - [ ] Acta de recepción con el contenido del art. 6.2 LOE; plazos de responsabilidad computados desde la recepción.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el contrato y la nota; la LOE citada con número y fecha; cada «posible disonancia» contrastada con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); la LOE citada con número y fecha; cada «posible disonancia» contrastada con el apartado leído.
 - [ ] Sociedades comprobadas con `buscar_empresa_mercantil`; firmantes con cargo o poder vigentes.
 - [ ] Marcadores (`[REFERENCIA CATASTRAL]`, `[IMPORTE]`, `[FECHA DE INICIO]`…) en lugar de datos inventados; importes, porcentajes, plazos y anexos coherentes.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas, datos y documentos que faltan, tabla de jurisprudencia, plazos con su precepto (recepción, garantías, prescripción del art. 18 LOE, pago) y próximo paso.

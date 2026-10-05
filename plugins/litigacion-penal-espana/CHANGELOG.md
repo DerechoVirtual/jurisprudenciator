@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.6.0 — 2026-10-05
+
+### Cambiado — redacción rápida con equipo de subagentes
+
+- Las 22 skills que producen un documento (alegaciones contra el sobreseimiento, conformidad,
+  comunicación de conservación documental, delitos leves, denuncias por estafa y por delitos contra
+  los derechos de los trabajadores, ejecución penal, escritos de acusación y de defensa, habeas
+  corpus, hoja de encargo, medidas cautelares, personación, prueba ilícita, querella, recursos de
+  apelación, casación, reforma contra el auto de apertura y contra el archivo, solicitud de
+  diligencias y violencia de género) llevan el bloque «Redacción rápida (por defecto)»: se redactan
+  con la skill `redaccion-rapida`, con un equipo de subagentes que escribe las secciones a la vez, y
+  el Word sale en 2-3 minutos.
+- Cada una que tiene estructura del escrito añade su «Reparto para la redacción rápida» (cómo se
+  divide ese documento en secciones); los escritos cortos se redactan sin equipo.
+- Se retiran las baterías de preguntas (hoja de encargo, conservación documental, comprobaciones
+  previas): los datos salen de la documentación y solo se pregunta lo que bloquea, en una única ronda.
+- La comprobación de citas pasa a hacerse por sección (`verificar_escrito` de cada redactor) y en el
+  ensamblado; el Word lo genera el ensamblado de `redaccion-rapida`, y los cuadros y notas extra se
+  incluyen en el escrito o en el resumen de la entrega en lugar de entregarse aparte.
+- Sin cambios en el contenido jurídico (normas, órganos, plazos, estructura ni jurisprudencia mínima).
+
 ## 0.3.0 — 2026-09-27
 
 ### Jurisprudenciator en todas las skills

@@ -27,7 +27,7 @@ description: >-
 - **Derecho de la Unión y protección internacional** → `buscar_articulo` (`ley="Directiva 2008/115/CE"`, artículos 15, 16 y 17; `ley="Ley 12/2009"`, artículos 19, 21 y 25; `ley="Reglamento (UE) 2024/1348"`, artículos 3, 4, 10, 26, 27 y 79; `ley="Directiva (UE) 2024/1346"`, artículo 10) y `buscar_boe` para la adaptación española.
 - **Historia clínica del interno** → `buscar_articulo` (`ley="Ley 41/2002"`, artículo 18).
 - **Doctrina de la Audiencia Provincial y del Tribunal Constitucional** → `buscar_sentencias` (`consulta="internamiento extranjero proporcionalidad medidas menos gravosas domicilio"`, `base="AN"`, `jurisdiccion="PENAL"`, `tipo_resolucion="AUTO"`, `provincia` del juzgado) y (`consulta="internamiento extranjero libertad personal motivación"`, `base="TC"`) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Cuando el precepto lleve letra o «bis», escribe «el apartado 1 del artículo 62 bis de la Ley Orgánica 4/2000, en su letra f)» o «la letra f) del artículo 37.1 del Real Decreto 162/2014», y pon la norma en cada cita: con «62 bis.1» o «37.1.f)», o sin norma detrás, el verificador no la identifica o la atribuye a la norma citada antes. El verificador no reconoce las normas de la Unión (Directiva 2008/115/CE, Reglamento (UE) 2024/1348, Directiva (UE) 2024/1346): atribuye sus artículos a otra norma del escrito o los da por no localizados. Si el artículo se leyó con `buscar_articulo` en su norma, la cita es correcta y no se cambia; explícalo en el resumen.
 
@@ -39,6 +39,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -62,7 +64,7 @@ No la uses para:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Trabaja con rapidez: la detención cautelar no puede durar más de 72 horas antes de la solicitud de internamiento (art. 61.1.d) LOEX) y el juez resuelve tras oír al interesado.
+Saca estos datos de la documentación aportada y pide los que falten en una única ronda (paso 2 de `redaccion-rapida`). Trabaja con rapidez: la detención cautelar no puede durar más de 72 horas antes de la solicitud de internamiento (art. 61.1.d) LOEX) y el juez resuelve tras oír al interesado.
 
 1. **Situación exacta**: detenido (fecha, hora y lugar de la detención), ya oído por el juez, o internado (CIE, fecha de ingreso, juzgado, número de procedimiento, fecha del auto y plazo que fija). Imprescindible.
 2. **Fecha y hora de notificación del auto** (para reforma y apelación). Imprescindible si se recurre.
@@ -73,7 +75,7 @@ Pregunta en este orden. Trabaja con rapidez: la detención cautelar no puede dur
 7. **Perspectiva de expulsión**: nacionalidad acreditada o no, si el país readmite, gestiones consulares, vuelos, intentos fallidos.
 8. Para quejas: hechos, fechas, personas intervinientes, prueba (partes médicos, testigos, registros del centro).
 
-Si falta un dato imprescindible, pregúntalo antes de redactar. Lo que no se tenga va con marcador (`[FECHA Y HORA DE LA DETENCIÓN]`, `[NÚMERO DE DILIGENCIAS]`, `[CIE DE ...]`).
+Si falta un dato imprescindible, pídelo en la única ronda de preguntas (paso 2 de `redaccion-rapida`). Lo que no se tenga va con marcador (`[FECHA Y HORA DE LA DETENCIÓN]`, `[NÚMERO DE DILIGENCIAS]`, `[CIE DE ...]`).
 
 ## Requisitos y comprobaciones
 
@@ -166,6 +168,8 @@ Uno por situación, en Word, según `references/formato-y-organos.md` del plugin
 
 Si el abogado necesita presentar dos escritos (por ejemplo, recurso y queja), entrégalos por separado.
 
+**Reparto para la redacción rápida:** la oposición al internamiento, la solicitud de cese, la queja al juez de control y el habeas corpus, por su urgencia y brevedad, los redacta el director sin equipo; el recurso de reforma y apelación, si pasa de cuatro páginas, se divide en encabezamiento y hechos, una sección por motivo de revocación y súplica con particulares.
+
 En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024» y el resto de normas como indica el apartado 4 de `references/formato-y-organos.md` (por ejemplo, «Ley Orgánica 4/2000», no «Reglamento de Extranjería»), para que `verificar_escrito` las reconozca.
 
 ## Comprobación final
@@ -174,7 +178,7 @@ En el escrito, cita el Reglamento como «artículo N del Real Decreto 1155/2024�
 - [ ] Cada artículo citado se leyó con `buscar_articulo` en esta conversación; los incisos anulados que señala el conector no se citan.
 - [ ] Órgano del encabezamiento comprobado con el art. 62.6 LOEX y el art. 88 LOPJ.
 - [ ] Cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita` (autos con la «A» final).
-- [ ] `verificar_escrito` pasado sobre el texto completo y sus avisos resueltos.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y sus avisos resueltos.
 - [ ] Plazos con fecha y hora de inicio, precepto y fecha final: 72 horas de detención, plazo del recurso, días de internamiento consumidos y fecha en que se alcanza el máximo legal o el fijado en el auto.
 - [ ] Régimen de protección internacional determinado con el art. 79 del Reglamento (UE) 2024/1348, o parada explicada al abogado.
 - [ ] Marcadores en los datos que faltan; ningún dato inventado.

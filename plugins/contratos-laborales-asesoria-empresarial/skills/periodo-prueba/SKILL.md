@@ -2,7 +2,7 @@
 name: periodo-prueba
 description: >-
   Pacta el periodo de prueba y resuelve su finalización: redacta en Word la cláusula del contrato o la
-  comunicación de no superación, con nota de riesgos. Úsala cuando la empresa pregunte «¿cuánto periodo de
+  comunicación de no superación (con nota de riesgos, si la pides). Úsala cuando la empresa pregunte «¿cuánto periodo de
   prueba le pongo?», «quiero cesarle en la prueba» o «no ha superado el periodo de prueba», y cuando el
   trabajador diga «me han echado en la prueba estando embarazada / de baja» o «ya había trabajado allí
   antes». Comprueba los límites del art. 14 ET y del convenio, la forma escrita, la nulidad del pacto si ya
@@ -24,7 +24,7 @@ description: >-
 - **Duración, cómputo y forma según el convenio** → `buscar_convenio` + `leer_convenio` (`buscar_en="periodo de prueba"`) + `vigencia_convenio`.
 - **Doctrina sobre nulidad del pacto, embarazo, enfermedad y sucesión de empresa** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; o `base="AN"` + `tipo_organo="TSJ"` + `provincia` sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
 - **Empresa** → `buscar_empresa_mercantil` (denominación exacta y CIF para la comunicación).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). Cita la Ley 15/2022 con su fecha («artículo 30 de la Ley 15/2022, de 12 de julio, integral para la igualdad de trato y la no discriminación»): así la reconoce `verificar_escrito`.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Identifica primero **qué momento es** y **a quién defiende el abogado**:
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pregunta en este orden; si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado y en qué momento (A, B o C).
 2. ★ Modalidad y duración del contrato (indefinido, temporal y su duración, formativo en alternancia o para la práctica profesional, alta dirección).
@@ -140,7 +142,8 @@ Lee con `leer_sentencias` (`parrafos=3`, `terminos="periodo de prueba"` más la 
    - Membrete (`[DENOMINACIÓN SOCIAL]`, `[CIF]`), destinatario, lugar y fecha, asunto.
    - Cuerpo: referencia a la cláusula del contrato y a su fecha; decisión de resolver el contrato durante el periodo de prueba al amparo del art. 14.2 ET; **fecha de efectos**, que debe caer dentro del plazo; puesta a disposición de la liquidación; versión con motivos si el abogado la elige.
    - Firma de la empresa y recibí con fecha (o constancia de la negativa ante testigos).
-3. **Nota para el abogado**: `nota-periodo-prueba-<empresa>-<AAAAMMDD>.docx`. Validez del pacto (forma, duración frente a ley y convenio, funciones previas); cálculo del plazo con fecha inicial, interrupciones y último día; factores de riesgo y prueba disponible; valoración (bajo, medio, alto) del riesgo de nulidad; jurisprudencia con párrafo literal; si defiende al trabajador, calificación que se pedirá y fecha final de los 20 días hábiles.
+   - **Reparto para la redacción rápida:** la cláusula (1 página) y la comunicación (1-2 páginas) son cortas: una sección cada una, sin equipo.
+3. **Nota para el abogado**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega): `nota-periodo-prueba-<empresa>-<AAAAMMDD>.docx`. Validez del pacto (forma, duración frente a ley y convenio, funciones previas); cálculo del plazo con fecha inicial, interrupciones y último día; factores de riesgo y prueba disponible; valoración (bajo, medio, alto) del riesgo de nulidad; jurisprudencia con párrafo literal; si defiende al trabajador, calificación que se pedirá y fecha final de los 20 días hábiles.
 
 ## Comprobación final
 
@@ -151,6 +154,6 @@ Lee con `leer_sentencias` (`parrafos=3`, `terminos="periodo de prueba"` más la 
 - [ ] Último día del periodo y fecha de efectos calculados; en el momento C, fecha final del plazo de 20 días hábiles con su precepto.
 - [ ] Factores de riesgo listados y, si existen, advertencia expresa al abogado.
 - [ ] Cada ECLI de la nota leído con `leer_sentencias` o comprobado con `buscar_por_cita`; ninguno en la cláusula ni en la carta; ningún auto de inadmisión citado como doctrina.
-- [ ] `verificar_escrito` pasado sobre cada documento y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero) y corregido lo que señale.
 - [ ] Marcadores en lugar de datos no facilitados; si algún dato no sale de Jurisprudenciator, procede de una fuente oficial con enlace y fecha de consulta, y el resumen lo identifica.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, plazo y fecha límite con su precepto, riesgos, documentos que faltan, tabla de jurisprudencia y próximo paso.

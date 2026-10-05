@@ -26,7 +26,7 @@ description: >-
 - **Doctrina** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o se litigará en esa plaza; `base="TJUE"` para la Directiva de agentes comerciales) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Concurso de una de las partes** → `buscar_articulo` (`ley="TRLC"`, `articulo="156"`).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, estado, administradores y apoderados vigentes, concurso; en franquicia, contrasta los datos del franquiciador con los del dossier).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Cita con fecha: «artículo N de la Ley 12/1992, de 27 de mayo, sobre Contrato de Agencia», «artículo N del Real Decreto 201/2010, de 26 de febrero», «artículo 62 de la Ley 7/1996, de 15 de enero, de Ordenación del Comercio Minorista», «artículo N de la Ley 15/2007, de 3 de julio, de Defensa de la Competencia». `verificar_escrito` no identifica el Reglamento (UE) 2022/720 ni los demás reglamentos de la Unión (atribuye su artículo a la última ley española nombrada): comprueba cada artículo europeo con `buscar_articulo` e ignora ese veredicto. No cites el Reglamento de memoria: si el conector no lo devuelve, léelo en internet en EUR-Lex (CELEX 32022R0720) y cítalo con enlace y fecha de consulta.
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -67,7 +69,7 @@ Antes de redactar, **califica la relación** (el nombre que le den las partes no
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ Tipo de relación según los hechos (cuadro anterior) y a quién defiende el abogado: fabricante, proveedor o franquiciador, o agente, distribuidor o franquiciado.
 2. ★ Partes y Estado de establecimiento de cada una (si difieren, contrato internacional).
@@ -166,6 +168,8 @@ Estructura del contrato:
 16. DECIMOQUINTA.- Integridad y modificaciones por escrito.
 17. Cierre, firmas y ANEXOS: productos y tarifas, territorio (mapa o lista), objetivos, manual (índice), acuse de la información precontractual.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos y definiciones / objeto y calificación, territorio, exclusiva y obligaciones de las partes / retribución, precios de reventa, marca, saber hacer y no competencia durante el contrato / duración, preaviso, resolución, efectos de la extinción, indemnizaciones y no competencia posterior / datos, cesión, notificaciones, ley y fuero, integridad, firmas y anexos. La nota: apartado 11 del formato.
+
 La nota sigue el apartado 3 del formato e incluye siempre: calificación con sus hechos, régimen imperativo aplicable, análisis de competencia (cuotas, restricciones graves, no competencia), indemnizaciones previsibles a la extinción y documentos pendientes (registro de la marca, dossier firmado, cuotas de mercado).
 
 ## Comprobación final
@@ -178,7 +182,7 @@ La nota sigue el apartado 3 del formato e incluye siempre: calificación con sus
 - [ ] Franquicia: fecha de entrega de la información precontractual acreditada con al menos veinte días hábiles de antelación; registro de franquiciadores comprobado en el BOE consolidado (internet, con enlace) o discrepancia señalada, sin afirmar la obligación de memoria.
 - [ ] Lo que no dio Jurisprudenciator y se obtuvo en internet, citado con enlace y fecha de consulta desde fuente oficial y señalado en el resumen; ninguna sentencia citada sin `buscar_por_cita` y `leer_sentencias`.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos sobre reglamentos de la Unión resueltos con `buscar_articulo`; cada «posible disonancia» contrastada con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos sobre reglamentos de la Unión resueltos con `buscar_articulo`; cada «posible disonancia» contrastada con el apartado leído.
 - [ ] Sociedades comprobadas con `buscar_empresa_mercantil`; firmantes con cargo o poder vigentes.
 - [ ] Marcadores en lugar de datos inventados; territorio, porcentajes, objetivos, plazos y anexos coherentes.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, calificación, cláusulas críticas, riesgos de competencia, datos que faltan, tabla de jurisprudencia, plazos con su precepto (preaviso, no competencia, prescripción del art. 31) y próximo paso.

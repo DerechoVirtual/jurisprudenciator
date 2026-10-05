@@ -24,7 +24,7 @@ description: >-
 - **Aliud pro alio, error, dolo y plazo general** → `buscar_articulo` (`ley="CC"`, artículos `"1101"`, `"1124"`, `"1266"`, `"1269"`, `"1270"`, `"1301"`, `"1964"` y `"1969"`; mercantil, `ley="CCom"`, `articulo="943"`); suspensión de la caducidad por solicitud de negociación, (`ley="LO 1/2025"`, artículos `"5"`, `"7"` y `"10"`), e inadmisión de la demanda sin ese intento, (`ley="LEC"`, artículos `"264"` y `"403"`); tipo de juicio por la cuantía, (`ley="LEC"`, artículos `"249"` y `"250"`).
 - **Doctrina** (naturaleza del plazo del art. 1490, aliud pro alio, plazos mercantiles, cláusulas de exoneración, conformidad de consumo, LOE) → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; Audiencias: `base="AN"`, `tipo_organo="AP"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (vendedor, promotora, constructora: existencia, disolución, concurso); **inmuebles** → `consultar_catastro` (año de construcción, superficie) y nota simple del Registro de la Propiedad.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). En varios artículos del TRLGDCU (116, 120, 121, 122, 124…), `buscar_articulo` devuelve primero la redacción vigente desde el 1 de enero de 2022 y, tras la nota «Téngase en cuenta…», un texto entre comillas que es la redacción anterior: usa la primera salvo que el contrato sea anterior y la anterior le resulte aplicable (detector). Lo mismo vale para cualquier otra norma que devuelva ese formato.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -56,7 +58,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: comprador o vendedor (o agente de la edificación).
 2. ★ Quién vende y quién compra: particular, empresario o profesional, consumidor (art. 3 TRLGDCU); si el comprador compró para revender (art. 325 CCom).
@@ -153,6 +155,8 @@ Para el vendedor: **contestación** (`contestacion-requerimiento-<remitente>-<AA
 
 **2. Nota de viabilidad** (`nota-viabilidad-vicios-<parte-principal>-<AAAAMMDD>.docx`, 2-5 páginas): resultado del detector y vía recomendada; requisitos y prueba de cada uno (informe pericial, acta notarial, conservación de la cosa); **tabla de plazos** (vía · precepto · fecha inicial · fecha final calculada · estado); jurisprudencia con párrafo literal, órgano, fecha y ECLI; riesgos (caducidad, exoneración, carga de la prueba, compatibilidad de acciones); estrategia procesal (acciones principales y subsidiarias, legitimados pasivos, aseguradoras) y próximo paso.
 
+**Reparto para la redacción rápida:** calcula en los datos del caso (paso 2 de `redaccion-rapida`) la tabla de plazos (vía, precepto, fecha inicial y final) y cópiala a `caso.md`. La nota de viabilidad (2-5 páginas), en equipo y sin rótulos que se numeren solos (`## …`): detector, vía recomendada, requisitos y prueba / tabla de plazos y estado de la caducidad / jurisprudencia y riesgos / estrategia procesal y próximo paso. La reclamación extrajudicial y la contestación (1-2 páginas) las redactas tú.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió; ninguna consulta imprescindible quedó sin resultado, y lo que Jurisprudenciator no tenía se obtuvo de una fuente oficial en internet, con enlace y fecha de consulta, y se señala en el resumen.
@@ -160,6 +164,6 @@ Para el vendedor: **contestación** (`contestacion-requerimiento-<remitente>-<AA
 - [ ] Leídos con `buscar_articulo` en esta conversación los preceptos de la vía elegida (CC 1484-1490, 5 y LEC 135; CCom 336, 342 y 345; TRLGDCU 114-127; LOE 17 y 18; CC 1124, 1964 o 1301), con su línea de vigencia y, en consumo, la redacción aplicable por fecha del contrato.
 - [ ] Cada plazo con fecha inicial, precepto y fecha final; el de caducidad calculado sin interrupciones ni suspensión (y, aparte, con la suspensión del art. 7.1 LO 1/2025 si se envió solicitud de negociación).
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre la reclamación y la nota; avisos de «posible disonancia» contrastados con el texto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); avisos de «posible disonancia» contrastados con el texto leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DOMICILIO]`, `[REFERENCIA CATASTRAL]`, `[IMPORTE]`) en lugar de datos inventados; fechas e importes coherentes entre documentos.
 - [ ] Resumen para el abogado según el apartado 10 del formato: vía y por qué, plazos con precepto y fecha final, documentos y pruebas que faltan, riesgos, tabla de jurisprudencia y próximo paso.

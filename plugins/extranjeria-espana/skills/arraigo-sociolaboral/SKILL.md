@@ -26,7 +26,7 @@ description: >-
 - **Existencia y actividad del empleador societario** → `buscar_empresa_mercantil` (denominación de la empresa).
 - **Doctrina sobre el contrato, el empleador, la permanencia y los antecedentes** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"` para TSJ y juzgados, `base="TS"` para el Supremo) + `leer_sentencias` (`parrafos=3`).
 - **Antecedentes y antiguo solicitante de protección internacional** → `buscar_articulo` (`ley="CP"`, `articulo="136"`) si hay condenas; (`ley="Ley 12/2009"`, `articulo="29"`), (`ley="LPAC"`, artículos `"30"` y `"124"`) y (`ley="LJCA"`, artículos `"46"` y `"128"`) si pidió asilo.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, convenio y artículo del que sale el salario...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -66,7 +68,7 @@ Si aún no está claro qué vía conviene al cliente, empieza por `extranjeria-i
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pide los imprescindibles (★) que falten:
+Saca estos datos de la documentación aportada (paso 2 de `redaccion-rapida`). Si falta algún imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`:
 
 1. ★ Nacionalidad, pasaporte en vigor y provincia de residencia efectiva (art. 193.2).
 2. ★ Fecha de entrada y pruebas de permanencia de cada tramo de los dos años; salidas de España y su duración.
@@ -169,6 +171,8 @@ Estructura:
 7. Lugar, fecha y firma.
 8. **RELACIÓN DE DOCUMENTOS** numerada: impreso oficial; justificante de la tasa; pasaporte completo; prueba de permanencia por tramos; certificados de antecedentes (con la legalización o apostilla y traducción que exija la hoja informativa de la oficina); contrato o contratos firmados; documentación del empleador (NIF, escrituras o alta, certificados de estar al corriente, prueba de medios); título o capacitación si procede; representación.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos procesales y requisitos generales del art. 126; 03 requisito específico del art. 127.b con la tabla de cálculo del salario (SMI y convenio, que el director deja calculada en `caso.md`); 04 requisitos del empleador (arts. 74 y 76) con su doctrina; 05 habilitación provisional y efectos, solicita, otrosí, firma y relación de documentos.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -179,7 +183,7 @@ Estructura:
 - [ ] Jornada total ≥ 20 h semanales y, si hay varios contratos, supuesto del art. 127.b.1.º o 2.º identificado.
 - [ ] Detector pasado; si encaja la colaboración del art. 129.2 u otra figura, se ha dicho al abogado.
 - [ ] Riesgos anticipados: contrato parcial (art. 74.1.c frente al 127.b) y duración del contrato.
-- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; `verificar_escrito` pasado.
+- [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`; `verificar_escrito` pasado por cada redactor sobre sus frases con normas.
 - [ ] Cada aviso de «posible disonancia de contenido» de `verificar_escrito` contrastado con el apartado exacto leído con `buscar_articulo` (el verificador compara con el título del artículo, p. ej. «Requisitos específicos» o «Procedimiento»): si el apartado dice lo que afirma el escrito, se mantiene la cita y se explica en el resumen; si no, se corrige.
 - [ ] Marcadores para lo que falta; sin importes de tasa, códigos de modelo ni plazos de resolución no obtenidos del conector.
 - [ ] Resumen para el abogado (apartado 7 del formato), con estas fechas y su precepto: cumplimiento de los dos años (art. 126.b), subsanación (art. 130.3), alta en la Seguridad Social y TIE en un mes desde la notificación (arts. 130.5 y 130.6).

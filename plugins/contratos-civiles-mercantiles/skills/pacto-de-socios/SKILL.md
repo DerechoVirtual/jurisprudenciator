@@ -25,7 +25,7 @@ description: >-
 - **Cláusula penal, duración y denuncia** → `buscar_articulo` (`ley="CC"`, artículos `"1152"`, `"1153"`, `"1154"`, `"1700"`, `"1705"`, `"1706"` y `"1707"`) y (`ley="CCom"`, `articulo="224"`); **arbitraje** → (`ley="Ley 60/2003"`, artículos `"2"`, `"9"`, `"11 bis"` y `"11 ter"`); **vetos que dan control conjunto** → (`ley="Ley 15/2007"`, artículos `"1"`, `"7"`, `"8"` y `"9"`).
 - **Doctrina sobre pactos omnilaterales, duración indefinida, no competencia, valoración y cláusula penal** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; para Audiencias, `base="AN"` y `tipo_organo="AP"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **La sociedad y los socios que son sociedades** → `buscar_empresa_mercantil` (denominación o CIF): tipo social, estado, órgano de administración, cargos vigentes y actos inscritos (disolución, concurso, depósito de pactos parasociales).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -39,6 +39,8 @@ Cita el Reglamento del Registro Mercantil como «artículo 188 del Real Decreto 
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -63,7 +65,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ **A quién defiende el abogado**: socio mayoritario o fundador gestor, minoritario o inversor financiero, socio trabajador, o encargo común de todos los socios (redacción equilibrada). Cambia cada cláusula de la sección siguiente.
 2. ★ **Sociedad**: denominación, CIF, tipo (SL o SA), si está constituida o en constitución. Compruébala con `buscar_empresa_mercantil` y pide los **estatutos vigentes**: sin ellos no se puede detectar contradicción entre pacto y estatutos.
@@ -149,6 +151,7 @@ Según `references/formato-y-entrega-contratos.md`, dos documentos:
    - EXPONEN: sociedad, capital y reparto, finalidad del pacto.
    - ESTIPULACIONES, en este orden: definiciones; objeto y prevalencia entre las partes; gobierno (junta, materias reservadas, consejo, información); compromisos de voto y de modificación estatutaria; transmisión (permanencia, transmisiones libres, adquisición preferente, arrastre, acompañamiento, cambio de control, adhesión); socios trabajadores (dedicación, retribución, salida); bloqueo; valoración; no competencia y no captación; dividendos y financiación; incumplimiento y cláusula penal; duración y denuncia; confidencialidad; notificaciones; ley y tribunales o arbitraje; integridad del acuerdo.
    - Anexos: I, texto de las cláusulas estatutarias que las partes se obligan a aprobar; II, documento de adhesión; III, método de valoración si es extenso. El pacto no lleva jurisprudencia.
+   - **Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, definiciones, objeto y prevalencia / gobierno (junta, materias reservadas, consejo, información) y compromisos de voto y de modificación estatutaria / transmisión (permanencia, adquisición preferente, arrastre, acompañamiento, cambio de control, adhesión) / socios trabajadores, bloqueo, valoración, no competencia y no captación / dividendos y financiación, cláusula penal, duración y denuncia, cláusulas finales y firmas / anexos I a III. La nota: apartado 11 del formato.
 2. `nota-pacto-socios-<sociedad>-<AAAAMMDD>.docx`:
    - Régimen aplicable con los artículos leídos: qué es imperativo en estatutos y qué pactable en el pacto.
    - Por cada cláusula crítica, qué dice, por qué, a quién protege y su base (artículo y, cuando proceda, párrafo literal con órgano, fecha y ECLI).
@@ -164,6 +167,6 @@ Marcadores para lo que falte: `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DATOS REGISTR
 - [ ] Leídos con `buscar_articulo` en esta conversación los artículos usados de la LSC, del CC, del Real Decreto 1784/1996 y, en su caso, del CCom, la Ley 60/2003, la Ley 15/2007 y el ET, con la línea de vigencia anotada.
 - [ ] Cada cláusula estatutaria del anexo respeta los arts. 108 y 123 LSC y los arts. 188 y 123 del Real Decreto 1784/1996; la nota dice qué no es inscribible y queda solo en el pacto.
 - [ ] Doctrina leída con `leer_sentencias` (párrafo de fundamentos) para no competencia, cláusula penal y duración; cada ECLI citado, leído o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el pacto y sobre la nota, corregido lo que señale; cada «posible disonancia» contrastada con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo), corregido lo que señale; cada «posible disonancia» contrastada con el apartado leído.
 - [ ] Definiciones únicas, porcentajes que suman el 100 %, plazos coherentes entre pacto y estatutos, marcadores en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas y cómo se resolvieron, qué va a estatutos, datos y documentos que faltan (estatutos, consentimiento del cónyuge, poderes), tabla de jurisprudencia y próximo paso (junta y escritura de modificación estatutaria).

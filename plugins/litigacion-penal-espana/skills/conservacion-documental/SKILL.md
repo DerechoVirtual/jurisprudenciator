@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 > 📐 **Cifras: `references/anclas-normativas-penal.md`**; lo que no esté ahí se verifica con `buscar_articulo` **antes** de afirmarlo.
 
 ---
@@ -179,6 +181,8 @@ Atentamente,
 Colegiado nº [Nº] — [COLEGIO DE ABOGADOS]
 ```
 
+**Reparto para la redacción rápida:** comunicación de 2-3 páginas: no necesita equipo; redáctala tú en un único archivo de `secciones/` con las seis partes de la plantilla (los apartados 4 y 5 íntegros) y, en paralelo, las consultas de los artículos de la advertencia.
+
 ### `--refrescar`
 
 Reenviar tras el paso del tiempo o al cambiar de fase (transformación en abreviado, apertura de juicio oral, señalamiento) para confirmar que el deber sigue vigente.
@@ -207,7 +211,7 @@ razones.
 
 ### 1. Identificar categorías
 
-Vía `AskUserQuestion`:
+Comprueba con la documentación aportada y lo que el abogado haya dicho; pregunta solo lo que bloquee, en una única ronda de como máximo cuatro preguntas:
 - ¿Qué documentación en poder del cliente puede ser **exculpatoria** o relevante?
 - ¿En qué soporte? (correo, mensajería, papel, dispositivos, sistemas internos)
 - ¿Quién tiene acceso? (solo el cliente / empleados / terceros)

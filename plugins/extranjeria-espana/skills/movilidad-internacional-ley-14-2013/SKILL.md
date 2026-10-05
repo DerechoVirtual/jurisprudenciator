@@ -24,7 +24,7 @@ description: >-
 - **Visado, procedimiento, silencio, renovación y recurso** → `buscar_articulo` (`ley="BOE-A-2013-10074"`, artículos 75 y 76; `ley="LPAC"`, artículos 121 y 122; `ley="LJCA"`, artículos 8, 10 y 46).
 - **Empresa que contrata, desplaza o emplea al solicitante** → `buscar_empresa_mercantil` (nombre o CIF) cuando sea una sociedad española; de la extranjera, pide su documentación. Si hay contrato en España (alta cualificación, traslado), `buscar_convenio` + `leer_convenio` para el convenio colectivo aplicable (art. 71 bis.1.c).
 - **Doctrina sobre los motivos de denegación** → `buscar_sentencias` (`consulta="teletrabajo de carácter internacional autorización residencia denegación"`, `consulta="Unidad de Grandes Empresas profesional altamente cualificado denegación"` o `consulta="residencia emprendedor informe ENISA desfavorable"`, `jurisdiccion="CONTENCIOSO"`, `base="AN"`, con `fecha_desde` en formato dd/mm/aaaa para centrarte en la redacción vigente; `base="TS"` para doctrina casacional) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). Cita la ley de emprendedores como «Ley 14/2013, de 27 de septiembre» **en cada mención** (o «la misma ley» justo después): con «Ley 14/2013» a secas `verificar_escrito` la confunde con otra Ley 14/2013 autonómica y da por inexistentes sus artículos. Si citas una letra, escríbela detrás de la norma («artículo 62.3 de la Ley 14/2013, de 27 de septiembre, letra f)»): con «62.3.f) de la Ley…» atribuye el artículo a la norma citada antes. `verificar_escrito` no reconoce los reglamentos de la Unión (por ejemplo, el Código de fronteras Schengen): cítalos sin número de artículo en cifras o comprueba que no atribuya el artículo a otra norma.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -53,7 +55,7 @@ antes `informe-viabilidad-extranjeria`.
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes mientras falte un dato imprescindible (★).
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★) que bloquee el escrito, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Figura que se pretende y trámite: visado desde el extranjero, autorización estando en España
    de forma regular, renovación o recurso. Si hay resolución, texto íntegro y fecha de
@@ -215,6 +217,8 @@ ni importes.
    corresponda (`residencia-no-lucrativa`, `trabajo-cuenta-propia`, `informe-viabilidad-extranjeria`).
    Es una nota, no un escrito: sin súplica, firma del abogado.
 
+**Reparto para la redacción rápida:** solicitud: 01 comparecencia y hechos (uno por requisito del art. 62.3 y por punto de la figura); 02 fundamentos de derecho (Ley 14/2013, arts. 61, 62, los de la figura, 75 y 76); 03 solicita, familiares y relación de documentos. Renovación y alzada: una sección por condición mantenida o por motivo de denegación, más cierre. La nota de reconducción la redacta el director sin equipo.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -224,7 +228,7 @@ ni importes.
 - [ ] Cada artículo citado se leyó en esta conversación con su redacción vigente.
 - [ ] Ninguna cuantía de recursos ni umbral salarial escrito sin norma o instrucción facilitada.
 - [ ] Cada ECLI se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo y sus avisos corregidos.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y sus avisos corregidos.
 - [ ] Marcadores en los datos no facilitados; nada inventado.
 - [ ] Plazos con fecha y precepto: fin de la estancia regular si se pide desde España, renovación
       (art. 76.3 y el de la figura) o alzada (LPAC art. 122).

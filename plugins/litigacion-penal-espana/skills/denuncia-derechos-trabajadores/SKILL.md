@@ -15,7 +15,7 @@ description: >-
 - **Convenio colectivo del sector** (formación, recursos preventivos, condiciones que protege el art. 311 CP) → `buscar_convenio` (sector y territorio) → `leer_convenio` (`buscar_en="formación"` o `articulo`) y `vigencia_convenio` a la fecha de los hechos.
 - **Empresa empleadora, contratas y administradores** → `buscar_empresa_mercantil` por denominación o CIF (estado, administradores y apoderados), base para la imputación del art. 318 CP.
 - **Deslinde 316/317 y responsabilidad de encargados y administradores** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`; `base="AN"` con `tipo_organo="AP"` para la Audiencia de la provincia) + `leer_sentencias` con `parrafos=3`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -28,6 +28,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Redacta la denuncia penal por delito contra los derechos de los trabajadores, típicamente por
 **siniestro laboral**. Orden: **comprobaciones previas → deslinde 316/317 y sujetos responsables →
 escrito**.
@@ -35,6 +37,9 @@ escrito**.
 ---
 
 ## Bloque previo de comprobaciones (OBLIGATORIO)
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **¿Hay RESULTADO lesivo o solo RIESGO?** Es la primera bifurcación y condiciona todo:
    - **Solo riesgo grave** (sin lesión) → **art. 316** (o 317) **aislado**. Es delito de **peligro
@@ -400,6 +405,8 @@ diligencias posteriores NO son válidas** (324.3). → `solicitud-diligencias-in
 9. **SUPLICO:** admisión, **incoación de diligencias previas**, práctica de diligencias.
 10. **OTROSÍES** — lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia, fórmula de interposición y apartados PRIMERO a TERCERO · 02 apartado CUARTO, relación circunstanciada de los hechos (dos secciones si pasa de 1.200 palabras) · 03 fundamentos: norma de prevención infringida, condición de obligado de cada denunciado y peligro grave · 04 fundamentos: elemento subjetivo, nexo causal y concurso (sus búsquedas: relación 316/152, dolo eventual e imprudencia del trabajador) · 05 diligencias interesadas, responsabilidad civil, documentos, suplico, otrosíes, lugar, fecha y firma.
+
 > **Anclaje al folio — regla innegociable.** Especialmente en la **medida omitida** y en el **nexo
 > causal**: son los dos puntos que la defensa atacará. Cada uno, con su folio o su documento.
 
@@ -484,5 +491,6 @@ diligencias posteriores NO son válidas** (324.3). → `solicitud-diligencias-in
 
 ## Entrega
 
-Documento final en **Word `.docx`** con la skill **`docx`**, maquetado como escrito judicial
-(encabezamiento, apartados numerados, fundamentos, suplico, otrosíes), listo para **LexNET**.
+Documento final en **Word `.docx`**, que genera el ensamblado de `redaccion-rapida`, maquetado como
+escrito judicial (encabezamiento, apartados numerados, fundamentos, suplico, otrosíes), listo para
+**LexNET**.

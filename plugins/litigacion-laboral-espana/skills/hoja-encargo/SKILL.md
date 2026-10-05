@@ -24,6 +24,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Documento contractual entre letrado y cliente que formaliza el encargo y blinda al despacho frente a impagos, reclamaciones por costas inesperadas o impugnaciones de minuta (LEC 35).
 
 ## Marco legal
@@ -55,11 +57,11 @@ Leer del CLAUDE.md a nivel despacho (`## Perfil del despacho`):
 - Email y telefono de contacto
 - Logo: `[logo del despacho, si se aporta]`
 
-Si algun campo aparece como `[PLACEHOLDER]`, parar y pedir solo ese dato (no rellenar la skill completa).
+Si algun campo aparece como `[PLACEHOLDER]`, pide solo ese dato en la ronda única de preguntas o, si no bloquea la estructura, déjalo como `[PENDIENTE: dato]` (no rellenar la skill completa).
 
-### 2. Datos del cliente — bateria minima
+### 2. Datos del cliente — lista mínima
 
-Mediante `AskUserQuestion` (datos que NO se inventan):
+Se toman de la documentación aportada; si falta alguno, `[PENDIENTE: dato]` (datos que NO se inventan):
 
 - Nombre completo o razon social
 - DNI / NIE / CIF
@@ -70,7 +72,7 @@ Mediante `AskUserQuestion` (datos que NO se inventan):
 
 ### 3. Objeto del encargo
 
-Bateria de preguntas:
+Comprobaciones que se resuelven con la documentación y, si bloquean la estructura (tipo de procedimiento, alcance), se preguntan en la ronda única:
 
 - Tipo de procedimiento o gestion (ej. "demanda por despido ante la Seccion de lo Social del Tribunal de Instancia de Madrid, incluida papeleta de conciliacion SMAC")
 - Contraparte
@@ -79,7 +81,7 @@ Bateria de preguntas:
 
 ### 4. Honorarios — modalidad
 
-`AskUserQuestion` con cuatro modalidades:
+Una de estas cuatro modalidades (si el abogado no la ha indicado, se pregunta en la ronda única, porque cambia el contenido de la hoja):
 
 1. **Presupuesto cerrado** — cantidad fija acordada
 2. **Por hora** — tarifa horaria con estimacion
@@ -124,7 +126,11 @@ Bloque RGPD obligatorio:
 - Doble firma: letrado + cliente, con DNI debajo
 - Fecha y lugar
 
+**Reparto para la redacción rápida:** documento de 3-4 páginas, tres secciones: 01 partes y objeto del encargo (despacho, cliente, alcance); 02 honorarios y provisión de fondos; 03 advertencias obligatorias, protección de datos, jurisdicción y firmas.
+
 ## Maquetacion del Word
+
+En la redacción rápida el Word lo crea el ensamblado de `redaccion-rapida` (A4, estilo sobrio de escrito). El diseño corporativo siguiente (logo, paleta, cuadro de advertencias, tablas de firma) se aplica retocando después ese Word, solo si el despacho ha aportado su logo o el abogado lo pide.
 
 **Diseño corporativo del despacho:**
 
@@ -162,7 +168,7 @@ Bloque RGPD obligatorio:
 3. **Consumidor vs empresario.** Si el cliente es persona fisica no profesional, la clausula de jurisdiccion no puede privarle de su fuero natural (domicilio del consumidor).
 4. **Provision de fondos en blanqueo.** Si el asunto cae en supuesto de Ley 10/2010 (operaciones inmobiliarias, sociedades, fideicomisos), provision obligatoria con identificacion reforzada del cliente.
 5. **Asunto en cartera.** Tras generar la hoja de encargo, ofrecer ejecutar `asunto-intake` si no se ha hecho — la hoja firmada es el detonante natural de creacion de asunto.
-6. **Aplicar estilo de la casa.** Pasada final con `estilo-escritos-judiciales` para el lenguaje del documento (no para la estructura, que es la del modelo).
+6. **Aplicar estilo de la casa.** Quien redacta aplica el perfil de estilo y `estilo-escritos-judiciales` al escribir, para el lenguaje del documento (no para la estructura, que es la del modelo); no hay pasada final.
 
 ## Handoffs
 

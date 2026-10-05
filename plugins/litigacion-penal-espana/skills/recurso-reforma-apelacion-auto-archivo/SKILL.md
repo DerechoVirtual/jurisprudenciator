@@ -15,7 +15,7 @@ description: >-
 - **Criterio de la Audiencia que resolverá la apelación** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="AN"`, `tipo_organo="AP"`, `provincia` de la causa, `tipo_resolucion="AUTO"`) + `leer_sentencias` con `parrafos=3`.
 - **Tutela judicial de la acusación frente a un archivo inmotivado o prematuro** → `buscar_sentencias` (`base="TC"`).
 - **Resoluciones que cita el auto de archivo** → `buscar_por_cita`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Redacta el recurso frente al auto de sobreseimiento y archivo. **Es el recurso de la acusación: aquí
 la causa se muere o revive.**
@@ -96,6 +98,9 @@ la causa se muere o revive.**
 ---
 
 ## Comprobaciones previas — antes de recurrir
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **⭐ PRESCRIPCIÓN — la urgencia real (art. 132.2 CP, verificado).** La prescripción se interrumpió
    cuando se dictó **resolución judicial motivada** atribuyendo la participación (132.2.1.ª), pero
@@ -222,6 +227,8 @@ Fiscal** para que resuelva si procede sostener la acusación (respuesta en **10 
    (art. 324)** si va a vencer.
 7. Lugar, fecha y firma de letrado y procurador.
 
+**Reparto para la redacción rápida:** las alegaciones llevan el rótulo `### [ALEGACION]`, que el ensamblador numera en femenino (PRIMERA.-, SEGUNDA.-…). 01 encabezamiento, comparecencia y fórmula con el cauce y el plazo · 02 alegaciones de falta de motivación (con la cita literal del auto) y de error de cauce · 03 alegación de archivo prematuro, con el cuadro de diligencias pendientes dentro del escrito · 04 alegaciones de error en la valoración indiciaria y de subsunción (sus búsquedas de doctrina constitucional y del estándar indiciario) · 05 suplico, otrosíes (particulares a testimoniar, prórroga del 324), lugar, fecha y firma. Se omiten las secciones de los motivos que no apliquen.
+
 ---
 
 ## Errores típicos
@@ -257,7 +264,8 @@ Fiscal** para que resuelva si procede sostener la acusación (respuesta en **10 
 
 ## Entrega
 
-Word `.docx` (skill `docx`) con alegaciones, suplico y otrosíes, maquetado para LexNET. Adjunta un
-**cuadro de diligencias pendientes** (diligencia → folio de la solicitud → resolución o silencio → qué
-acreditaría) y el **cómputo de plazos**: fecha del auto, notificación, vencimiento de los 3 días
-(art. 211) y de los 5 (art. 766.3), con el margen de seguridad de la casa.
+Word `.docx`, que genera el ensamblado de `redaccion-rapida`, con alegaciones, suplico y otrosíes,
+maquetado para LexNET. Incluye en el propio escrito un **cuadro de diligencias pendientes** (diligencia →
+folio de la solicitud → resolución o silencio → qué acreditaría) y añade al resumen de la entrega el
+**cómputo de plazos**: fecha del auto, notificación, vencimiento de los 3 días (art. 211) y de los 5 (art.
+766.3), con el margen de seguridad de la casa.

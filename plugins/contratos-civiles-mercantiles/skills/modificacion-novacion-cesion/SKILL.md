@@ -24,7 +24,7 @@ description: >-
 - **Régimen especial del contrato** → `buscar_articulo` con el valor de las anclas: arrendamientos (`ley="LAU"`, artículos `"4"`, `"8"` y `"32"`), agencia, préstamo, sociedades.
 - **Doctrina** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; `base="AN"`, `tipo_organo="AP"` si el Supremo no ha tratado el punto) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (cedente, cesionario, cedido y fiadores: existencia, estado, administradores y apoderados vigentes, disolución o concurso).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Cita la LAU como «artículo 32 de la Ley 29/1994, de 24 de noviembre, de Arrendamientos Urbanos» y la Ley Hipotecaria por su nombre completo con fecha.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -69,7 +71,7 @@ Si encaja mejor otra skill, dilo y deriva:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato ★, pídelo antes de redactar.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ Contrato original con anexos y todas las adendas anteriores, en orden cronológico.
 2. ★ A quién defiende el abogado: acreedor o deudor; cedente, cesionario o cedido; quien concede la prórroga o quien la pide.
@@ -151,6 +153,7 @@ Siempre dos documentos y, si hacen falta, las notificaciones:
    - `contrato-cesion-credito-<parte-principal>-<AAAAMMDD>.docx`: crédito identificado (origen, importe, vencimiento), accesorios, precio, responsabilidad del cedente (art. 1529 CC) y obligación de notificar al deudor.
    - `contrato-prorroga-<parte-principal>-<AAAAMMDD>.docx`: nuevo plazo, condiciones y garantías.
    - `contrato-resolucion-mutuo-acuerdo-<parte-principal>-<AAAAMMDD>.docx`: fecha de extinción; liquidación con cuadro de conceptos e importes (`[IMPORTE]`); pagos y devoluciones; entrega de bienes o documentación; obligaciones que sobreviven; renuncia recíproca limitada a lo liquidado; transacción si hay controversia.
+   - **Reparto para la redacción rápida:** una sección de comparecencia y expositivos (contrato original, adendas anteriores y motivo); una por bloque de estipulaciones (`### [ESTIPULACION]`) propio de la operación (en la adenda, las modificaciones cláusula por cláusula con el texto nuevo íntegro; en la cesión, efectos, obligaciones anteriores y posteriores, liberación y consentimiento del cedido; en la resolución de mutuo acuerdo, la liquidación con su cuadro); y una de garantías, subsistencia, ley, fuero y firmas. Los documentos de una o dos páginas (prórroga, cesión de crédito, notificaciones) los redactas tú. La nota: apartado 11 del formato.
 2. `nota-<tipo>-<parte-principal>-<AAAAMMDD>.docx` (apartado 3 del formato): calificación de la operación y por qué; consentimientos obtenidos y pendientes; efecto sobre cada garantía; forma e inscripción; tributación que comprobar; riesgos y alternativas.
 3. Si hace falta, notificación fehaciente al cedido, al deudor cedido o al arrendador: `requerimiento-<destinatario>-<AAAAMMDD>.docx` (apartado 5 del formato), con el hecho de la cesión, su fecha de efectos y, en la cesión de crédito, a quién se paga desde ese momento. El medio de envío lo decide el abogado.
 
@@ -164,6 +167,6 @@ Siempre dos documentos y, si hacen falta, las notificaciones:
 - [ ] Renuncias limitadas a lo liquidado y, con consumidores, revisadas con la doctrina de transparencia.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
 - [ ] Lo que no dio Jurisprudenciator y se obtuvo en internet, citado con enlace y fecha de consulta desde fuente oficial y señalado en el resumen; ninguna sentencia citada sin `buscar_por_cita` y `leer_sentencias`.
-- [ ] `verificar_escrito` pasado sobre cada documento; los avisos de «posible disonancia» contrastados con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos de «posible disonancia» contrastados con el apartado leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[IMPORTE]`, `[FECHA DE EFECTOS]`) en lugar de datos inventados; sin tipos ni cuotas tributarias.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas, consentimientos y documentos pendientes, tabla de jurisprudencia, plazos (notificación del art. 32 LAU, si aplica) y próximo paso.

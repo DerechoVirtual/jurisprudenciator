@@ -5,7 +5,7 @@ description: >-
   reducción de jornada: por causas económicas, técnicas, organizativas o de producción (art. 47 ET), por fuerza
   mayor temporal, incluido el impedimento o la limitación de la actividad por decisiones de la autoridad, o dentro
   del Mecanismo RED (art. 47 bis ET). Entrega la comunicación de inicio (o la solicitud de fuerza mayor), la
-  documentación y una nota con calendario, obligaciones durante el ERTE (horas extra, externalizaciones,
+  documentación y, si la pides, una nota con calendario, obligaciones durante el ERTE (horas extra, externalizaciones,
   contrataciones, formación, mantenimiento del empleo), desempleo e impugnación. Úsala con «ERTE», «suspender
   contratos», «reducir jornada por falta de trabajo», «fuerza mayor», «Mecanismo RED». Si la medida es definitiva,
   despido-colectivo-empresa o carta-despido-objetivo; para cambiar condiciones, modificacion-sustancial-condiciones.
@@ -26,7 +26,7 @@ description: >-
 - **Convenio aplicable y sus artículos** (complementos durante el ERTE, procedimientos propios, calendario) → `buscar_convenio` + `leer_convenio` (`buscar_en="regulación temporal"` o `buscar_en="suspensión"`; después `articulo="N"`) + `vigencia_convenio`. Si `vigencia_convenio` registra un texto posterior al que devuelve `leer_convenio`, localiza su publicación con `novedades_boe` y léela con `leer_boe`; si llega truncada, en el boletín oficial, con su enlace.
 - **Disposiciones adicionales que el conector no devuelve** (beneficios en la cotización y compromiso de empleo, protección en el Mecanismo RED, acciones formativas) y **órgano concreto de la autoridad laboral** → internet, en la fuente oficial: ver «Huecos».
 - **Empresa** → `buscar_empresa_mercantil` (denominación, CIF y grupo, si la causa económica exige documentación de otras sociedades).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...). En los documentos, «artículo N del Real Decreto 1483/2012, de 29 de octubre» y «apartado 1 del artículo 47 bis del Estatuto de los Trabajadores».
 
@@ -38,6 +38,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -62,7 +64,7 @@ Para la **empresa** que necesita suspender contratos o reducir jornadas de forma
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ Vía (tabla anterior) y hecho causante con fechas.
 2. ★ Plantilla total (menos de 50 o 50 o más: cambia la duración de las consultas), centros afectados, provincias y comunidades autónomas.
@@ -130,8 +132,10 @@ Todo en Word según `references/formato-y-organos-laboral.md`.
 1. **Comunicación de intención de iniciar el procedimiento** — `carta-intencion-erte-<empresa>-<AAAAMMDD>.docx`, fehaciente, con el plazo de constitución de la comisión (cinco o diez días).
 2. **Comunicación de inicio y apertura del periodo de consultas** — `carta-inicio-erte-<empresa>-<AAAAMMDD>.docx`: a la comisión o representantes, con copia simultánea a la autoridad laboral competente (art. 25 del reglamento; nombre del órgano comprobado en la sede oficial); extremos del art. 17.2; medidas por colectivo o puesto; periodo; criterios; calendario propuesto de reuniones; relación de documentación; solicitud del informe del art. 64.5 ET. En fuerza mayor, en su lugar, **solicitud a la autoridad laboral** — `solicitud-erte-fuerza-mayor-<empresa>-<AAAAMMDD>.docx`: hecho causante, prueba, limitaciones concretas si viene de una decisión de la autoridad, medidas y periodo, con la comunicación simultánea a la representación.
 3. **Documentación** — `memoria-erte-<empresa>-<AAAAMMDD>.docx`: índice numerado y guion de la **memoria explicativa** (causa, datos, carácter temporal, proporcionalidad de cada medida, criterios), con la tabla de ingresos o ventas por trimestre si la causa es económica y la lista de documentos del art. 18 (o de las pruebas de la fuerza mayor).
-4. **Nota para el abogado** — `nota-erte-<empresa>-<AAAAMMDD>.docx`: vía elegida y por qué; calendario con fecha y precepto de cada hito (intención, comisión, apertura, reuniones, fin de consultas, decisión final en quince días, informe de la Inspección, efectos, notificaciones individuales, prórroga); obligaciones durante la aplicación (prohibiciones y su excepción, afectación y desafectación, formación, compromiso de empleo si hay beneficios); desempleo y cotización por remisión a la LGSS; riesgos e impugnaciones con plazos; jurisprudencia literal; huecos normativos.
+4. **Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-erte-<empresa>-<AAAAMMDD>.docx`: vía elegida y por qué; calendario con fecha y precepto de cada hito (intención, comisión, apertura, reuniones, fin de consultas, decisión final en quince días, informe de la Inspección, efectos, notificaciones individuales, prórroga); obligaciones durante la aplicación (prohibiciones y su excepción, afectación y desafectación, formación, compromiso de empleo si hay beneficios); desempleo y cotización por remisión a la LGSS; riesgos e impugnaciones con plazos; jurisprudencia literal; huecos normativos.
 5. Si el abogado lo pide: **decisión final** y **notificación individual** con el calendario de días o el porcentaje, periodos y horario de cada persona (art. 20.6 y art. 23 del reglamento).
+
+**Reparto para la redacción rápida:** las comunicaciones de intención y de inicio (o la solicitud de fuerza mayor) son cortas: una sección cada una, sin equipo. La memoria, por apartados: causa y datos / carácter temporal y proporcionalidad de cada medida / criterios de designación y lista de documentos del art. 18.
 
 ## Huecos que el conector no cubre
 
@@ -154,6 +158,6 @@ Lo que `buscar_articulo` no devuelve se busca en internet, en la fuente oficial,
 - [ ] Prohibiciones durante el ERTE explicadas al cliente con su excepción; compromiso de empleo advertido sin cifras no leídas.
 - [ ] Convenio consultado (complementos y procedimientos propios) con su vigencia.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`, con el régimen que aplicó; las comunicaciones no llevan jurisprudencia.
-- [ ] `verificar_escrito` pasado sobre cada documento.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero).
 - [ ] Marcadores en vez de datos inventados; huecos normativos avisados.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

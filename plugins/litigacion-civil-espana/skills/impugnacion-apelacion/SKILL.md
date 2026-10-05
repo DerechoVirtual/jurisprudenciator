@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 ## Posición procesal — el reverso de la apelación
 
 > Esta skill es el **reverso** de `recurso-apelacion`. Aquí **NO** apelamos: la contraria ya interpuso su recurso y, dado traslado de su escrito de interposición, esta parte responde. Hay **dos** jugadas, que pueden ejercitarse por separado o juntas (art. 461 LEC):
@@ -106,7 +108,7 @@ Solo si hay pronunciamientos desfavorables a esta parte. Estructurar por **doble
 
 ## Fase 3 — Recomendación letrada
 
-Antes de redactar, outputear como documento de trabajo para el cliente (separado del escrito):
+Antes de redactar (se resuelve con el recurso contrario y la sentencia, y se cierra en `caso.md` y el plan antes de lanzar al equipo), da este análisis al abogado en el resumen de la entrega; solo si lo pide, sácalo aparte como documento de trabajo para el cliente (separado del escrito):
 - Solidez de la oposición frente a cada motivo (alta/media/baja).
 - ¿Procede impugnar? Riesgo/beneficio de abrir la impugnación (puede ampliar el debate y dar pie a oposición del apelante inicial).
 - **Reformatio in peius:** la impugnación de esta parte habilita a la AP a revisar esos pronunciamientos; valorar si conviene remover lo ya ganado.
@@ -125,7 +127,7 @@ Mediante el conector MCP `jurisprudenciator` (`buscar_sentencias`/`leer_sentenci
 
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-### Ficha por sentencia (preparar antes de redactar)
+### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 
 Para CADA cita, dejar lista esta ficha:
 - ECLI (ej. `ECLI:ES:TS:2023:1234`)
@@ -238,6 +240,8 @@ OTROSÍ DIGO [si procede: solicitud de vista, recibimiento a prueba en segunda i
 art. 460 LEC, etc.]
 ```
 
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y antecedentes y posición de esta parte; sección 2 = fundamentos procesales (Audiencia Provincial, art. 461 LEC, plazo de 10 días, oposición e impugnación directas); una sección por cada motivo del apelante que se rebate (réplica motivo a motivo, en su mismo orden, con sus STS); una sección por cada pronunciamiento desfavorable que se impugna (como apelación propia), si se impugna; sección final = costas, súplica, otrosíes, lugar, fecha y firmas. Entre todas, 5-10 STS.
+
 ### Maquetación
 
 - Times New Roman 12
@@ -264,15 +268,14 @@ art. 460 LEC, etc.]
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-## Fase 6-8 — Pulido, subsunción, verificación ECLI
+## Fase 6-8 — Estilo, subsunción y verificación ECLI (dentro del método rápido)
 
-Aplicar automáticamente `estilo-escritos-judiciales`, `subsuncion-juridica`, y verificar los ECLI/ROJ con `jurisprudenciator` (`buscar_por_cita`). Si alguna sentencia no se valida, marcar `[REVISAR: ECLI no validado]` y NO entregar hasta sustituir o verificar manualmente.
+Los redactores aplican `estilo-escritos-judiciales` y `subsuncion-juridica` al escribir, no en una pasada posterior. Los ECLI/ROJ los comprueba el ensamblado (solo se admiten las sentencias que algún redactor leyó con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas. Si alguna sentencia no se valida, el ensamblado da error: sustitúyela por una de las leídas o retírala, y NO entregues hasta que se resuelva.
 
 ## Salida
 
 - Word .docx en `matters/<slug>/escritos/impugnacion-apelacion-v1.docx`
-- Análisis de viabilidad (separado) para el cliente: `matters/<slug>/escritos/dictamen-oposicion-impugnacion.docx`
-- Fichas de jurisprudencia
+- Solo si el abogado lo pide: análisis de viabilidad (separado) para el cliente (`matters/<slug>/escritos/dictamen-oposicion-impugnacion.docx`) y fichas de jurisprudencia (la tabla de fuentes ya va en el informe del ensamblado)
 - Decision tree:
 
 > 1. **Refinar tonalidad/longitud** — dime objetivo de palabras

@@ -17,7 +17,7 @@ description: >-
 - **Extinción y recuperación** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"201"`, `"186"`, `"187"`, `"188"` y `"189"`); requisitos del visado de regreso → `articulo="38"`.
 - **Competencia, presentación y representación** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"193"` y `"197"`).
 - **Doctrina sobre cómputo, ausencias, antecedentes, medios y recuperación** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"` o `base="AN"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente). La letra va detrás de la norma («artículo 176 del Real Decreto 1155/2024, letra a)» o «la letra a) del artículo 176 del Real Decreto 1155/2024»), nunca pegada al número («176.a)»), y cada mención de un artículo lleva su norma; en una cita literal que nombre un artículo sin norma, añádela entre corchetes. **`verificar_escrito` no identifica las directivas:** atribuye «artículo 4.1 de la Directiva 2003/109/CE» a la última ley española citada (por ejemplo, al art. 4.1 de la LOEX). Comprueba esas citas con `buscar_articulo` (`ley="Directiva 2003/109/CE"`) y explícalo en el resumen; no las cambies por otra norma.
 
@@ -29,6 +29,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar. Aviso: la LOEX no tiene art. 32 bis (Jurisprudenciator no lo encuentra); la larga duración está entera en el art. 32, incluido su apartado 3 bis.
 
@@ -151,6 +153,8 @@ Nombres: `solicitud-larga-duracion-<apellido-cliente>-<AAAAMMDD>.docx`, `solicit
 7. Lugar, fecha, firma y RELACIÓN DE DOCUMENTOS numerada.
 8. **ANEXO I — Cuadro de cómputo**: tabla de periodos (título, desde, hasta, días, % computable, días computados, documento) y tabla de ausencias (salida, regreso, días, motivo, tope aplicado).
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos: figura elegida, requisitos restantes, plazo y efectos; 03 cómputo y continuidad con su doctrina; 04 solicita, otrosí, firma, relación de documentos y Anexo I. El cuadro de cómputo lo calcula el director antes del plan y lo deja en `caso.md`; la sección de cierre lo reproduce como anexo.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -159,6 +163,6 @@ Nombres: `solicitud-larga-duracion-<apellido-cliente>-<AAAAMMDD>.docx`, `solicit
 - [ ] En la recuperación desde España: situación regular comprobada (extinción no declarada o autorización vigente) y requisitos del art. 38 a) a e).
 - [ ] Plazo de presentación con fecha y precepto; silencio estimatorio o desestimatorio del procedimiento concreto citado con su artículo.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregido lo que señale; ninguna cita a un «art. 32 bis» de la LOEX.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregido lo que señale; ninguna cita a un «art. 32 bis» de la LOEX.
 - [ ] Marcadores para lo que falta; cuantías confirmadas por el abogado.
 - [ ] Resumen para el abogado según el apartado 7 del formato: figura y oficina, fecha límite y precepto, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

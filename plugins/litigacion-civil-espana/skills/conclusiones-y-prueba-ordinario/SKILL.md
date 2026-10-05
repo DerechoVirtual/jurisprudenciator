@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Esta skill cubre la **fase intermedia del juicio ordinario** y tiene **DOS sub-flujos claramente separados**:
 
 - **(A) Proposición e impugnación de prueba** — el momento de la **audiencia previa** (arts. 281-287 y 427 LEC).
@@ -159,7 +161,7 @@ Una idea jurídica → una sentencia → un bloque desarrollado y cerrado. Prohi
 
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-#### Ficha por sentencia (preparar antes de redactar)
+#### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 
 Para CADA cita, dejar lista esta ficha:
 - ECLI (ej. `ECLI:ES:TS:2023:1234`)
@@ -221,6 +223,8 @@ parte contraria.
 
 > Cuando las conclusiones sean **orales** (regla general del juicio, art. 433.2 LEC), esta misma estructura sirve de **guion de la intervención**: I valoración fáctica hecho por hecho, II resumen jurídico.
 
+**Reparto para la redacción rápida:** *(B) conclusiones:* sección 1 = encabezamiento, comparecencia y valoración de la prueba de los primeros hechos controvertidos; una sección más por cada bloque de hechos controvertidos (cada hecho atado al medio que lo prueba); una sección para los fundamentos jurídicos con su jurisprudencia (una por cada línea argumental si hay varias); sección final = súplica, lugar, fecha y firmas. *(A) proposición e impugnación de prueba:* sección 1 = encabezamiento, comparecencia y cuadro de medios propuestos con su pertinencia y utilidad; sección 2 = impugnación de la prueba de la contraria (autenticidad, ilicitud, impertinencia); sección final = súplica, lugar, fecha y firmas. Si el escrito de proposición es breve (hasta 2 páginas), redáctalo tú en un único archivo.
+
 ### Maquetación
 
 - Times New Roman 12
@@ -247,10 +251,10 @@ parte contraria.
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-## Estilo de la casa y verificación
+## Estilo de la casa y verificación (dentro del método rápido)
 
-- Aplicar **automáticamente** `estilo-escritos-judiciales` si el CLAUDE.md lo configura: estructura tripartita, contrastes "una cosa es X / otra es Y", explicación del por qué antes del qué; cero adjetivos vacíos.
-- Verificar **como último paso** cada ECLI/ROJ con `jurisprudenciator` (`buscar_por_cita`): si alguna no se valida, marcar `[REVISAR: ECLI no validado]` y NO entregar hasta sustituir o verificar manualmente.
+- Los redactores aplican `estilo-escritos-judiciales` al escribir (si el CLAUDE.md lo configura), no en una pasada posterior: estructura tripartita, contrastes "una cosa es X / otra es Y", explicación del por qué antes del qué; cero adjetivos vacíos.
+- Los ECLI/ROJ los comprueba el ensamblado (solo se admiten las sentencias que algún redactor leyó con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas: si alguna no se valida, el ensamblado da error; sustitúyela por una de las leídas o retírala, y NO entregues hasta que se resuelva.
 
 ## Salida
 

@@ -15,7 +15,7 @@ description: >-
 - **Fecha de publicación de la disposición general impugnada** → `buscar_boe` + `leer_boe` o `sumario_boe` del día.
 - **Recurrente persona jurídica o terceros interesados (art. 45.5)** → `buscar_empresa_mercantil` (órgano de administración inscrito; adjudicatario o titular de la licencia).
 - **Acto confirmatorio o de trámite cualificado** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`).
-- **Antes de presentar** → `verificar_escrito` sobre el escrito completo.
+- **Comprobación de las citas** → `verificar_escrito` sobre las frases del escrito que citan normas (lo pasa quien lo redacta), y el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -40,12 +42,12 @@ fondo aquí. Su único riesgo, y es letal, es la **admisibilidad**.
 
 ## 1. BLOQUE DE ADMISIBILIDAD — ejecútalo ANTES de redactar una sola línea
 
-No redactes hasta haber contestado las seis preguntas. Si falta un dato, **pídelo**; no lo supongas.
+Contesta las seis comprobaciones con la documentación (paso 2 de `redaccion-rapida`) antes de redactar. Si falta un dato que bloquea —la fecha de notificación o el acuerdo corporativo—, **pídelo** en la única ronda de preguntas; no lo supongas. Lo demás que falte se redacta como `[PENDIENTE: dato]`.
 
 ### 1.1 Plazo — art. 46 LJCA (plazos de CADUCIDAD)
 
 Fija el **dies a quo** = **fecha de notificación** (o de publicación, o de producción del silencio).
-Pídela expresamente y hazla constar. Sin ella no hay control de plazo posible.
+Búscala en la documentación y, si no consta, pídela en la única ronda; hazla constar. Sin ella no hay control de plazo posible.
 
 | Supuesto | Plazo | Cómputo desde |
 |---|---|---|
@@ -122,7 +124,7 @@ d) ⚠️ **PERSONAS JURÍDICAS — el «acuerdo corporativo».** Documento que 
    según los estatutos** (consejo de administración, junta, asamblea, presidente si los estatutos
    se lo atribuyen). Salvo que se haya insertado en lo pertinente **dentro del cuerpo del poder**
    (art. 45.2.d in fine) — comprueba si la escritura lo recoge y, si lo recoge, **dilo y cítalo**.
-   Ante una persona jurídica, **pregunta siempre por el acuerdo**. No lo des por supuesto.
+   Ante una persona jurídica, **comprueba siempre el acuerdo** en la documentación y, si no consta, pregúntalo en la única ronda. No lo des por supuesto.
 e) **SINDICATOS ex art. 19.1.k)** — añadido por la **LO 1/2025** (vigente **3-4-2025**): documentos
    que acrediten **(i)** la **afiliación** del personal, **(ii)** la **comunicación del sindicato al
    afiliado** de la voluntad de iniciar el proceso, y **(iii)** la **autorización expresa** del
@@ -167,6 +169,8 @@ requiere la subsanación; si no se subsana, el órgano se pronuncia sobre el **a
      `medidas-cautelares-ca`.
    - **Anuncio** de la vía del art. 78 si procede, o solicitud de **acumulación**.
 
+**Reparto para la redacción rápida:** escrito sucinto (2-4 páginas) que no necesita equipo: redáctalo tú en un único archivo de `secciones/`. Si lleva varios actos o muchos otrosíes, dos secciones: encabezamiento, comparecencia, acto impugnado y documentos del art. 45.2 / suplico y otrosíes.
+
 ## 4. Errores que pierden el asunto
 
 - **Dejar caducar el plazo creyendo que el burofax lo interrumpe.** No lo interrumpe.
@@ -189,7 +193,7 @@ requiere la subsanación; si no se subsana, el órgano se pronuncia sobre el **a
 - **Protección de datos:** `[CLIENTE]`, `[ÓRGANO]`, `[FECHA]`, `[IMPORTE]`, `[EXPEDIENTE]`. Nunca
   reproduzcas datos de terceros ni datos de salud (art. 9 RGPD).
 - **Nada de MASC:** es del orden civil.
-- **Entregable:** Word `.docx` maquetado (skill `docx`). Aplica `estilo-escritos-judiciales`.
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`. Aplica `estilo-escritos-judiciales` al escribir.
 - **Avisa del siguiente hito:** recibido y entregado el expediente, la demanda se deduce en
   **20 días** (art. 52.1) → skill `demanda-contencioso-administrativa`. **Es un plazo de caducidad
   del recurso** (art. 52.2). Anótalo en la agenda del asunto **al presentar**, no después.

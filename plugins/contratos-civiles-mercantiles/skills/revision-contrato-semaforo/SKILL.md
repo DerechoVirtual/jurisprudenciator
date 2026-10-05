@@ -25,7 +25,7 @@ description: >-
 - **Fuero, arbitraje y ley aplicable** → `buscar_articulo` (`ley="LEC"`, `articulo="54"`; `ley="Ley 60/2003"`, `articulo="9"`; `ley="CC"`, `articulo="10"`; con elemento extranjero, `ley="32008R0593"`, artículos `"3"` y `"4"`).
 - **Jurisprudencia de cada cláusula en ROJO (imprescindible) y de las ÁMBAR cuya validez discute la doctrina** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="CIVIL"`; si el Supremo no tiene doctrina sobre el punto o el asunto se litigará en una plaza, `base="AN"`, `jurisdiccion="CIVIL"`, `tipo_organo="AP"`, `provincia`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cláusula).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (denominación o CIF); **inmuebles** → `consultar_catastro`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -57,7 +59,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-No emitas el informe al primer mensaje. Si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de emitir el informe. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ Texto íntegro del contrato con todos sus anexos y las condiciones generales o documentos a los que remita. Si falta alguno, dilo y marca en el informe las cláusulas que dependen de él; no revises «por encima».
 2. ★ A quién defiende el abogado y qué posición ocupa el cliente (vendedor o comprador, prestador o cliente, arrendador o arrendatario, franquiciador o franquiciado).
@@ -142,6 +144,8 @@ Señala si el contrato puede exigir escritura, inscripción, depósito de fianza
 8. **Conclusión y próximos pasos**: qué cambiar antes de firmar y si procede `negociacion-contrapropuesta`.
 9. **Normativa y jurisprudencia consultadas**: artículo, norma y «vigente desde»; resoluciones con órgano, fecha, número y ECLI.
 
+**Reparto para la redacción rápida:** cierras tú en el plan la lectura completa, la calificación y el color de cada cláusula (pasos 1 a 3). Secciones: encabezado, resumen ejecutivo y régimen jurídico / un bloque de cláusulas del contrato por redactor (objeto y precio / responsabilidad y penas / duración y resolución / cláusulas finales), cada uno con su tabla `Cláusula | Riesgo | Motivo y base legal | Propuesta` y la jurisprudencia de sus cláusulas en ROJO / cláusulas que faltan, verificación de partes, tributación y formalidades / conclusión y normativa y jurisprudencia consultadas.
+
 Cita como indica el apartado 6 del formato. Formas comprobadas con `verificar_escrito`: «artículo 1102 del Código Civil», «artículo 7 de la Ley 7/1998, de 13 de abril, sobre condiciones generales de la contratación», «artículo 9 de la Ley 3/2004, de 29 de diciembre», «artículo 54 de la Ley de Enjuiciamiento Civil», «apartado 6 del artículo 85 del Real Decreto Legislativo 1/2007», «artículo 6 de la Ley 29/1994, de 24 de noviembre, de Arrendamientos Urbanos», «artículo 20 de la Ley 12/1992, de 27 de mayo, sobre Contrato de Agencia», «artículo 156 del Real Decreto Legislativo 1/2020». Nunca «85.6)» pegado ni «de la misma ley».
 
 Si en el entorno no se pueden crear archivos, entrega el texto completo con esos títulos y avisa de que hay que pasarlo a Word.
@@ -156,6 +160,6 @@ Si en el entorno no se pueden crear archivos, entrega el texto completo con esos
 - [ ] Ninguna cláusula entre empresas calificada de «abusiva»; ninguna doctrina de consumo aplicada a un contrato entre empresas sin decirlo.
 - [ ] Cada ECLI citado leído o comprobado con `buscar_por_cita`.
 - [ ] Las propuestas mantienen las definiciones del contrato y no crean contradicciones con otras cláusulas.
-- [ ] `verificar_escrito` pasado sobre el informe; los avisos de «posible disonancia» contrastados con el artículo leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos de «posible disonancia» contrastados con el artículo leído.
 - [ ] Sin tipos ni importes tributarios no comprobados; sin datos personales inventados.
 - [ ] Resumen en el chat según el apartado 10 del formato: qué se revisó y para quién, cláusulas en ROJO y cómo se proponen resolver, datos y anexos que faltan, tabla de jurisprudencia citada (ECLI · órgano · fecha · qué sostiene) y próximo paso.

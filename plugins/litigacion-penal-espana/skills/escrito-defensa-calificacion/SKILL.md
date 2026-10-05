@@ -15,7 +15,7 @@ description: >-
 - **Doctrina que sostiene cada conclusión de la defensa** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`) + `leer_sentencias` con `parrafos=3`.
 - **Presunción de inocencia y prueba ilícita** → `buscar_sentencias` (`base="TC"`).
 - **ECLI que cite el escrito de acusación** → `buscar_por_cita`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -27,6 +27,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Redacta el escrito de defensa del art. 784.1 LECrim. **Es el escrito que fija el perímetro del juicio
 para la defensa: lo que no se pide aquí, en general, ya no se pide.**
@@ -66,6 +68,9 @@ LO 1/2025):
   reconducida a la **audiencia preliminar del art. 785**, y adviértelo si la invocas.
 
 ### Comprobaciones previas — antes de escribir una línea
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Prescripción del delito (art. 131 CP)** a la fecha de los hechos: 5 años el común; 1 año delitos
    leves e injurias/calumnias; ver `references/anclas-normativas-penal.md` § 3.3. Si prescribió,
@@ -209,6 +214,8 @@ los declarará **rebeldes**.
    - **CUARTO —** en su caso, conformidad ex art. 784.3, **firmada también por el acusado**.
 7. Lugar, fecha y firma de letrado y procurador.
 
+**Reparto para la redacción rápida:** las conclusiones llevan el rótulo `### [ALEGACION]`, que el ensamblador numera en femenino (PRIMERA.-, SEGUNDA.-…), y cada una debe quedar correlativa a la de la acusación. 01 encabezamiento, comparecencia, fórmula y conclusión PRIMERA, contrarrelato de hechos con folios · 02 conclusiones SEGUNDA y TERCERA: calificación y participación (sus búsquedas) · 03 conclusiones CUARTA a SEXTA: circunstancias, penas y responsabilidad civil · 04 suplico y otrosíes (prueba por orden, cuestiones para la audiencia preliminar, situación personal), lugar, fecha y firma.
+
 ---
 
 ## Errores típicos
@@ -243,6 +250,7 @@ los declarará **rebeldes**.
 
 ## Entrega
 
-Word `.docx` (skill `docx`) con conclusiones correlativas, suplico y otrosíes de prueba, maquetado
-para LexNET. Añade un **cuadro de control de plazos**: fecha de notificación del traslado, día de
-vencimiento de los 10 días y fecha de presentación con el margen de seguridad de la casa.
+Word `.docx`, que genera el ensamblado de `redaccion-rapida`, con conclusiones correlativas, suplico y
+otrosíes de prueba, maquetado para LexNET. Añade al resumen de la entrega (no al Word) un **cuadro de
+control de plazos**: fecha de notificación del traslado, día de vencimiento de los 10 días y fecha de
+presentación con el margen de seguridad de la casa.

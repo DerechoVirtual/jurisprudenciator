@@ -25,7 +25,7 @@ description: >-
 - **Fuero, arbitraje, negociación previa y compraventa internacional** → `buscar_articulo` (`ley="LEC"`, artículos `"54"` y `"55"`; `ley="Ley 60/2003"`, `articulo="9"`; `ley="LO 1/2025"`, `articulo="5"`) y, si las partes están establecidas en Estados distintos, (`ley="BOE-A-1991-2552"`, artículos `"1"`, `"4"`, `"6"`, `"38"`, `"39"`, `"40"`, `"78"` y los demás que se vayan a usar; `ley="32008R0593"`, artículos `"3"`, `"4"` y `"12"`; `ley="32012R1215"`, artículos `"7"` y `"25"`; `ley="CC"`, `articulo="10"` para la ley que rige la propiedad de los bienes).
 - **Doctrina sobre las cláusulas críticas** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o el asunto se litigará en esa plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil` (existencia, estado, administradores y apoderados vigentes, concurso o disolución).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Comprueba el texto de cada respuesta: con `ley="CCom"` y `articulo="2"` el conector devuelve a veces el artículo 2 del Real Decreto de promulgación («Un ejemplar de la edición oficial…») en lugar del artículo 2 del Código («Los actos de comercio…»); si ocurre, repite la consulta o apóyate en el artículo 50. Cita la morosidad como «artículo N de la Ley 3/2004, de 29 de diciembre» (con la fecha: sin ella el verificador puede tomar otra ley del mismo número). `verificar_escrito` no identifica la Convención de Viena (atribuye su artículo al Código Civil) ni los reglamentos de la Unión: comprueba cada uno de esos artículos con `buscar_articulo` e ignora el veredicto del verificador sobre ellos.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -61,7 +63,7 @@ Antes de redactar, pasa este detector y, si encaja otra skill, dilo al abogado y
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado (vendedor/proveedor o comprador/cliente) y si el texto serán condiciones propias que la otra parte aceptará sin negociar o un contrato negociado.
 2. ★ Partes: denominación, CIF, domicilio, firmante y cargo o poder. Si alguna actúa fuera de su actividad, para y aplica el detector.
@@ -127,7 +129,7 @@ Lee cada artículo con `buscar_articulo` en esta conversación antes de afirmarl
 **Compraventa internacional.** Las referencias del plugin (anclas, apartado 7) advierten de que el conector puede no traer la Convención de Viena. Pide primero su articulado con `buscar_articulo` (`ley="BOE-A-1991-2552"`, el instrumento de adhesión publicado en el BOE); si no lo devuelve, léela en internet en esa publicación del BOE y cítala con enlace y fecha de consulta, nunca de memoria. Con el texto obtenido:
 
 - Ámbito (art. 1): se aplica si los establecimientos están en Estados contratantes. La lista de Estados contratantes no está en el BOE ni en el conector: compruébala en internet en el estado oficial de la Convención que publica la CNUDMI (uncitral.un.org) y cítala con enlace y fecha de consulta; nunca afirmes de memoria que un Estado es parte.
-- Exclusión (art. 6): pregunta si el cliente quiere excluirla. Elegir «la ley española» no la excluye, porque forma parte del Derecho español: si se mantiene, la cláusula dice «la Convención y, en lo que no regule, el Derecho español»; si se excluye, dilo expresamente y aplica entonces el Código de Comercio.
+- Exclusión (art. 6): si la documentación no lo dice, incluye en la única ronda de preguntas si el cliente quiere excluirla. Elegir «la ley española» no la excluye, porque forma parte del Derecho español: si se mantiene, la cláusula dice «la Convención y, en lo que no regule, el Derecho español»; si se excluye, dilo expresamente y aplica entonces el Código de Comercio.
 - Lo que la Convención no regula (art. 4): la validez del contrato y de sus cláusulas (limitación de responsabilidad, cláusula penal) y los efectos sobre la propiedad. La validez se examina con la ley aplicable al contrato; la reserva de dominio frente a terceros depende de la ley del lugar donde estén los bienes (art. 10 CC): si van a otro Estado, di en la nota que su eficacia depende de ese Derecho, que el conector no cubre, y refuerza el cobro con aval o seguro de crédito. Tampoco fija el tipo de interés (art. 78): sale de la ley aplicable (con ley española, art. 7 de la Ley 3/2004). La prescripción la rige la ley del contrato (art. 12 del Reglamento Roma I).
 - Examen y denuncia de defectos: con la Convención no rigen los plazos de los arts. 336 y 342 CCom, sino el examen en el plazo más breve posible (art. 38), la comunicación en plazo razonable especificando la naturaleza del defecto, con el máximo de dos años (art. 39), y la pérdida de ese beneficio para el vendedor que conocía el defecto (art. 40). La cláusula concreta esos plazos (art. 6).
 - Redacta la cláusula de ley aplicable y de fuero con los reglamentos de la Unión leídos (`32008R0593` y `32012R1215`).
@@ -136,7 +138,7 @@ Lee cada artículo con `buscar_articulo` en esta conversación antes de afirmarl
 
 ## Cláusulas clave y jurisprudencia
 
-Para cada cláusula, pregunta a quién defiende el abogado y usa la opción correspondiente. Todas las consultas van con `jurisdiccion="CIVIL"` y `base="TS"` salvo que se indique otra cosa; lee con `leer_sentencias` (`parrafos=3`) solo lo que vayas a citar en la nota.
+Para cada cláusula, aplica la posición del cliente (dato 1) y usa la opción correspondiente. Todas las consultas van con `jurisdiccion="CIVIL"` y `base="TS"` salvo que se indique otra cosa; lee con `leer_sentencias` (`parrafos=3`) solo lo que vayas a citar en la nota.
 
 | Cláusula | Si defiendes al vendedor o proveedor | Si defiendes al comprador o cliente | Qué buscar |
 |---|---|---|---|
@@ -183,6 +185,8 @@ Estructura del contrato (orden de estipulaciones):
 17. DECIMOSEXTA.- Integridad y modificaciones por escrito.
 18. Cierre, firmas y ANEXOS: especificaciones, tarifa y fórmula de revisión, calendario de entregas, modelo de pedido, protocolo de inspección, garantías.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, definiciones y objeto (pedidos) / precio, facturación y pago (Ley 3/2004) / entrega y riesgo, recepción y defectos, reserva de dominio / responsabilidad, fuerza mayor, penalizaciones, duración y resolución / confidencialidad, cesión, notificaciones, negociación previa, ley y fuero, integridad, firmas y anexos. La nota: apartado 11 del formato.
+
 La nota sigue el apartado 3 del formato: calificación (mercantil o civil) y sus consecuencias, régimen de la Ley 3/2004 aplicado al plazo pactado, cláusulas críticas con su artículo y, cuando proceda, el párrafo literal de la jurisprudencia, datos pendientes (`[…]`), riesgos de redacción y fiscalidad que debe comprobarse.
 
 ## Comprobación final
@@ -198,7 +202,7 @@ La nota sigue el apartado 3 del formato: calificación (mercantil o civil) y sus
 - [ ] Si se pidió un plazo de pago, un cómputo, un interés o una exclusión de costes de cobro contrarios a la Ley 3/2004, el contrato no los recoge y la nota explica la corrección con su tabla.
 - [ ] Lo que no dio Jurisprudenciator y se obtuvo en internet, citado con enlace y fecha de consulta desde fuente oficial y señalado en el resumen; ninguna sentencia citada sin `buscar_por_cita` y `leer_sentencias`.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos, no hechos ni alegaciones) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el contrato y sobre la nota; los avisos sobre la Convención y los reglamentos se han resuelto con `buscar_articulo`, y cada «posible disonancia» se ha contrastado con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); los avisos sobre la Convención y los reglamentos se han resuelto con `buscar_articulo`, y cada «posible disonancia» se ha contrastado con el apartado leído.
 - [ ] Sociedades comprobadas con `buscar_empresa_mercantil`; si firma quien no consta como administrador o apoderado, dicho en la nota.
 - [ ] Marcadores (`[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[IMPORTE]`, `[IBAN]`…) en lugar de datos inventados; definiciones, importes y fechas coherentes en todo el texto.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas, datos que faltan, tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene), plazos con su precepto (denuncia de defectos, pago, prescripción) y próximo paso.

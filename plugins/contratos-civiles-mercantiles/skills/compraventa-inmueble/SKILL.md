@@ -25,7 +25,7 @@ description: >-
 - **Obra nueva, sobre plano y consumidores** → `buscar_articulo` (`ley="BOE-A-1999-21567"`, artículos `"17"`, `"18"` y `"19"`), (`ley="Ley 57/1968"`, artículos `"1"` y `"2"`, con la advertencia del apartado «Compra sobre plano») y (`ley="TRLGDCU"`, artículos `"3"`, `"4"`, `"82"`, `"83"`, `"85"`, `"87"`, `"89"` y `"90"`).
 - **Doctrina sobre cabida, cargas, aliud pro alio, información urbanística, cantidades anticipadas y abusividad** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o el asunto se litigará en esa plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil`; **tributos de la operación (IVA, ITP, AJD, plusvalía, IRPF)** → `buscar_consultas_hacienda` y `buscar_doctrina_teac` para la doctrina, sin tipos ni importes no leídos en una norma.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Formas que reconoce `verificar_escrito`: «artículo 34 de la Ley Hipotecaria», «artículo 27 del Real Decreto Legislativo 7/2015, de 30 de octubre», «artículo 64 del Real Decreto Legislativo 2/2004, de 5 de marzo», «artículo 38 del Real Decreto Legislativo 1/2004, de 5 de marzo», «artículo 17 del Real Decreto 390/2021, de 1 de junio», «artículo 7 de la Ley 7/2012, de 29 de octubre», «artículo 17 de la Ley 38/1999, de 5 de noviembre, de Ordenación de la Edificación» y «artículo 89 del Real Decreto Legislativo 1/2007». En los documentos no uses la sigla «LOE»: `verificar_escrito` la lee como Ley Orgánica de Educación; escribe siempre «Ley 38/1999, de 5 de noviembre, de Ordenación de la Edificación».
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -61,7 +63,7 @@ Pasa este detector antes de redactar. Si encaja otra skill, díselo al abogado y
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado (comprador o vendedor) y si el vendedor actúa como empresario (promotor, sociedad inmobiliaria) frente a un comprador consumidor.
 2. ★ Documento: contrato privado, minuta para escritura o ambos.
@@ -152,6 +154,8 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - **ESTIPULACIONES**: PRIMERA.- Objeto (cuerpo cierto o precio por unidad). SEGUNDA.- Precio y pago (medios, cuentas, retenciones, aplazamiento y su garantía o condición resolutoria). TERCERA.- Cargas y su cancelación. CUARTA.- Escritura (plazo, notario, documentos). QUINTA.- Entrega de la posesión y estado. SEXTA.- Declaraciones y garantías del vendedor. SÉPTIMA.- Saneamiento (alcance, renuncias y plazos). OCTAVA.- Gastos y tributos. NOVENA.- Arrendatarios y ocupantes. DÉCIMA.- Incumplimiento y resolución (con cláusula penal si se pacta). UNDÉCIMA.- Notificaciones, datos, ley aplicable y fuero.
 - Firmas en dos columnas y **ANEXOS**: nota simple, consulta al Catastro, certificado energético y etiqueta, información del art. 31, certificado de la comunidad, plano, inventario de muebles.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia y expositivos (titularidad, cargas, ocupación, situación urbanística, comunidad) / objeto, precio y pago, cargas y escritura / posesión, declaraciones del vendedor y saneamiento / gastos y tributos, arrendatarios, incumplimiento y resolución / notificaciones, ley, fuero, firmas y anexos. La minuta, si se pide, es otro Word con su propia mesa de trabajo y el mismo reparto en formato notarial. La nota: apartado 11 del formato.
+
 **Minuta para la escritura**: mismo contenido en formato notarial (comparecencia, intervención, exposición con descripción registral y catastral, estipulaciones), con la identificación completa de los medios de pago y las advertencias que debe recoger el notario marcadas entre corchetes para su revisión. Sin jurisprudencia.
 
 **Nota para el abogado** (2-5 páginas): régimen aplicable y artículos leídos; cláusulas críticas con su fundamento y, cuando dependan de la jurisprudencia, el párrafo literal con órgano, fecha y ECLI; contraste entre Registro, Catastro y realidad; pendientes (nota simple, certificados, notificación al arrendatario, garantías de las entregas a cuenta); riesgos y alternativas; tributos y formalidades que hay que comprobar.
@@ -164,7 +168,7 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - [ ] Si hay arrendatario: notificación del tanteo o renuncia y su comunicación, con fechas y plazo de 30 días naturales calculado.
 - [ ] Si es sobre plano: régimen de las cantidades anticipadas según la fecha del contrato, con la disposición adicional primera de la LOE leída en un párrafo de Jurisprudenciator o en el BOE consolidado (enlace y fecha).
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; ninguno en el contrato ni en la minuta.
-- [ ] `verificar_escrito` pasado sobre contrato, minuta y nota; cada «posible disonancia» contrastada con el artículo leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); cada «posible disonancia» contrastada con el artículo leído.
 - [ ] Marcadores en lugar de datos inventados; precio, cuentas, fechas y definiciones coherentes en todos los documentos.
 - [ ] Ningún tipo impositivo, arancel ni umbral que no se haya leído en esta conversación.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas, pendientes y riesgos, tabla de jurisprudencia, plazos con su precepto (saneamiento, tanteo, escritura) y próximo paso.

@@ -24,7 +24,7 @@ description: >-
 - **Recursos, permanencia y suspensión** → `buscar_articulo` (`ley="Ley 12/2009"`, artículos `"21"`, `"22"` y `"29"`; `ley="Reglamento (UE) 2024/1348"`, artículos `"67"` y `"68"`; `ley="LJCA"`, artículos `"9"`, `"11"`, `"46"`, `"78"`, `"130"` y `"135"`; `ley="LOPJ"`, artículos `"66"` y `"95"`; `ley="LPAC"`, artículos `"124"` y `"125"`).
 - **Razones humanitarias y apatridia** → `buscar_articulo` (`ley="Ley 12/2009"`, artículos `"37"` y `"46"`; `ley="BOE-A-2024-24099"`, `articulo="128"`; `ley="LOEX"`, `articulo="34"`, base legal del estatuto de apátrida; `ley="Real Decreto 865/2001"`, artículos `"1"` a `"5"`, `"7"` a `"9"`, `"11"`, `"13"`, `"15"` y `"16"`; `ley="LPAC"`, `articulo="66"`, al que hoy remite el art. 3.1 del RD 865/2001).
 - **Doctrina y aplicación del Pacto** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`; `base="AN"` con `fecha_desde="12/06/2026"` para ver cómo se aplican los Reglamentos; `base="TS"` para la doctrina; `base="TJUE"` para la interpretación del Derecho de la Unión) y `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación. `verificar_escrito` no reconoce los Reglamentos de la Unión: sus artículos los atribuye a la ley española citada más cerca (Ley 12/2009, Real Decreto 1155/2024) o al Código Penal, y según el número los da por «existentes», con «posible disonancia» o «no localizados». Ninguno de esos resultados vale para una cita de un Reglamento (UE): compruébala siempre con `buscar_articulo`.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación. `verificar_escrito` no reconoce los Reglamentos de la Unión: sus artículos los atribuye a la ley española citada más cerca (Ley 12/2009, Real Decreto 1155/2024) o al Código Penal, y según el número los da por «existentes», con «posible disonancia» o «no localizados». Ninguno de esos resultados vale para una cita de un Reglamento (UE): compruébala siempre con `buscar_articulo`.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Cuándo usarla
 
@@ -55,7 +57,7 @@ Usa otra skill del plugin cuando:
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. Si falta un dato imprescindible, pregunta y espera. La información del procedimiento es confidencial (`Ley 12/2009`, art. 16.4): no la uses en consultas y no incluyas nombres en ellas.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible, pídelos todos a la vez en una única ronda de no más de cuatro preguntas y espera; lo demás queda como `[PENDIENTE: dato]`. La información del procedimiento es confidencial (`Ley 12/2009`, art. 16.4): no la uses en consultas y no incluyas nombres en ellas.
 
 1. **Fase y resolución** (imprescindible): qué se ha presentado, qué se ha notificado, órgano que resuelve, texto íntegro y pie de recursos.
 2. **Fechas con hora** (imprescindible): entrada en España o llegada al puesto fronterizo, formulación, registro y formalización de la solicitud, notificación de cada resolución. En frontera y CIE los plazos se cuentan de momento a momento: pide la hora exacta.
@@ -161,6 +163,8 @@ Formato, citas y datos: `references/formato-y-organos.md`. Marca como CONFIDENCI
 
 **E. Solicitud del estatuto de apátrida** (`solicitud-apatridia-<apellido>-<AAAAMMDD>.docx`): encabezamiento a la Oficina de Asilo y Refugio; comparecencia; manifestación expresa de carecer de nacionalidad; hechos (nacimiento, filiación, residencias, documentos de identidad o viaje, gestiones consulares negativas); fundamentos (art. 34.1 de la LOEX y arts. 1 a 4 del RD 865/2001, que remiten a la Convención de 1954; el conector no devuelve el texto de la Convención, así que no lo transcribas); petición de permanencia provisional (art. 5); SOLICITA; documentos.
 
+**Reparto para la redacción rápida:** A y E: 01 encabezamiento, comparecencia y hechos (relato cronológico); 02 fundamentos: régimen aplicable y refugio (en E, art. 34.1 LOEX y Real Decreto 865/2001); 03 protección subsidiaria, razones humanitarias y necesidades especiales (en E, permanencia provisional); 04 solicita y relación de documentos. C y D: 01 encabezamiento y hechos; una sección por motivo con su doctrina; cierre con solicita u otrosí de permanencia o cautelar. El reexamen B, por su urgencia y brevedad, lo redacta el director sin equipo.
+
 ## Comprobación final
 
 - [ ] `estado` respondió y la puerta se cumplió en todo el trabajo.
@@ -171,7 +175,7 @@ Formato, citas y datos: `references/formato-y-organos.md`. Marca como CONFIDENCI
 - [ ] Conflictos entre la Ley 12/2009 y los Reglamentos señalados en el escrito y al abogado.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; solo fundamentos jurídicos; ningún dato de otros solicitantes.
 - [ ] Ninguna afirmación sobre el país de origen sin fuente aportada o sentencia leída.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregidos los avisos. No identifica las citas con letra («artículo 20.1.b)», «artículo 11.1.a)») y las marca como no localizadas: compruébalas con `buscar_articulo` y no las cambies por ese aviso.
 - [ ] Marcadores entre corchetes para todo dato no facilitado; ningún dato inventado.
 - [ ] Plazo con fecha y, en frontera o CIE, hora inicial, precepto y límite calculado; si hay conflicto de plazos, se indica el más corto posible.
 - [ ] Resumen para el abogado según el apartado 7 del formato: documento y órgano, plazo, riesgos (en especial la permanencia y la ejecución del retorno), tabla de jurisprudencia (ECLI · órgano · fecha · qué sostiene) y próximo paso.

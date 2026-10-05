@@ -24,7 +24,7 @@ description: >-
 - **Tipo penal y exención de pena por delitos cometidos bajo la explotación** → `buscar_articulo` (`ley="CP"`, `articulo="177 bis"`); **derecho de la Unión** → `buscar_articulo` (`ley="Directiva 2011/36/UE"`, `articulo="11"`).
 - **Recursos contra la denegación o revocación del periodo** → `buscar_articulo` (`ley="LPAC"`, artículos `"40"`, `"112"`, `"121"`, `"122"`, `"123"` y `"124"`) y (`ley="LJCA"`, artículos `"8"`, `"11"` y `"46"`).
 - **Doctrina** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="AN"` para TSJ, juzgados y Audiencia Nacional, `base="TS"` para el Supremo, `base="TJUE"` para el Tribunal de Justicia; fechas en formato `dd/mm/aaaa`) + `leer_sentencias` (`parrafos=3`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -66,7 +68,7 @@ Detector:
 
 ## Datos que hay que reunir antes de redactar
 
-Si falta un dato imprescindible (★), pídelo; en urgencia, redacta el escrito A con marcadores y pide el resto después.
+Saca estos datos de la documentación aportada (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★), pídelos todos a la vez en una única ronda; en urgencia, redacta el escrito A con marcadores y pide el resto después.
 
 1. ★ Dónde está ahora (CIE, comisaría, centro de acogida, libertad) y si hay expediente sancionador, orden de expulsión o de devolución: número, fecha, órgano y estado.
 2. ★ Indicios de trata que el abogado pueda sostener (acción, medio y finalidad del art. 177 bis CP) y quién más los ha detectado (entidad especializada, Inspección de Trabajo, servicios sociales, sanitarios).
@@ -156,6 +158,8 @@ Estructura de A:
 
 Estructura de B: encabezamiento a la Delegación o Subdelegación que declaró o debe declarar la exención y, por su conducto, a la Secretaría de Estado de Seguridad o de Migraciones (si la exención aún no está declarada, el primer pedimento es que la declare: ver «Estrategia», punto 3); hechos (periodo concedido, colaboración o situación personal, familiares en España); fundamentos (LOEX art. 59 bis.4; arts. 151 y 152; exención de documentos de riesgo; extensión a familiares; compatibilidad con el asilo); solicita exención, autorización provisional y definitiva de cinco años y las de los familiares; otrosí de reagrupación de hijos que estén fuera (art. 155) o de retorno asistido si lo elige (art. 153); documentos.
 
+**Reparto para la redacción rápida:** los escritos A y B son breves y reservados: el director los redacta sin equipo, empezando por A por su urgencia; si B pasa de cuatro páginas, 01 encabezamiento y hechos, 02 fundamentos y solicitud con otrosíes. El recurso C: encabezamiento y hechos, una sección por motivo y cierre.
+
 Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la LOEX como «artículo N de la Ley Orgánica 4/2000» (formato, apartado 4); nunca «del Reglamento de Extranjería» ni «del Reglamento aprobado por el Real Decreto…», que `verificar_escrito` no identifica. `verificar_escrito` atribuye a la norma citada antes los artículos con «bis» y apartado («artículo 59 bis.2», «artículo 177 bis.1») o con letra («23.6.c)»): escribe «apartado 2 del artículo 59 bis de la Ley Orgánica 4/2000», «apartado 1 del artículo 177 bis del Código Penal», «artículo 23.6 del Real Decreto 1155/2024». Tampoco reconoce la Directiva 2011/36/UE: su artículo 11 sale como «posible disonancia» o como artículo de otra norma. Si `buscar_articulo` (`ley="Directiva 2011/36/UE"`) lo devolvió, la cita es correcta: dilo en el resumen como falso aviso.
 
 ## Comprobación final
@@ -166,6 +170,6 @@ Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la 
 - [ ] Plazos con fecha y precepto: presentación del escrito A (hora), 48 horas desde la identificación (art. 150.1), cinco días o 24 horas desde la recepción de la propuesta (art. 150.3), noventa días (art. 150.1), tarjeta en un mes desde la concesión (art. 152.4); recurso con el plazo del pie de recursos y su artículo de la LPAC.
 - [ ] Ningún contenido del protocolo marco ni de disposiciones adicionales no devueltas.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[NÚMERO DE EXPEDIENTE]`) en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 7 del formato: órganos; plazos y fechas límite con su precepto; riesgos (CIE, devolución inminente, documentos); tabla de jurisprudencia; próximo paso (seguimiento del silencio positivo a los cinco días, solicitud de exención, asilo si procede).

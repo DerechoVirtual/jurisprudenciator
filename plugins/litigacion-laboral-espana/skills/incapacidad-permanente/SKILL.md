@@ -14,7 +14,7 @@ description: >-
 - **Doctrina sobre criterios de calificación del grado y concepto de profesión habitual** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; para supuestos análogos de la Sala del territorio, `base="AN"` con `tipo_organo="TSJ"` y `provincia`) + `leer_sentencias` (`parrafos=3`, `terminos="profesión habitual"`). Busca por la cuestión jurídica y las limitaciones funcionales, nunca con datos de salud del cliente.
 - **Funciones de la categoría profesional del actor, para acreditar las exigencias de su profesión habitual** → `buscar_convenio` + `leer_convenio` (`buscar_en="clasificación profesional"`).
 - **Mejoras voluntarias del convenio por incapacidad permanente** (indemnización o seguro colectivo, reclamables aparte) → `leer_convenio` (`buscar_en="incapacidad permanente"`).
-- **Revisión del borrador** → `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → cada redactor lee con `leer_sentencias` las sentencias que cita y pasa `verificar_escrito` solo sobre sus frases con normas; el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 > ⚠️ **Datos especialmente sensibles.** Esta skill maneja información de salud (categoría especial de datos personales, art. 9 RGPD). Nunca reproducir en ejemplos, plantillas de referencia o registros diagnósticos reales de casos anteriores, iniciales que permitan identificar a una persona, ni informes médicos completos de terceros. Trabajar siempre sobre los datos concretos que el usuario aporte para SU asunto actual, con marcadores genéricos en cualquier ejemplo o plantilla reutilizable.
 
@@ -47,7 +49,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Profesión habitual exacta y sus tareas características.
 - Certificado de reclamación previa.
 
-## Fase 2 — Batería de preguntas
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿Qué grado se reclama? total / absoluta / gran invalidez (y subsidiario si aplica).
 - ¿Es una solicitud inicial o una revisión por mejoría/agravación?
@@ -62,6 +66,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 3. **FUNDAMENTOS DE DERECHO**: jurisdicción y competencia → arts. 193-194 LGSS sobre el grado solicitado → doctrina jurisprudencial sobre criterios de calificación (verificar cita exacta vía jurisprudenciator) → si aplica, art. 20 Ley 39/2015 (principios de eficacia y buena administración) cuando la resolución contradice sin motivación suficiente una situación previamente reconocida.
 4. **SUPLICO**: revocar la resolución del INSS y reconocer el grado de incapacidad permanente solicitado (con subsidiario a grado inferior si procede).
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos (antecedente administrativo, limitaciones funcionales y profesión habitual, sin reproducir el informe médico); 02 fundamentos procesales (jurisdicción, competencia, reclamación previa y plazo); 03 grado reclamado (arts. 193-194 LGSS y doctrina, con el grado subsidiario) y, si procede, la incoherencia con la resolución previa; 04 cierre (suplico y firma).
+
 ## Fase 4 — Verificación y entrega
 
-Pulir con `/estilo-escritos-judiciales`, verificar la jurisprudencia con `buscar_por_cita` y el borrador con `verificar_escrito`, entregar en Word (.docx).
+El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir; la jurisprudencia la lee y verifica cada redactor en su sección (`buscar_por_cita` si no salió de las búsquedas), el ensamblado rechaza las citas que nadie leyó y cada redactor pasa `verificar_escrito` sobre sus frases con normas. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.

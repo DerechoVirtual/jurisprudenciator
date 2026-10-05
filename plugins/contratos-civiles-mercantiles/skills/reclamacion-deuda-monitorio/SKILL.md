@@ -25,7 +25,7 @@ description: >-
 - **Deudor consumidor** → `buscar_articulo` (`ley="TRLGDCU"`, artículos `"3"`, `"82"`, `"83"` y `"85"`); si es un préstamo, (`ley="Ley de 23 de julio de 1908"`, `articulo="1"`).
 - **Doctrina** (MASC antes del monitorio en la Audiencia de la plaza, control de oficio con consumidores, interés de demora abusivo, Ley 3/2004) → `buscar_sentencias` (`base="AN"`, `jurisdiccion="CIVIL"`, `tipo_organo="AP"`, `provincia`; `base="TS"`; `base="TJUE"`) + `leer_sentencias` (`parrafos=3`).
 - **Deudor que es sociedad** → `buscar_empresa_mercantil` (domicilio social vigente, que fija la competencia; disolución o concurso).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Si `buscar_articulo` devuelve una nota «Téngase en cuenta…» seguida de un texto entre comillas, ese texto es la redacción anterior (así ocurre en los arts. 250, 814 y 815 LEC): aplica la que encabeza la respuesta.
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -58,7 +60,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ Acreedor y deudor: nombre o denominación, DNI/NIE o CIF y **domicilio o residencia actual del deudor** (fija la competencia, art. 813 LEC); si el deudor es consumidor (art. 3 TRLGDCU) o empresa.
 2. ★ Origen de la deuda: contrato (pídelo completo, con condiciones generales si las hay), pedidos, albaranes firmados, facturas, certificaciones, reconocimientos de deuda, extractos, correos.
@@ -142,6 +144,8 @@ En todos los documentos, nombra las normas como pide el apartado 6 del formato (
 3. **Petición de proceso monitorio** (`peticion-monitorio-<acreedor>-<AAAAMMDD>.docx`, apartado 5 del formato): encabezamiento al órgano; comparecencia del acreedor; identificación y domicilio del deudor; hechos numerados (relación contractual, partidas, vencimientos, pagos, reclamaciones, intento de negociación y su resultado, condición de consumidor o empresa); fundamentos breves (arts. 812, 813, 814 y 815 LEC; art. 5 LO 1/2025; preceptos de los intereses); **SUPLICO** que se requiera de pago al deudor por la cantidad, con apercibimiento; otrosíes (medios de notificación, domicilios alternativos); lugar, fecha, firma y relación numerada de documentos.
 4. **Nota para el abogado** (`nota-monitorio-<deudor>-<AAAAMMDD>.docx`, 2-4 páginas): vía elegida y descartadas; liquidación explicada; prescripción de cada partida; estado del intento de negociación con sus fechas (recepción, treinta días o un mes, un año); competencia y órgano; control de abusividad si el deudor es consumidor; escenarios tras el requerimiento judicial con plazos (arts. 816-818); jurisprudencia con párrafo literal, órgano, fecha y ECLI; datos pendientes; riesgos.
 
+**Reparto para la redacción rápida:** calcula la liquidación (tablas de principal e intereses) antes del plan y copia sus importes a `caso.md`, para que tablas, requerimiento y petición coincidan. Petición monitoria: comparecencia y hechos (`### [HECHO]`) / fundamentos (`### [FUNDAMENTO]`: competencia, postulación, intento de negociación e intereses) / suplico, otrosíes y relación de documentos. El requerimiento previo (1-2 páginas) lo redactas tú, sin equipo. La nota: apartado 11 del formato.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió; ninguna consulta imprescindible quedó sin resultado, y lo que Jurisprudenciator no tenía se obtuvo de una fuente oficial en internet, con enlace y fecha de consulta, y se señala en el resumen.
@@ -151,6 +155,6 @@ En todos los documentos, nombra las normas como pide el apartado 6 del formato (
 - [ ] Intento de negociación acreditado (o declaración responsable) y plazo de treinta días o de un mes vencido antes de presentar; criterio de la Audiencia de la plaza buscado.
 - [ ] Domicilio del deudor comprobado; órgano y denominación de la sección confirmados.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el requerimiento, la petición y la nota; avisos de «posible disonancia» contrastados con el texto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); avisos de «posible disonancia» contrastados con el texto leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DOMICILIO]`, `[IMPORTE]`, `[IBAN]`) en lugar de datos inventados; importes idénticos en tabla, requerimiento y petición.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado, cuantía y su composición, intento de negociación y fechas, datos que faltan, tabla de jurisprudencia, plazos con precepto y próximo paso.

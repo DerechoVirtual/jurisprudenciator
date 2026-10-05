@@ -2,7 +2,7 @@
 name: contrato-trabajo-modalidad
 description: >-
   Elige la modalidad de contrato de trabajo que permite la ley tras la reforma de 2021 y la redacta en Word
-  con nota para el abogado: indefinido ordinario, fijo-discontinuo (también en contratas), temporal por
+  (con nota para el abogado si la pides): indefinido ordinario, fijo-discontinuo (también en contratas), temporal por
   circunstancias de la producción (imprevisible o previsible), sustitución, formativo en alternancia o para la
   práctica profesional y tiempo parcial. Úsala cuando la empresa diga «necesito a alguien para la campaña»,
   «¿le hago un temporal?», «contrato para cubrir una baja», «contrato de prácticas» o «media jornada», y
@@ -24,7 +24,7 @@ description: >-
 - **Convenio aplicable y sus artículos** → `buscar_convenio` + `leer_convenio` (`buscar_en` con una sola materia: `"contratación"`, `"fijos discontinuos"`, `"formativo"`, `"grupos profesionales"`, `"periodo de prueba"`) + `vigencia_convenio`. Si los pasajes de `buscar_en` no contienen el artículo que buscas o `articulo="N"` llega cortado en un salto de página, pide el texto completo (`leer_convenio` con `max_chars` alto, p. ej. `200000`), localiza el artículo por su título y cita el que hayas leído entero. Las tablas salariales que el propio convenio trae en sus anexos (a veces de varios años) salen de ahí; solo si no están, búscalas en internet. Si el convenio está denunciado, lee su cláusula de vigencia y, en su defecto, el apartado 3 del art. 86 ET (`buscar_articulo`).
 - **Doctrina sobre causa, fraude, encadenamiento y fijos-discontinuos** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`; o `base="AN"` + `tipo_organo="TSJ"` + `provincia` sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` de la cuestión).
 - **Empresa** → `buscar_empresa_mercantil` (denominación exacta, CIF y domicilio para la comparecencia).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -62,7 +64,7 @@ Pregunta primero **a quién defiende el abogado**:
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pregunta en este orden; si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado.
 2. ★ Empresa: denominación, CIF, `[CÓDIGO DE CUENTA DE COTIZACIÓN]`, actividad real, centro de trabajo, plantilla del centro y de la empresa, si pertenece a un grupo y si hay representación legal de los trabajadores (RLT).
@@ -172,7 +174,8 @@ Mucha doctrina del Supremo resuelve contratos anteriores a 2022 (obra o servicio
      - UNDÉCIMA, extinción y preaviso; DUODÉCIMA, protección de datos;
      - firmas en dos columnas.
    - ANEXOS: plan formativo individual (formativos, obligatorio); pacto de horas complementarias (parcial, documento separado); acuerdo de trabajo a distancia si procede.
-2. **Nota para el abogado**: `nota-contrato-<modalidad>-<empresa>-<AAAAMMDD>.docx`. Modalidad elegida y descartadas con su precepto; análisis de la causa y riesgos (fijeza, infracción por trabajador, indemnizaciones); tabla de fechas (máxima, preaviso, 18 en 24, días previsibles consumidos); convenio y artículos leídos con su vigencia; obligaciones de la empresa con plazo (oficina de empleo, copia básica, previsión anual, información de vacantes del art. 15.7, documento de fijeza); jurisprudencia literal si la hay.
+   - **Reparto para la redacción rápida:** tres secciones por bloques de cláusulas: título, comparecencia, EXPONEN, objeto, modalidad y causa de la temporalidad (PRIMERA y SEGUNDA, las que más investigación piden) / funciones, centro, duración, jornada, retribución, vacaciones y periodo de prueba / convenio, extinción y preaviso, datos personales, firmas y anexos.
+2. **Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega): `nota-contrato-<modalidad>-<empresa>-<AAAAMMDD>.docx`. Modalidad elegida y descartadas con su precepto; análisis de la causa y riesgos (fijeza, infracción por trabajador, indemnizaciones); tabla de fechas (máxima, preaviso, 18 en 24, días previsibles consumidos); convenio y artículos leídos con su vigencia; obligaciones de la empresa con plazo (oficina de empleo, copia básica, previsión anual, información de vacantes del art. 15.7, documento de fijeza); jurisprudencia literal si la hay.
 3. **Si defiende al trabajador**: nota de análisis del fraude con la tabla de contratos, la conclusión (fijo desde qué fecha, antigüedad) y el plazo que corre, en lugar del contrato.
 
 ## Comprobación final
@@ -185,6 +188,6 @@ Mucha doctrina del Supremo resuelve contratos anteriores a 2022 (obra o servicio
 - [ ] Tabla de encadenamiento hecha si hay contratos previos; régimen transitorio citado desde el texto del BOE leído en internet (enlace y fecha de consulta) y la doctrina leída.
 - [ ] Todo dato que no sale de Jurisprudenciator (disposiciones transitorias, SMI, tabla salarial, Contrat@) procede de una fuente oficial con enlace y fecha de consulta, y el resumen lo identifica.
 - [ ] Cada ECLI de la nota leído con `leer_sentencias` o comprobado con `buscar_por_cita`; ninguno en el contrato.
-- [ ] `verificar_escrito` pasado sobre el contrato y la nota; letras citadas como «letra c) del apartado 1 del artículo 49 del Estatuto de los Trabajadores».
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); letras citadas como «letra c) del apartado 1 del artículo 49 del Estatuto de los Trabajadores».
 - [ ] Marcadores en lugar de datos no facilitados; ninguna cuantía de sanción, SMI ni salario de tabla escrita de memoria.
 - [ ] Resumen para el abogado según el apartado 9 del formato: qué se ha preparado, fechas clave con su precepto, riesgos, documentos que faltan, tabla de jurisprudencia y próximo paso.

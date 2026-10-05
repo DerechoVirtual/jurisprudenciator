@@ -13,7 +13,7 @@ description: Redacta el escrito de conclusiones del proceso contencioso-administ
 - **Letra exacta de la nulidad y requisitos de la responsabilidad patrimonial** → `buscar_articulo` (`ley="LPAC"`, artículos 47, 48 y 67; `ley="LRJSP"`, artículos 32 y 34).
 - **Doctrina de cada alegación** (lex artis, nulidad, motivación del acta de liquidación) → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`, `terminos`).
 - **Variante de urbanismo** → `buscar_ordenanzas` + `leer_ordenanza` con `articulo`, y `consultar_catastro` para identificar la finca.
-- **Antes de entregar** → `verificar_escrito` sobre el borrador, comprobando además que ninguna cita introduce una cuestión que no estuviera en la demanda.
+- **Comprobación de las citas** → `verificar_escrito` lo pasa cada redactor sobre las frases de su sección que citan normas, el ensamblado de `redaccion-rapida` comprueba que cada cita se leyó y la lectura de coherencia comprueba que ninguna introduce una cuestión que no estuviera en la demanda.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, criterio del TEAC...).
 
@@ -25,6 +25,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ---
 
@@ -127,6 +129,8 @@ de los daños y perjuicios** de cuyo resarcimiento se trate, **si constasen ya p
    pleno restablecimiento, e **indemnización** cuando proceda (31.2) — **y costas** (art. 139). El
    suplico **debe coincidir con el de la demanda**: cualquier desviación es cuestión nueva.
 
+**Reparto para la redacción rápida:** encabezamiento, fórmula de evacuación y valoración de la prueba de contrario (una sección) · una sección por bloque de alegaciones probadas, con su variante del § 4 si toca · cierre con recapitulación, art. 65.3 si procede, suplico idéntico al de la demanda y costas. Escrito corto (conclusiones sucintas, art. 64.1): tres secciones.
+
 ## 4. Variantes
 
 ### 4.1 Nulidad de pleno derecho (Seguridad Social y urbanismo)
@@ -196,5 +200,6 @@ solos efectos).
 - **Protección de datos:** `[CLIENTE]`, `[ÓRGANO]`, `[FECHA]`, `[IMPORTE]`, `[EXPEDIENTE]`,
   `[DATO CLÍNICO]`. Cero datos reales.
 - **Nada de MASC:** es del orden civil.
-- **Entregable:** Word `.docx` maquetado (skill `docx`), con encabezamiento, alegaciones y suplico
-  listos para firma. Aplica `estilo-escritos-judiciales`.
+- **Entregable:** Word `.docx` maquetado, que genera el ensamblado de `redaccion-rapida`, con
+  encabezamiento, alegaciones y suplico listos para firma. Los redactores aplican
+  `estilo-escritos-judiciales` al escribir.

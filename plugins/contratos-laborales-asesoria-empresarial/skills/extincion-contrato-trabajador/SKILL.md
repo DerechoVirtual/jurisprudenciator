@@ -25,7 +25,7 @@ description: >-
 - **Doctrina sobre gravedad del impago o del retraso, mantenimiento de la relación, despido posterior y acoso** → `buscar_sentencias` (`base="TS"`, `jurisdiccion="SOCIAL"`; y `base="AN"`, `tipo_organo="TSJ"`, `provincia` = sede de la Sala) + `leer_sentencias` (`parrafos=3`, `terminos` del incumplimiento concreto).
 - **Convenio aplicable y sus artículos** (fecha y forma de pago del salario, estructura salarial, jornada, clasificación) → `buscar_convenio` + `leer_convenio` + `vigencia_convenio` en el periodo de los incumplimientos.
 - **Empresa** → `buscar_empresa_mercantil` (situación, concurso, grupo, administradores).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
@@ -60,7 +62,7 @@ Esta skill también está en el plugin de litigación laboral. En este plugin la
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo: si falta un dato imprescindible (★), pregúntalo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado y qué causa del art. 50.1 se invoca (una o varias).
 2. ★ Si el trabajador sigue prestando servicios y si quiere o necesita dejar de hacerlo (salud, riesgo, acoso): condiciona la estrategia de mantenimiento o cautelares.
@@ -135,11 +137,13 @@ La **demanda de despido** se redacta con `redactar-demanda-despido`, que debe ha
 4. SUPLICO: que se declare extinguida la relación por incumplimiento grave del empresario, con condena a la indemnización de `[IMPORTE]` €, a las cantidades adeudadas con el interés del art. 29.3 ET (diez por ciento anual desde cada vencimiento) y, en su caso, a `[IMPORTE]` € por daño moral.
 5. OTROSÍES: tramitación urgente (art. 103.5 LRJS) si la causa es la letra b; medidas cautelares del art. 79.7 en relación con el art. 180.4 LRJS, con su justificación; prueba (interrogatorio con el apercibimiento del art. 91.2, documental en poder de la empresa, testifical, pericial médica si procede).
 
-**2. Hoja de cálculo** (`calculo-indemnizacion-<apellido-trabajador>-<AAAAMMDD>.docx`) con la tabla del apartado 7 del formato.
+**Reparto para la redacción rápida (demanda):** encabezamiento, comparecencia y hechos (con el calendario de pagos en tabla) / fundamentos procesales (competencia, conciliación, acumulación) / un fundamento de fondo por cada causa del art. 50.1 invocada (y otro para derechos fundamentales, si procede) / indemnización, interés, súplica, otrosíes y firma.
+
+**2. Hoja de cálculo**, solo si el abogado la pide (si no, la tabla va en el resumen): `calculo-indemnizacion-<apellido-trabajador>-<AAAAMMDD>.docx`, con la tabla del apartado 7 del formato.
 
 **3. Escrito de acumulación** (`escrito-acumulacion-<apellido-cliente>-<AAAAMMDD>.docx`), solo si la empresa despide después de presentada la demanda: al órgano y autos de la extinción; alegaciones (estado del proceso, despido y papeleta, acumulación obligatoria con la doctrina leída, orden de examen, suspensión del señalamiento, ampliación de cantidades en tabla con su interés); suplico; documentos.
 
-**4. Nota** (`nota-extincion-<empresa>-<AAAAMMDD>.docx`): encaje en la regla del art. 50.1.b o en la doctrina; riesgos de mantenimiento y de despido posterior; desempleo; para la empresa, exposición por escenarios, medidas inmediatas y propuesta para la conciliación; jurisprudencia literal usada.
+**4. Nota**, solo si el abogado la pide o si es el único entregable, porque se defiende a la parte para la que esta skill no redacta documento (si no se entrega aparte, lo que esta skill manda «a la nota» va en el resumen de la entrega), `nota-extincion-<empresa>-<AAAAMMDD>.docx`: encaje en la regla del art. 50.1.b o en la doctrina; riesgos de mantenimiento y de despido posterior; desempleo; para la empresa, exposición por escenarios, medidas inmediatas y propuesta para la conciliación; jurisprudencia literal usada.
 
 ## Comprobación final
 
@@ -155,7 +159,7 @@ La **demanda de despido** se redacta con `redactar-demanda-despido`, que debe ha
 - [ ] Interés del art. 29.3 ET calculado por días de demora desde cada vencimiento (tipo anual), con la doctrina leída.
 - [ ] Cálculo en tabla con cada operación; antigüedad anterior al 12/02/2012 calculada con la disposición transitoria undécima leída en el BOE consolidado (enlace y fecha) o remitida a `calculo-indemnizacion-despido`.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; avisos de «posible disonancia» contrastados con el apartado leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); avisos de «posible disonancia» contrastados con el apartado leído.
 - [ ] Marcadores en lugar de datos no facilitados; plazo con su fecha y precepto.
 - [ ] Los datos obtenidos en internet figuran con su enlace en el documento y en el resumen.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

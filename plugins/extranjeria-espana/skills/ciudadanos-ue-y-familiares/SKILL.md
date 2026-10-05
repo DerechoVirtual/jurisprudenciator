@@ -17,7 +17,7 @@ description: >-
 - **Orden público, seguridad y salud pública** → `buscar_articulo` (`ley="Real Decreto 240/2007"`, `articulo="15"`) y `buscar_articulo` (`ley="Directiva 2004/38/CE"`, artículos `"27"`, `"28"`, `"30"` y `"31"`).
 - **Frontera con el régimen de familiares de españoles** → `buscar_articulo` (`ley="BOE-A-2024-24099"`, artículos `"93"` y `"94"`) y `leer_boe` (`identificador="BOE-A-2024-24099"`, disposición transitoria segunda).
 - **Doctrina sobre medios, seguro, «a cargo», residencia permanente, silencio y orden público** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"` o `base="AN"`; `base="TJUE"` para el Tribunal de Justicia) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -29,6 +29,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -53,7 +55,7 @@ Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `referen
 
 ## Datos que hay que reunir antes de redactar
 
-Los marcados con ★ son imprescindibles: si faltan, pregúntalos y no redactes.
+Los marcados con ★ son imprescindibles: sácalos de la documentación aportada (paso 2 de `redaccion-rapida`) y, si faltan, pídelos todos a la vez en una única ronda de no más de cuatro preguntas; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Ciudadano de la Unión: nacionalidad, documento, fecha de entrada, certificado de registro (fecha) y situación que funda su derecho: trabajo por cuenta ajena o propia, medios y seguro, estudios, o conservación de la condición de trabajador (art. 7.3).
 2. ★ Si es español: si residió de forma efectiva con el familiar en otro Estado miembro (dónde, cuánto tiempo, con qué título) y la fecha de la solicitud.
@@ -142,6 +144,8 @@ Nombre según el trámite: `solicitud-certificado-registro-<apellido-cliente>-<A
 6. OTROSÍ: en las tarjetas, que se tenga por acreditada la estancia legal con el resguardo (art. 8.2); en todo trámite, que si se detecta alguna carencia se requiera su subsanación antes de resolver (en el certificado de registro, plazo de diez días de la Orden PRE/1490/2012, art. 2.3).
 7. Lugar, fecha, firma y RELACIÓN DE DOCUMENTOS numerada.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos; 02 fundamentos de derecho (régimen aplicable, beneficiario y derecho de residencia); 03 el trámite pedido (arts. 8 a 13) con su doctrina; 04 solicita, otrosí, firma y relación de documentos. El certificado de registro de un solo ciudadano, sin familiares, es breve: lo redacta el director sin equipo.
+
 ## Comprobación final
 
 - [ ] Puerta cumplida: `estado` respondió y ninguna consulta imprescindible quedó sin resultado.
@@ -150,6 +154,6 @@ Nombre según el trámite: `solicitud-certificado-registro-<apellido-cliente>-<A
 - [ ] Plazos con fecha y precepto: registro y tarjeta en tres meses desde la entrada, tarjeta permanente en el mes anterior o los tres posteriores a la caducidad, expedición de la tarjeta (art. 8.4); para la conservación y la comunicación de cambios, di que el precepto no fija plazo si así es en el texto leído.
 - [ ] Sentido del silencio afirmado solo si se obtuvo la doctrina con Jurisprudenciator.
 - [ ] Cada ECLI leído con `leer_sentencias` o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo y corregido lo que señale.
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas y corregido lo que señale.
 - [ ] Marcadores para lo que falta; sin cuantías de medios ni importes no confirmados por el abogado.
 - [ ] Resumen para el abogado según el apartado 7 del formato: trámite y oficina, plazos con su precepto, documentos que faltan y riesgos, tabla de jurisprudencia y próximo paso.

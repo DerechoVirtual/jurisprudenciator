@@ -2,7 +2,7 @@
 name: sanciones-disciplinarias
 description: >-
   Prepara la carta de sanción disciplinaria (amonestación, suspensión de empleo y sueldo u otra prevista en el
-  convenio) con su nota de riesgo para la empresa, o analiza una sanción ya impuesta para impugnarla en nombre del
+  convenio) y, si la pides, su nota de riesgo para la empresa, o analiza una sanción ya impuesta para impugnarla en nombre del
   trabajador. Úsala cuando digan «quiero sancionar a un trabajador», «carta de sanción», «falta grave o muy grave»,
   «suspensión de empleo y sueldo», «me han sancionado», «impugnar la sanción» o «¿ha prescrito la falta?». Comprueba
   tipificación y graduación en el convenio, sanciones prohibidas, forma escrita, expediente contradictorio, audiencia
@@ -23,7 +23,7 @@ description: >-
 - **Convenio aplicable: faltas, sanciones, procedimiento y prescripción convencional** → `buscar_convenio` (`consulta` con el nombre del sector tal como lo usa el registro, por ejemplo «metal», «hostelería» o «contact center», y `territorio` = provincia del centro; si no sale nada, simplifica la consulta) + `leer_convenio` (`buscar_en="faltas"` para localizar el capítulo; después `articulo="N"` para leer cada artículo completo). Si el convenio provincial remite el régimen disciplinario a un acuerdo o convenio estatal, lee los artículos en el estatal y comprueba la remisión. Después, `vigencia_convenio` de cada convenio que uses: **`leer_convenio` devuelve el texto publicado originalmente, no las modificaciones posteriores**. Si `vigencia_convenio` registra una modificación, un acuerdo parcial o un pronunciamiento de tribunal posterior a esa publicación y anterior a la sanción, búscalo en internet en el boletín oficial (BOE, boletín autonómico o BOP) y comprueba si cambia los artículos que aplicas; cítalo con su enlace (punto 3 de la puerta). Si no lo localizas, dilo en la nota.
 - **Doctrina sobre tipicidad, proporcionalidad y elección de una sanción inferior** → `buscar_sentencias` (`consulta="sanción disciplinaria calificación muy grave sanción inferior tipicidad proporcionalidad nulidad"`, `base="TS"`, `jurisdiccion="SOCIAL"`) + `leer_sentencias` (`parrafos=3`).
 - **Tutela acumulada (defensa del trabajador)** → `buscar_articulo` (`ley="LRJS"`, artículos `"178"`, `"180"`, `"183"` y `"191"`).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento antes de entregarlo** → cada redactor pasa `verificar_escrito` sobre las frases de su sección que citan normas (no sobre el documento entero) y el ensamblado de `redaccion-rapida` comprueba que cada ECLI o ROJ citado figure entre las fuentes leídas; `buscar_por_cita` solo para una sentencia que aporte el abogado y no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del convenio con su código, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -36,13 +36,15 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, artículo del co
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Referencias del plugin: `references/anclas-normativas-laboral.md` (cómo pedir cada norma y el convenio) y `references/formato-y-organos-laboral.md` (entregables, órganos, citas, plazos, cálculos y resumen). Léelas antes de redactar.
 
 ## Cuándo usarla
 
 Primera pregunta, siempre: **¿a quién defiende el abogado?**
 
-- **Empresa**: quiere imponer una sanción que aguante la impugnación. Entregas carta de sanción, los escritos del procedimiento previo que procedan y nota de riesgo.
+- **Empresa**: quiere imponer una sanción que aguante la impugnación. Entregas carta de sanción y los escritos del procedimiento previo que procedan, con el riesgo en el resumen (y una nota, si la pides).
 - **Trabajador**: ha recibido una sanción y quiere saber si la puede tumbar y en qué plazo. Entregas nota de impugnación con los motivos ordenados por fuerza y el plazo calculado.
 
 | Situación | Skill que procede |
@@ -59,7 +61,7 @@ Si la sanción impuesta invoca o lesiona un derecho fundamental (represalia por 
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Obtén estos datos de la documentación aportada y pregunta solo lo que bloquee la estructura del escrito y no se deduzca de ella (los marcados con ★, si faltan), en una única ronda (paso 2 de `redaccion-rapida`); lo demás se redacta con su marcador. Cierra los datos del caso y el plan antes de que el equipo redacte (pasos 2 y 3 de `redaccion-rapida`).
 
 1. ★ A quién defiende el abogado.
 2. ★ Hechos: qué hizo el trabajador, día (y hora si importa), lugar, quién lo presenció y qué pruebas hay (partes, correos, registros, testigos). Si son varios hechos o una conducta repetida, la fecha de cada uno.
@@ -147,7 +149,8 @@ Todo en Word según `references/formato-y-organos-laboral.md`.
    - Firma de la empresa y recibí del trabajador con fecha, o constancia de la negativa a firmar ante dos testigos; copia a la representación si el convenio o el art. 64.4.c ET lo piden.
 2. **Si hay representante o delegado**: comunicación de apertura del expediente contradictorio con el pliego de cargos, al interesado y al comité o restantes delegados, con plazo para alegaciones (el del convenio; si no fija ninguno, uno que permita defenderse y que no ponga en riesgo la prescripción, que sigue corriendo) — `carta-expediente-contradictorio-<apellido-trabajador>-<AAAAMMDD>.docx`.
 3. **Si hay afiliado conocido**: comunicación a los delegados sindicales para su audiencia previa, con los hechos y plazo — `carta-audiencia-delegados-sindicales-<apellido-trabajador>-<AAAAMMDD>.docx`.
-4. **Nota para el abogado** — `nota-sancion-<empresa>-<AAAAMMDD>.docx`: tabla hecho → tipo → grado → sanción; cálculo de la prescripción (fecha de comisión, fecha de conocimiento, fechas límite corta y larga); garantías aplicables y cómo se cumplen; artículos del ET, la LRJS, la LOLS y el convenio leídos; riesgos de nulidad o revocación; jurisprudencia con párrafo literal.
+   **Reparto para la redacción rápida:** la carta de sanción y las comunicaciones del expediente y de la audiencia sindical son cortas (1-3 páginas): una sección cada una, sin equipo; si la carta lleva muchos hechos, dos secciones: encabezamiento y hechos / calificación, sanción, garantías y firma.
+4. **Nota para el abogado**, solo si el abogado la pide (si no, lo que esta skill manda «a la nota» —calendario, riesgos, cálculos y jurisprudencia con su ECLI— va en el resumen de la entrega) — `nota-sancion-<empresa>-<AAAAMMDD>.docx`: tabla hecho → tipo → grado → sanción; cálculo de la prescripción (fecha de comisión, fecha de conocimiento, fechas límite corta y larga); garantías aplicables y cómo se cumplen; artículos del ET, la LRJS, la LOLS y el convenio leídos; riesgos de nulidad o revocación; jurisprudencia con párrafo literal.
 
 **Trabajador:**
 
@@ -165,7 +168,7 @@ Todo en Word según `references/formato-y-organos-laboral.md`.
 - [ ] Garantías revisadas: expediente contradictorio, audiencia a delegados sindicales, requisitos del convenio, información al comité.
 - [ ] Sanción del catálogo del convenio y no prohibida por el art. 58.3 ET.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`; la carta no lleva jurisprudencia.
-- [ ] `verificar_escrito` pasado sobre cada documento; los artículos del convenio, contrastados con `leer_convenio` (el verificador no los reconoce).
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (no sobre el documento entero); los artículos del convenio, contrastados con `leer_convenio` (el verificador no los reconoce).
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DNI/NIE]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, fechas no facilitadas) en vez de datos inventados.
 - [ ] Plazo de impugnación con fecha inicial, precepto y fecha final, y tratamiento de agosto y Navidad justificado.
 - [ ] Resumen para el abogado según el apartado 9 del formato.

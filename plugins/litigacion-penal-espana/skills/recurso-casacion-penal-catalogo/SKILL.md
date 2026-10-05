@@ -14,7 +14,7 @@ description: Catálogo (sin plantilla). Prepara e interpone recurso de casación
 - **Lista demasiado amplia** → `opciones_busqueda` para acotar por año o ponente.
 - **Vulneración de derechos fundamentales por la vía del art. 852** → `buscar_sentencias` (`base="TC"`).
 - **ECLI que cita la sentencia recurrida o la parte contraria** → `buscar_por_cita`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Redacta la preparación y la interposición de la casación penal. **Antes de escribir una sola línea,
 determina qué motivos son admisibles.** Es la decisión que decide el recurso.
@@ -188,6 +190,9 @@ inadmisión **puede afectar a todos los motivos o solo a algunos**.
 
 ## 7. Comprobaciones previas (bloque obligatorio antes de redactar)
 
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
+
 1. **Recurribilidad** — tabla del § 1 + art. 847.2 (¿el fallo se limita a anular?).
 2. **Plazo** — 5 días desde la **última** notificación (art. 856). Identifica la fecha de la última,
    no la de la tuya. **Días inhábiles (art. 183 LOPJ, redacción LO 14/2022, verificado): todo agosto y
@@ -230,6 +235,8 @@ inadmisión **puede afectar a todos los motivos o solo a algunos**.
    proceda). Otrosíes: costas; en su caso, vista.
 7. Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** una sección por motivo, con el rótulo `### [MOTIVO]`: 01 encabezamiento, comparecencia y antecedentes procesales con el cauce del art. 847 · 02 a N-1, un motivo cada una (extracto, cauce, precepto infringido y desarrollo desde el hecho probado, con sus búsquedas en la Sala Segunda) · N suplico, otrosíes, lugar, fecha y firma. Mejor un motivo sólido que cuatro. El escrito de preparación del § 2 (1-2 páginas) no necesita equipo: redáctalo tú.
+
 ---
 
 ## 9. Errores típicos (revisa el borrador contra esta lista)
@@ -270,4 +277,4 @@ inadmisión **puede afectar a todos los motivos o solo a algunos**.
 
 ## Entrega
 
-Escrito final en **Word `.docx`** (skill `docx`), maquetado para LexNET.
+Escrito final en **Word `.docx`** (lo genera el ensamblado de `redaccion-rapida`), maquetado para LexNET.

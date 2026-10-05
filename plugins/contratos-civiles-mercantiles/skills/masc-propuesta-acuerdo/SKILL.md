@@ -24,7 +24,7 @@ description: >-
 - **Plazo de la acción que se va a ejercitar** → `buscar_articulo` (`ley="CC"`, artículos `"1964"`, `"1969"` y `"1973"`, y el especial que corresponda, p. ej. `"1490"`).
 - **Doctrina de las Audiencias** (medio válido, oferta vinculante, identidad de objeto, plazos, inadmisión y subsanación, acuerdos de unificación de criterios de la plaza) → `buscar_sentencias` (`base="AN"`, `jurisdiccion="CIVIL"`, `tipo_organo="AP"`, `fecha_desde="03/04/2025"` y `provincia` de la plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Contraparte que es sociedad** → `buscar_empresa_mercantil` (domicilio social vigente y administradores: a quién se dirige la solicitud y quién puede aceptar).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). El conector devuelve los artículos 2 a 19 de la LO 1/2025 (título de los medios adecuados), pero no sus disposiciones adicionales, transitorias ni finales, y `leer_boe` (`identificador="BOE-A-2025-76"`) se corta en el preámbulo: cuando las necesites (régimen de los consumidores, entrada en vigor), aplica el punto 3 de la puerta.
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -56,7 +58,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado: a quien propone o a quien recibe la solicitud u oferta.
 2. ★ **Objeto de la futura demanda**: pretensiones, contrato, hechos y cuantía. La negociación debe versar sobre ese mismo objeto.
@@ -165,8 +167,10 @@ En todos los documentos, nombra las normas como pide el apartado 6 del formato (
 
 1. **Solicitud de negociación o propuesta de acuerdo** (`propuesta-masc-<destinatario>-<AAAAMMDD>.docx`): partes y domicilios; objeto de la controversia con la misma extensión que la futura demanda; invitación a negociar de buena fe con cauce, fechas y plazo de respuesta; indicación de si el remitente actúa asistido de abogado (art. 6.3); advertencia de confidencialidad (art. 9); y, en documento separado o anexo confidencial, la propuesta concreta.
 2. **Oferta vinculante confidencial** (`oferta-vinculante-<destinatario>-<AAAAMMDD>.docx`): encabezado «OFERTA VINCULANTE CONFIDENCIAL (artículo 17 de la Ley Orgánica 1/2025, de 2 de enero)»; oferente y destinatario; objeto; obligación que se asume con importe, plazos y forma; renuncias y gastos; plazo y forma de aceptación expresa; confidencialidad; firma del oferente y del abogado (salvo cuantía no superior a 2.000 euros).
-3. **Documento de acreditación** (`acta-negociacion-<partes>-<AAAAMMDD>.docx`), para firmar ambas partes al terminar: identidad de las partes y de sus asesores, fecha, objeto, reuniones mantenidas y declaración responsable de haber intervenido de buena fe (art. 10.2). Si hay acuerdo, **acuerdo** (`acuerdo-masc-<partes>-<AAAAMMDD>.docx`) con el contenido del art. 12.
+3. **Documento de acreditación** (`acta-negociacion-<partes>-<AAAAMMDD>.docx`), para firmar ambas partes al terminar (solo si el abogado lo pide o la negociación ya está en marcha): identidad de las partes y de sus asesores, fecha, objeto, reuniones mantenidas y declaración responsable de haber intervenido de buena fe (art. 10.2). Si hay acuerdo, **acuerdo** (`acuerdo-masc-<partes>-<AAAAMMDD>.docx`) con el contenido del art. 12.
 4. **Nota para el abogado** (`nota-masc-<parte-principal>-<AAAAMMDD>.docx`, 2-4 páginas): por qué se elige ese medio; tabla de fechas (apartado 5); qué se aporta con la demanda y cómo se describe (arts. 264.4 y 399.3 LEC); riesgos de costas en ambos sentidos; criterio de la Audiencia de la plaza con párrafo literal, órgano, fecha y ECLI; datos de internet con enlace; próximo paso.
+
+**Reparto para la redacción rápida:** la solicitud de negociación y la oferta vinculante (2-3 páginas) las redactas tú, sin equipo; el acuerdo del art. 12, solo si el abogado lo pide, lleva estipulaciones (`### [ESTIPULACION]`): partes y objeto / obligaciones y renuncias / cláusulas finales y firmas. La nota, en equipo (apartado 11 del formato): medio elegido y exigibilidad / fechas, plazos y prescripción / acreditación, costas y criterio de la plaza.
 
 ## Comprobación final
 
@@ -178,6 +182,6 @@ En todos los documentos, nombra las normas como pide el apartado 6 del formato (
 - [ ] Tabla de fechas completa: terminación sin acuerdo, un año para demandar, prescripción o caducidad recalculada en el supuesto más desfavorable; en oferta vinculante, fecha antes de la cual no se puede demandar.
 - [ ] Propuestas con cifras separadas de lo que se aportará con la demanda; nada confidencial en la demanda.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre cada documento; avisos de «posible disonancia» contrastados con el texto leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); avisos de «posible disonancia» contrastados con el texto leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DOMICILIO]`, `[IMPORTE]`) en lugar de datos inventados; importes y fechas coherentes.
 - [ ] Resumen para el abogado según el apartado 10 del formato: medio elegido y por qué, fechas clave con su precepto, qué aportar con la demanda, riesgos de costas, tabla de jurisprudencia, datos obtenidos de internet y próximo paso.

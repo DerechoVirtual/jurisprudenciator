@@ -1,9 +1,9 @@
 ---
 name: redactar-demanda
-description: Redaccion exhaustiva de demandas civiles, mercantiles y de familia conforme a LEC y LO 1/2025. No redacta al primer disparo, recorre cinco fases. Word maquetado obligatorio. Usar con redactar demanda, preparar demanda, interponer, monitorio, verbal, ordinario, desahucio.
+description: Redaccion exhaustiva de demandas civiles, mercantiles y de familia conforme a LEC y LO 1/2025. Cierra procedimiento, competencia, MASC y estrategia y la redacta con un equipo de subagentes en paralelo (Word en 2-3 minutos). Word maquetado obligatorio. Usar con redactar demanda, preparar demanda, interponer, monitorio, verbal, ordinario, desahucio.
 ---
 
-# Redactar demanda civil — flujo maestro de 5 fases
+# Redactar demanda civil — flujo maestro
 
 ## Jurisprudenciator en esta skill
 
@@ -28,11 +28,13 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
-## Marco normativo de referencia — LO 1/2025 (CRÍTICO, comprobar SIEMPRE)
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
+## Marco normativo de referencia — LEC vigente y LO 1/2025 (CRÍTICO, comprobar SIEMPRE)
 
 La **Ley Orgánica 1/2025, de 2 de enero, de medidas en materia de eficiencia del Servicio Público de Justicia** (en vigor el **3 de abril de 2025**) reformó la LEC. Tener siempre presente:
 
-- **Cuantía → procedimiento.** El umbral del juicio verbal por razón de la cuantía pasó de 6.000 € a **15.000 €**:
+- **Cuantía → procedimiento.** El umbral del juicio verbal por razón de la cuantía pasó de 6.000 € a **15.000 €** por el **Real Decreto-ley 6/2023** (en vigor desde el 20 de marzo de 2024; no lo fijó la LO 1/2025):
   - Asuntos de **hasta 15.000 € (≤ 15.000)** → **juicio verbal** (art. 250.2 LEC).
   - Asuntos que **excedan de 15.000 € (> 15.000)** → **juicio ordinario** (art. 249.2 LEC).
   - ⚠️ **Prohibido usar el viejo umbral de 6.000 €.** Ejemplo: un asunto de 13.500 € es **verbal**, no ordinario.
@@ -44,7 +46,7 @@ La **Ley Orgánica 1/2025, de 2 de enero, de medidas en materia de eficiencia de
 
 ## Regla cardinal
 
-**NO REDACTAR AL PRIMER DISPARO.** Recorrer las 5 fases SIEMPRE. Saltar fases = entregable inservible.
+**Cerrar el caso antes de redactar; redactar en paralelo.** Las Fases 1-4 (documentación, comprobaciones, viabilidad y MASC, estrategia) se cierran en `caso.md` y en el plan (pasos 2-3 de `redaccion-rapida`) antes de que el equipo escriba una línea; la Fase 5 (jurisprudencia) la hace cada redactor para su sección; las Fases 6-9 las cumplen los redactores al escribir y el ensamblado. Redactar sin tener cerrados procedimiento, competencia, MASC y pretensiones = entregable inservible.
 
 ## Prerrequisitos
 
@@ -65,13 +67,13 @@ Pedir al usuario aportar (o señalar dónde están):
 
 Validar lectura completa antes de continuar (ver `## Input grande` del CLAUDE.md).
 
-## Fase 2 — Batería de preguntas (AskUserQuestion obligatorio)
+## Fase 2 — Comprobaciones previas (se responden con la documentación)
 
-Mínimo 4 baterías de 2-4 preguntas cada una:
+Cada batería es una lista de comprobaciones que se responde con la documentación aportada. Solo se pregunta al abogado lo que bloquee o cambie la estructura de la demanda y no se deduzca de lo aportado, en una única ronda; lo demás que falte va como `[PENDIENTE: dato]`:
 
 ### Batería A — Procedimiento aplicable
 
-- Cuantía exacta o estimada → umbral **LO 1/2025**: **≤ 15.000 € = verbal** (art. 250.2 LEC); **> 15.000 € = ordinario** (art. 249.2 LEC). Nunca el viejo umbral de 6.000 €.
+- Cuantía exacta o estimada → umbral del **RDL 6/2023** (vigente desde el 20/03/2024): **≤ 15.000 € = verbal** (art. 250.2 LEC); **> 15.000 € = ordinario** (art. 249.2 LEC). Nunca el viejo umbral de 6.000 €.
 - Tipo de pretensión (dineraria líquida / declarativa / constitutiva / mixta)
 - ¿Cabe monitorio? (deuda dineraria, líquida, vencida, exigible, documentada — LEC 812)
 - ¿Cabe juicio verbal por materia especial, cualquiera que sea la cuantía? (desahucio, alimentos, retracto, propiedad horizontal, división de cosa común, condiciones generales, usura — art. 250.1 LEC)
@@ -143,7 +145,7 @@ Buscar/verificar jurisprudencia con el conector MCP `jurisprudenciator` (`buscar
 
 Para cada sentencia que vaya a citarse, **leer el texto con `leer_sentencias`** (con `parrafos=N` y `terminos=` del punto que sostiene) y **extraer el pasaje literal exacto** (el *ratio decidendi*) que se va a entrecomillar en el escrito. No se cita ninguna sentencia de la que no se haya leído y aislado su párrafo. La cita literal va **entre comillas** y reproducida textualmente; cualquier paráfrasis va sin comillas.
 
-### Ficha por sentencia (preparar antes de redactar)
+### Ficha por sentencia (la prepara el redactor de cada sección antes de escribirla)
 
 Para CADA cita, dejar lista esta ficha:
 - ECLI (ej. `ECLI:ES:TS:2023:1234`)
@@ -229,6 +231,8 @@ y, en su día, previos los trámites legales, dicte sentencia por la que:
 OTROSÍ DIGO [si hace falta: prueba anticipada, embargo preventivo, etc.]
 ```
 
+**Reparto para la redacción rápida:** sección 1 = encabezamiento, comparecencia y hechos (dos si pasan de 1.200 palabras); sección 2 = fundamentos procesales (competencia y procedimiento, postulación, MASC); una sección por cada línea argumental del fondo (epígrafes 1.-, 2.-, 3.-…), cada una con sus sentencias (entre todas, al menos 4 STS); sección final = intereses, costas, súplica, otrosíes, lugar, fecha, firmas y relación de documentos.
+
 ### Maquetación
 
 - Times New Roman 12
@@ -255,28 +259,28 @@ OTROSÍ DIGO [si hace falta: prueba anticipada, embargo preventivo, etc.]
 - Si se emplean sub-rótulos, han de ser **descriptivos del contenido concreto** y **distintos** entre sí; nunca el mismo trío repetido.
 - **Test de control:** si dos motivos comparten la misma estructura de epígrafes y el mismo ritmo, está mal redactado → reescribir para que cada uno tenga forma propia.
 
-## Fase 7 — Pulido con estilo de la casa
+## Fase 7 — Estilo de la casa (se aplica al escribir)
 
-Aplicar **automáticamente** el skill `estilo-escritos-judiciales`:
+Los redactores aplican el estilo de la casa (skill `estilo-escritos-judiciales`) al escribir, no en una pasada posterior:
 - Inyectar estructura tripartita, contrastes "una cosa es X / otra es Y", explicación del por qué antes del qué
 - Cero adjetivos vacíos, cero postureo
 - Cierre estratégico
 
 ## Fase 8 — Subsunción
 
-Aplicar **automáticamente** el skill `subsuncion-juridica`:
+Los redactores aplican la subsunción (skill `subsuncion-juridica`) al escribir, no en una pasada posterior:
 - Conectar cada STS con los hechos concretos del asunto
 - Eliminar citas jurisprudenciales "sueltas" — todas deben atar a un hecho
 
 ## Fase 9 — Verificación ECLI
 
-Verificar **automáticamente y como último paso** cada ECLI/ROJ con el conector `jurisprudenciator` (`buscar_por_cita`):
-- Si alguna sentencia no se valida, marcar `[REVISAR: ECLI no validado]` y NO entregar hasta que se sustituya o verifique manualmente.
+Cada ECLI/ROJ queda comprobado por el ensamblado (solo se admiten las sentencias que algún redactor leyó con `leer_sentencias`) y cada redactor pasa `verificar_escrito` sobre sus frases con normas:
+- Si alguna sentencia no se valida, el ensamblado da error: sustitúyela por una de las leídas o retírala, y NO entregues hasta que se resuelva.
 
 ## Salida
 
 1. Word .docx maquetado en `matters/<slug>/escritos/demanda-v1.docx`
-2. Versión interna con nota del revisor y tags inline (en `matters/<slug>/escritos/demanda-v1-INTERNO.docx`)
+2. Versión interna con nota del revisor y tags inline (en `matters/<slug>/escritos/demanda-v1-INTERNO.docx`), solo si el abogado la pide
 3. Resumen markdown con:
    - Bottom line del asunto en 3 frases
    - Lista de documentos acompañados
@@ -286,7 +290,7 @@ Verificar **automáticamente y como último paso** cada ECLI/ROJ con el conector
 ## Decision tree post-entrega
 
 > **¿Qué hacemos ahora?**
-> 1. **Versión final saneada** (sin nota del revisor) — confirmar y dejarlo limpio
+> 1. **Versión interna con nota del revisor** (si no la has pedido) o confirmar la versión final tal como está
 > 2. **Cuadro de elementos** — `/cuadro-elementos <slug> --ofensivo` para revisar cobertura probatoria
 > 3. **Cronología ofensiva** — `/cronologia <slug>` para acompañar al Tribunal
 > 4. **Solicitud de medidas cautelares** — si procede `/medidas-cautelares <slug>`
@@ -294,7 +298,7 @@ Verificar **automáticamente y como último paso** cada ECLI/ROJ con el conector
 
 ## Reglas
 
-1. **PROHIBIDO redactar al primer disparo.** 5 fases obligatorias.
+1. **PROHIBIDO redactar sin tener cerrados antes los datos del caso y el plan** (Fases 1-4, en `caso.md`).
 2. **PROHIBIDO inventar jurisprudencia.** ECLI verificado o `[REVISAR]`.
 3. **PROHIBIDO omitir MASC.** Si no exento y no acreditado, parar.
 4. **Órgano: "Tribunal de Instancia, Sección Civil, de [provincia]"** (LO 1/2025). Los antiguos Juzgados de Primera Instancia ya no existen; encabezar siempre con el Tribunal de Instancia.

@@ -24,7 +24,7 @@ description: >-
 - **Autorizaciones y riesgos externos** → concentraciones (`ley="Ley 15/2007"`, artículos `"7"`, `"8"` y `"9"`); inversiones extranjeras (`ley="BOE-A-2003-13471"`, `articulo="7 bis"`); rescisión concursal si el vendedor es insolvente (`ley="TRLC"`, artículos `"226"` y `"227"`); tributación de la transmisión de valores (`ley="BOE-A-2023-7053"`, `articulo="338"`); pagos en efectivo (`ley="BOE-A-2012-13416"`, `articulo="7"`).
 - **Doctrina sobre manifestaciones y garantías, saneamiento en la venta de acciones, ajustes de precio y no competencia** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; Audiencias con `base="AN"` y `tipo_organo="AP"`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **La sociedad objeto y las partes que son sociedades** → `buscar_empresa_mercantil` (denominación o CIF): existencia, estado, administradores y apoderados vigentes, últimos actos (disolución, concurso, ampliaciones y reducciones de capital, cambios de administradores).
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...).
 
@@ -38,6 +38,8 @@ Dos trampas comprobadas con `verificar_escrito`: la Ley 19/2003 la toma por la l
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -60,7 +62,7 @@ Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ **A quién defiende el abogado**: vendedor o comprador. Si hay varios vendedores, si responden de forma solidaria o mancomunada y en qué proporción.
 2. ★ **Sociedad objeto**: denominación, CIF, tipo social. Consulta `buscar_empresa_mercantil` y anota estado, administradores y actos recientes; si aparece disolución, concurso o una reducción de capital reciente, díselo al abogado antes de seguir. Pide los **estatutos vigentes**, el libro registro de socios o de acciones nominativas y el título de adquisición de cada vendedor.
@@ -144,6 +146,7 @@ Según `references/formato-y-entrega-contratos.md`, dos documentos:
    - EXPONEN: sociedad, capital, titularidad de cada vendedor, due diligence realizada y régimen estatutario de transmisión.
    - ESTIPULACIONES, en este orden: definiciones; objeto; precio y ajustes; earn-out; pago y garantías del pago; condiciones suspensivas y fecha límite; gestión interina; cierre; manifestaciones y garantías del vendedor y del comprador; régimen de indemnización; indemnidades específicas; no competencia y no captación; resolución; cláusula penal; confidencialidad y anuncios; gastos e impuestos; notificaciones; cesión; ley y tribunales o arbitraje; integridad.
    - Anexos: participaciones vendidas y titulares; manifestaciones y garantías; carta de revelación; reglas contables y ejemplo numérico de ajuste; entregables del cierre; **minuta del documento público de compraventa** con la comparecencia, la manifestación de cumplimiento del régimen estatutario (renuncias o acuerdo de junta) y el pago.
+   - **Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia, expositivos, definiciones y objeto / precio, ajustes, earn-out y garantías del pago / condiciones suspensivas, gestión interina y cierre / manifestaciones y garantías, régimen de indemnización e indemnidades / no competencia, resolución, cláusula penal, cláusulas finales y firmas / anexos y minuta del documento público. La nota: apartado 11 del formato.
 2. `nota-compraventa-participaciones-<sociedad>-<AAAAMMDD>.docx`:
    - Régimen aplicable con los artículos leídos: qué es imperativo (forma, régimen estatutario, asistencia financiera, dolo) y qué pactable.
    - Estado registral de la sociedad según `buscar_empresa_mercantil` (informativo, sin fe pública: recomienda nota del Registro Mercantil).
@@ -160,6 +163,6 @@ Marcadores para lo que falte: `[DENOMINACIÓN SOCIAL]`, `[CIF]`, `[DATOS REGISTR
 - [ ] Estatutos cotejados con los arts. 107 y 108 LSC (o 123 en la SA); la renuncia a la adquisición preferente o el acuerdo de junta figura como condición del cierre.
 - [ ] Leídos con `buscar_articulo` en esta conversación los artículos usados del CC, la LSC, el CCom y, si proceden, la Ley 15/2007, el art. 7 bis de la Ley 19/2003 (por `BOE-A-2003-13471`), el TRLC y la Ley 6/2023.
 - [ ] Doctrina sobre manifestaciones y garantías, no competencia y cláusula penal leída con `leer_sentencias` (párrafo de fundamentos); cada ECLI citado, leído o comprobado con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el contrato, la minuta y la nota; corregido lo que señale y anotado el falso aviso sobre la Ley 19/2003.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); corregido lo que señale y anotado el falso aviso sobre la Ley 19/2003.
 - [ ] Precio, ajustes, umbral, franquicia, tope y plazos coherentes entre cláusulas y anexos; definiciones únicas; marcadores en lugar de datos inventados.
 - [ ] Resumen para el abogado según el apartado 10 del formato: qué se ha preparado y para quién, cláusulas críticas y cómo se resolvieron, autorizaciones y condiciones, documentos que faltan (estatutos, libro registro, títulos, poderes, consentimiento del cónyuge), tabla de jurisprudencia, plazos de reclamación pactados y próximo paso (renuncias, firma, notaría).

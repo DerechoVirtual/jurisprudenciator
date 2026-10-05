@@ -25,7 +25,7 @@ description: >-
 - **Plusvalía y tributos pactados** → `buscar_articulo` (`ley="BOE-A-2004-4214"`, `articulo="106"`, sujeto pasivo) y (`ley="LGT"`, `articulo="17"`).
 - **Doctrina sobre calificación de las arras, desistimiento, moderación y abusividad** → `buscar_sentencias` (`jurisdiccion="CIVIL"`, `base="TS"`; `base="AN"` + `tipo_organo="AP"` si no hay doctrina del Supremo o el asunto se litigará en esa plaza) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Partes que son sociedades** → `buscar_empresa_mercantil`; **inmueble** → `consultar_catastro` (referencia catastral, o dirección y municipio) y `buscar_articulo` (`ley="Real Decreto Legislativo 1/2004"`, artículos `"38"` y `"40"`); **tributación de las arras** → `buscar_consultas_hacienda` (`consulta="arras penitenciales"`) + `leer_consulta_hacienda`.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo de cada documento, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión de las citas** → `verificar_escrito`, que pasa cada redactor sobre las frases de su sección que citan normas (y tú sobre lo que redactes sin equipo), y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación; el ensamblado rechaza el ECLI que ningún redactor leyó.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal, dato registral...). Formas que reconoce `verificar_escrito`: «artículo 1454 del Código Civil», «artículo 31 de la Ley 12/2023, de 24 de mayo, por el derecho a la vivienda», «artículo 9 de la Ley 49/1960, de 21 de julio, sobre propiedad horizontal», «artículo 7 de la Ley 7/2012, de 29 de octubre», «artículo 17 del Real Decreto 390/2021, de 1 de junio», «artículo 38 del Real Decreto Legislativo 1/2004, de 5 de marzo» y «artículo 25 de la Ley 29/1994, de 24 de noviembre, de Arrendamientos Urbanos».
 
@@ -37,6 +37,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-contratos.md` (cómo pedir cada norma) y `references/formato-y-entrega-contratos.md` (entregables, maquetación, nota, citas, datos y resumen). Léelas antes de redactar.
 
@@ -59,7 +61,7 @@ Pasa este detector antes de redactar. Si encaja otra skill, díselo al abogado y
 
 ## Datos que hay que reunir antes de redactar
 
-Pregunta en este orden. No redactes al primer disparo: si falta un dato imprescindible (★), pídelo.
+Comprueba estos datos con la documentación que aporte el abogado antes de redactar. Pregunta solo los marcados con ★ que falten y no se deduzcan de lo aportado, todos en una única ronda de como máximo cuatro preguntas; lo demás que falte se redacta con el marcador del apartado 7 del formato y se lista en la entrega.
 
 1. ★ A quién defiende el abogado (comprador o vendedor) y si alguna parte actúa como empresario o profesional: con vendedor empresario y comprador consumidor (art. 3 TRLGDCU) cambian las cláusulas admisibles.
 2. ★ Qué quiere el cliente de las arras: poder apartarse pagando un precio cierto (penitenciales), asegurar el cumplimiento y poder exigirlo (confirmatorias) o fijar de antemano la indemnización por incumplir (penales). Si el cliente no lo sabe, explica las tres con sus consecuencias y deja que el abogado elija.
@@ -144,6 +146,8 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
   - DUODÉCIMA.- Notificaciones (domicilios y correos electrónicos), protección de datos, ley aplicable y fuero.
 - Cierre, firmas en dos columnas y **ANEXOS**: nota simple, resultado de la consulta al Catastro, información del artículo 31 de la Ley 12/2023, certificado energético y etiqueta.
 
+**Reparto para la redacción rápida:** una sección por bloque de estipulaciones (`### [ESTIPULACION]`): comparecencia y expositivos / objeto, precio y pago, naturaleza de las arras, plazo y otorgamiento de la escritura / desistimiento o incumplimiento, condición de financiación, declaraciones del vendedor / posesión, gastos y tributos, documentación, intermediación, notificaciones, ley, fuero, firmas y anexos. El plan fija la modalidad de arras para que título, naturaleza y desistimiento coincidan. La nota: apartado 11 del formato.
+
 **Nota para el abogado** (2-5 páginas): modalidad elegida y por qué, con el párrafo literal de la Sala Primera sobre la interpretación restrictiva (órgano, fecha, ECLI); cláusulas críticas con su artículo; comparación entre Catastro, nota simple y lo anunciado; pendientes (nota simple, notificación al arrendatario, certificado de deudas, consentimiento del cónyuge); riesgos y alternativas; tributación y formalidades que hay que comprobar, sin importes no leídos en una norma.
 
 ## Comprobación final
@@ -154,7 +158,7 @@ Dos documentos en Word, según `references/formato-y-entrega-contratos.md`:
 - [ ] Fecha límite de desistimiento y de escritura fijadas; plazo de tanteo del arrendatario calculado desde la notificación, si procede.
 - [ ] Inmueble consultado con `consultar_catastro` (o catastro foral consultado en internet con enlace) y contrastado con la nota simple; `[DATOS REGISTRALES]` pendiente señalado si no hay nota simple.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`; ninguno en el contrato.
-- [ ] `verificar_escrito` pasado sobre el contrato y sobre la nota; cada aviso de «posible disonancia» contrastado con el artículo leído.
+- [ ] `verificar_escrito` pasado por cada redactor sobre las frases de su sección que citan normas (y por ti sobre lo que redactes sin equipo); cada aviso de «posible disonancia» contrastado con el artículo leído.
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[DNI/NIE]`, `[IMPORTE]`, `[IBAN]`, `[FECHA]`) en lugar de datos inventados; importes, fechas y definiciones coherentes en todo el documento.
 - [ ] Si vende un empresario a un consumidor: arras recíprocas y ningún gasto o tributo del art. 89 TRLGDCU trasladado.
 - [ ] Plusvalía y demás tributos pactados de acuerdo con el sujeto pasivo leído (art. 106 del texto refundido de Haciendas Locales), sin tipos ni importes.

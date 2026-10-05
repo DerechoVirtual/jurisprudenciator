@@ -16,7 +16,7 @@ description: >-
 - **Convenio aplicable** (formación y medios preventivos exigibles, categoría del trabajador) → `buscar_convenio` → `leer_convenio` y `vigencia_convenio` a la fecha del accidente.
 - **Empresa, contratas y administradores responsables (art. 318 CP)** → `buscar_empresa_mercantil` (administradores y apoderados con cargo vigente a la fecha del accidente).
 - **Doctrina sobre imputación objetiva y deber de vigilancia** → `buscar_sentencias` (`jurisdiccion="PENAL"`, `base="TS"`) + `leer_sentencias` con `parrafos=3`.
-- **Revisar las citas del escrito antes de presentarlo** → `verificar_escrito` (pasa el texto completo).
+- **Comprobar las citas de normas** → `verificar_escrito`: cada redactor lo pasa solo con las frases de su sección que citan artículos o leyes; el ensamblado comprueba que cada ECLI o ROJ procede de una fuente leída.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, referencia catastral, datos registrales...).
 
@@ -29,6 +29,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, refe
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
 
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
+
 Redacta el escrito de acusación por siniestralidad laboral. **La causa se gana o se pierde en la
 imputación objetiva: quién estaba legalmente obligado, qué medio concreto no facilitó y cómo ese
 incumplimiento produjo el resultado.**
@@ -36,6 +38,9 @@ incumplimiento produjo el resultado.**
 ---
 
 ## Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`); pregunta solo lo que
+bloquee y en una única ronda.
 
 1. **Prescripción (art. 131 CP).** El art. 316 CP tiene pena máxima de 3 años → **5 años**. El 317
    (imprudencia grave), pena inferior en grado → **5 años**. En concurso, **el plazo del delito más
@@ -248,6 +253,8 @@ Los arts. 316/317 son de **peligro**; el resultado lesivo se castiga aparte.
 6. **SUPLICO** y **OTROSÍES** (medidas cautelares reales del art. 764 LECrim / **fianza al responsable
    civil ex art. 783.2**; oficio para aportación de la póliza). Lugar, fecha y firma.
 
+**Reparto para la redacción rápida:** las conclusiones llevan el rótulo `### [ALEGACION]`, que el ensamblador numera en femenino (PRIMERA.-, SEGUNDA.-…). 01 encabezamiento, comparecencia, fórmula y conclusión PRIMERA, hechos punibles (dos secciones si pasan de 1.200 palabras) · 02 conclusiones SEGUNDA y TERCERA: calificación con el concurso 316/152 (sus búsquedas) y participación de cada acusado con su cuadro de responsables · 03 conclusiones CUARTA, QUINTA y SÉPTIMA: circunstancias, penas individualizadas y art. 129 CP · 04 conclusión SEXTA, responsabilidad civil con su desglose por conceptos · 05 prueba con la pertinencia de cada medio, suplico, otrosíes, lugar, fecha y firma.
+
 ---
 
 ## Errores típicos
@@ -283,6 +290,7 @@ Los arts. 316/317 son de **peligro**; el resultado lesivo se castiga aparte.
 
 ## Entrega
 
-Word `.docx` (skill `docx`) con conclusiones provisionales, proposición de prueba, suplico y otrosíes,
-maquetado para LexNET. Adjunta un **cuadro de responsables** (persona → título de garante → deber
-infringido → folio) y el **desglose de la responsabilidad civil** por conceptos.
+Word `.docx`, que genera el ensamblado de `redaccion-rapida`, con conclusiones provisionales,
+proposición de prueba, suplico y otrosíes, maquetado para LexNET. Incluye en el propio escrito un **cuadro
+de responsables** (persona → título de garante → deber infringido → folio) y el **desglose de la
+responsabilidad civil** por conceptos.

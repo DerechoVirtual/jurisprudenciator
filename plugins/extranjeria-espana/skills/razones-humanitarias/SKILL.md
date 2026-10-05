@@ -24,7 +24,7 @@ description: >-
 - **Normas a las que remite el art. 128** → `buscar_articulo` (`ley="Ley 12/2009"`, artículos `"37"` y `"46"`) para el apartado 1; `buscar_articulo` (`ley="CP"`, el artículo del delito sufrido: `"311"` a `"318"`, `"510"`, `"511"`, `"512"` o `"22"`) para el apartado 2; cancelación de antecedentes → `buscar_articulo` (`ley="CP"`, `articulo="136"`).
 - **Doctrina sobre cada supuesto y causas de denegación** → `buscar_sentencias` (`jurisdiccion="CONTENCIOSO"`, `base="TS"` para el Supremo y `base="AN"` para TSJ y juzgados; fechas siempre en formato `dd/mm/aaaa`) + `leer_sentencias` (`parrafos=3`, `terminos` con la cuestión).
 - **Reformas y nulidades posteriores** → no las busques con `buscar_boe` (con el nombre del Real Decreto y una fecha no devuelve las reformas). Mira en cada respuesta de `buscar_articulo` la línea «redacción vigente dada por» (BOE-A-2026-8284 es el Real Decreto 316/2026; BOE-A-2026-19632 y 19633, las sentencias del Supremo de julio de 2026) y las notas «Téngase en cuenta…»; si necesitas el texto de la norma modificadora, `leer_boe` con ese identificador.
-- **Revisión del documento antes de entregarlo** → `verificar_escrito` con el texto completo, y `buscar_por_cita` sobre cada ECLI que no se haya leído en esta conversación.
+- **Revisión del documento** → cada redactor del equipo pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado rechaza cualquier ECLI o ROJ que ningún redactor leyera; `buscar_por_cita` se usa solo con un ECLI que no se haya leído en esta conversación.
 
 Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con su párrafo literal...). En el documento, cita el Reglamento como «artículo N del Real Decreto 1155/2024»: es la forma que reconoce `verificar_escrito` (con «Reglamento de Extranjería» da la cita por inexistente).
 
@@ -36,6 +36,8 @@ Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ con s
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 Referencias del plugin: `references/anclas-normativas-extranjeria.md` y `references/formato-y-organos.md`. Léelas antes de redactar.
 
@@ -67,7 +69,7 @@ Detector de otra figura (léela con `buscar_articulo` antes de decírselo al abo
 
 ## Datos que hay que reunir antes de redactar
 
-No redactes al primer disparo. Pregunta en este orden; si falta un dato imprescindible (★), pídelo y espera.
+Saca estos datos de la documentación aportada, por este orden (paso 2 de `redaccion-rapida`). Si falta un dato imprescindible (★), pídelos todos a la vez en una única ronda de no más de cuatro preguntas y espera; lo demás queda como `[PENDIENTE: dato]`.
 
 1. ★ Supuesto que se invoca y relato breve de los hechos que lo sostienen.
 2. ★ Nacionalidad y documento: pasaporte en vigor, cédula de inscripción o título de viaje válido (art. 130.1.a). Si no tiene ninguno, pregunta si ha pedido cédula de inscripción (art. 210).
@@ -167,6 +169,8 @@ Estructura:
 7. Lugar, fecha y firma.
 8. **RELACIÓN DE DOCUMENTOS**, numerada: impreso oficial; justificante de tasa; pasaporte completo o cédula; prueba del supuesto (informe clínico de la autoridad sanitaria, resolución firme con diligencia de firmeza, informe de la autoridad y resolución de exención, acta o resolución del art. 129.2); certificados de antecedentes cuando proceda (con la legalización y traducción que pida la oficina); documentos de la otra autorización (art. 128.4); representación.
 
+**Reparto para la redacción rápida:** 01 encabezamiento, comparecencia y hechos (con la prueba del supuesto); 02 marco legal, competencia y procedimiento; 03 concurrencia de cada requisito del supuesto invocado con su doctrina (una sección por supuesto si se alegan dos); 04 efectos, solicita, otrosíes, firma y relación de documentos.
+
 Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la LOEX como «artículo N de la Ley Orgánica 4/2000» (formato, apartado 4); nunca «del Reglamento de Extranjería» ni «del Reglamento aprobado por el Real Decreto…», que `verificar_escrito` no identifica. Nombra la norma también en las remisiones breves («artículo 130.3 del Real Decreto 1155/2024», no «(artículo 130.3)» ni «del mismo Real Decreto»): `verificar_escrito` atribuye el artículo suelto a la última norma mencionada, y en el art. 128.2 esa suele ser el Código Penal. Lo mismo hace con los artículos que llevan letra o «bis» con apartado: escribe «letra a) del artículo 130.4 del Real Decreto 1155/2024», no «artículo 130.4.a) del Real Decreto 1155/2024».
 
 ## Comprobación final
@@ -176,7 +180,7 @@ Cita el Reglamento siempre como «artículo N del Real Decreto 1155/2024» y la 
 - [ ] Detector pasado; si encaja otra figura, se ha dicho al abogado.
 - [ ] Ningún plazo de resolución ni sentido del silencio tomado de una disposición adicional no devuelta.
 - [ ] Cada ECLI citado se leyó con `leer_sentencias` (párrafo de fundamentos) o se comprobó con `buscar_por_cita`.
-- [ ] `verificar_escrito` pasado sobre el texto completo. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
+- [ ] `verificar_escrito` pasado por cada redactor sobre sus frases con normas. Si marca un artículo del Reglamento como no localizado o lo atribuye a la LOEX, compruébalo con `buscar_articulo` (`ley="BOE-A-2024-24099"`) y reescribe la cita como «artículo N del Real Decreto 1155/2024».
 - [ ] Marcadores (`[NOMBRE Y APELLIDOS]`, `[NIE]`, `[PASAPORTE]`, `[DOMICILIO]`, `[FECHA DE ENTRADA EN ESPAÑA]`, `[NÚMERO DE EXPEDIENTE]`) en lugar de datos inventados; datos de salud reducidos a lo imprescindible.
 - [ ] Sin importes de tasa ni códigos de modelo.
 - [ ] Resumen para el abogado según el apartado 7 del formato: órgano; fechas clave con su precepto (subsanación, art. 130.3; tarjeta, art. 130.6; prórroga, art. 132.3); documentos que faltan y riesgos (firmeza pendiente, informe clínico, exención previa); tabla de jurisprudencia; próximo paso.

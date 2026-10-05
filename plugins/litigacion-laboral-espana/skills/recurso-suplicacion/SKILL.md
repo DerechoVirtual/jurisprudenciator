@@ -14,7 +14,7 @@ description: >-
 - **Infracción de jurisprudencia del motivo del art. 193.c)** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="TS"`) + `leer_sentencias` (`parrafos=3`, `terminos` del punto infringido).
 - **Criterio de la Sala de suplicación competente y posibles sentencias de contraste para un futuro RCUD** → `buscar_sentencias` (`jurisdiccion="SOCIAL"`, `base="AN"`, `tipo_organo="TSJ"`, `provincia`).
 - **Normas sustantivas infringidas** → `buscar_articulo` (ET, LGSS...) y, si la infracción es del convenio, `leer_convenio` (`articulo`).
-- **Verificación antes de entregar** → `buscar_por_cita` sobre toda sentencia citada y `verificar_escrito` con el texto completo.
+- **Comprobación de las citas** → `buscar_por_cita` sobre toda sentencia citada, hecha por el redactor de la sección que la cite; cada redactor lee con `leer_sentencias` lo que cita y pasa `verificar_escrito` solo sobre sus frases con normas, y el ensamblado de `redaccion-rapida` rechaza cualquier ECLI o ROJ que nadie haya leído.
 
 Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, código y artículo del convenio, datos registrales...).
 
@@ -26,6 +26,8 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas marcadas como pendientes o `[verificar]`. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
 **Primer uso: el estilo del abogado.** Antes de redactar el primer documento, busca el perfil de estilo del despacho (`~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, el documento `perfil-estilo.md` del proyecto de Claude o la memoria de Claude). Si no existe, ejecuta primero la skill `perfil-de-estilo`, que pide al abogado entre 3 y 5 escritos suyos de referencia; después vuelve a esta tarea. Si existe, redacta con ese estilo, salvo en lo que choque con las reglas jurídicas de esta skill.
+
+**Redacción rápida (por defecto).** Este documento se redacta con la skill `redaccion-rapida` de este plugin: un equipo de subagentes escribe las secciones a la vez y el Word sale en 2-3 minutos. Cárgala y sigue sus pasos; esta skill aporta el contenido jurídico (estructura, destinatario u órgano, reglas, jurisprudencia mínima y comprobaciones). Sus fases, baterías de preguntas y pasadas de pulido se cumplen dentro de ese método —las preguntas se responden con la documentación y solo se pregunta lo que bloquea, en una única ronda—, no una detrás de otra. Si el abogado pide expresamente ir paso a paso, sigue las fases en orden.
 
 ## Marco normativo
 
@@ -44,7 +46,9 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 - Hechos probados de la sentencia que se quieren revisar, con la prueba documental/pericial concreta en que se basa la revisión pretendida.
 - Normas o jurisprudencia que se consideran infringidas.
 
-## Fase 2 — Batería de preguntas
+## Fase 2 — Comprobaciones previas
+
+Se responden con la documentación aportada (paso 2 de `redaccion-rapida`). Solo se pregunta al abogado lo que bloquee la estructura del escrito y no se deduzca de lo aportado, en una única ronda de como máximo cuatro preguntas; lo demás que falte se deja como `[PENDIENTE: dato]`.
 
 - ¿Es recurrible la sentencia? Comprobar materia y cuantía (art. 191 LRJS) ANTES de redactar nada.
 - ¿Quién recurre? Si es la empresa: advertir del depósito de 300 € y de la consignación de la condena (arts. 229-230 LRJS).
@@ -62,9 +66,11 @@ Cita solo lo que devuelva Jurisprudenciator (ECLI o ROJ, artículo vigente, cód
 4. **SUPLICO**: que se admita el recurso, se revoque/modifique la sentencia recurrida en el sentido pedido.
 5. **OTROSÍES**: designación de domicilio profesional del letrado/a (marcador genérico), y cualquier manifestación adicional exigida por el art. 221 LRJS si hay conexión con un futuro recurso de casación.
 
+**Reparto para la redacción rápida:** 01 encabezamiento y cumplimiento de trámites (recurribilidad, plazo, anuncio); una sección por cada motivo del art. 193 LRJS (la revisión de hechos probados con su redacción alternativa literal; una sección por cada infracción de norma o de jurisprudencia); cierre (suplico y otrosíes). El escrito de anuncio y, si es corto, el de impugnación los redacta el director sin equipo; una impugnación extensa, una sección por motivo contestado.
+
 ## Fase 4 — Verificación y entrega
 
-Verificación jurisprudencial obligatoria de toda sentencia de contraste con `buscar_por_cita`. Pulir con `/estilo-escritos-judiciales`. Entregar en Word (.docx).
+Verificación jurisprudencial obligatoria de toda sentencia de contraste con `buscar_por_cita`, hecha en la preparación o por el redactor de la sección que la cite (el ensamblado rechaza las citas que nadie leyó). El estilo de la casa (`estilo-escritos-judiciales`) lo aplican los redactores al escribir, sin pasada posterior. Entrega en Word (.docx) con el ensamblado de `redaccion-rapida`.
 
 ---
 
