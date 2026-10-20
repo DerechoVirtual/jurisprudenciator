@@ -4,7 +4,7 @@ Material de la primera jornada del curso gratis de IA para abogados de Derecho V
 
 | Archivo | Qué es |
 |---|---|
-| `Informe Jornada 1 - Curso IA para Abogados.pdf` | Informe completo de la clase (33 páginas), con capturas reales del directo |
+| `Informe Jornada 1 - Curso IA para Abogados.pdf` | Informe completo de la clase (28 páginas), con capturas reales del directo |
 | `Infografía Jornada 1 - Curso IA para Abogados.png` | Toda la jornada en una sola imagen |
 | `Infografía Jornada 1 - Parte 1/2/3.png` | La misma infografía en tres partes, más legible en el móvil |
 | `Prompts e instrucciones de la clase.pdf` / `.docx` | Todos los prompts y pasos que se siguieron en directo |
