@@ -1,0 +1,74 @@
+﻿REPOSITORIOS GITHUB DE LOS PLUGINS DE DERECHO VIRTUAL
+Curso gratis de IA para abogados - Jornada 1 (19/10/2026)
+================================================================
+
+REPOSITORIO PRINCIPAL (RECOMENDADO, EL MAS ACTUALIZADO)
+Marketplace Jurisprudenciator - 8 plugins:
+https://github.com/DerechoVirtual/jurisprudenciator
+
+Claude de escritorio: Personalización > Plugins > Añadir marketplace > pegar la URL anterior.
+Claude Code: /plugin marketplace add DerechoVirtual/jurisprudenciator
+
+----------------------------------------------------------------
+LOS 8 PLUGINS DEL MARKETPLACE
+----------------------------------------------------------------
+
+Jurisprudenciator (conector) (3 skills)
+  Conector Jurisprudenciator: jurisprudencia oficial con párrafo literal y ECLI, artículos vigentes, verificación de citas, BOE, BORME, Catastro, convenios, TEAC y ordenanzas.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/jurisprudenciator
+
+Litigación civil España (43 skills)
+  Litigación civil, mercantil y de familia (LEC, LO 1/2025) con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/litigacion-civil-espana
+
+Litigación penal España (48 skills)
+  Litigación penal (LECrim, CP): detenido, instrucción, juicio, recursos y ejecución, con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/litigacion-penal-espana
+
+Litigación contencioso-administrativa España (41 skills)
+  Litigación contencioso-administrativa (LJCA, Leyes 39 y 40/2015) con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/litigacion-contencioso-espana
+
+Litigación laboral España (35 skills)
+  Litigación laboral y de Seguridad Social (LRJS, ET, LGSS) con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/litigacion-laboral-espana
+
+Extranjería España (34 skills)
+  Extranjería (LO 4/2000 y Reglamento del RD 1155/2024): arraigos, reagrupación, residencia y trabajo, nacionalidad, asilo, expulsiones y recursos, con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/extranjeria-espana
+
+Contratos civiles y mercantiles (28 skills)
+  Contratos civiles y mercantiles (Código Civil, Código de Comercio, LAU, LSC, TRLGDCU): redacción, revisión, negociación e incumplimiento, con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/contratos-civiles-mercantiles
+
+Contratos laborales y asesoría empresarial (31 skills)
+  Asesoría laboral de empresa, contratos de trabajo, cartas de despido y finiquitos, y despidos y reclamaciones (ET, LRJS, convenios), con Jurisprudenciator.
+  https://github.com/DerechoVirtual/jurisprudenciator/tree/main/plugins/contratos-laborales-asesoria-empresarial
+
+----------------------------------------------------------------
+OTROS REPOSITORIOS PUBLICOS DE DERECHO VIRTUAL
+(comprobados con la API pública de GitHub el 20/10/2026; versiones anteriores o sueltas.
+ Para instalar, usa el marketplace principal)
+----------------------------------------------------------------
+
+plugins-de-litigacion
+  Plugins de litigación española para Claude (civil, penal, contencioso, laboral) conectados a Jurisprudenciator. Versión anterior agrupada.
+  https://github.com/DerechoVirtual/plugins-de-litigacion
+
+litigacion-civil-espana
+  Plugin de litigación civil, mercantil y de familia (LO 1/2025, LEC). Repositorio individual antiguo.
+  https://github.com/DerechoVirtual/litigacion-civil-espana
+
+litigacion-penal-espana
+  Plugin de litigación penal. Repositorio individual antiguo.
+  https://github.com/DerechoVirtual/litigacion-penal-espana
+
+litigacion-contencioso-espana
+  Plugin de litigación contencioso-administrativa. Repositorio individual antiguo.
+  https://github.com/DerechoVirtual/litigacion-contencioso-espana
+
+litigacion-laboral-espana
+  Plugin de litigación laboral y de Seguridad Social. Repositorio individual antiguo.
+  https://github.com/DerechoVirtual/litigacion-laboral-espana
+
+Conector Jurisprudenciator: crea tu cuenta gratis en https://jurisprudenciator.lexiaipro.org > Instalación > Claude.
