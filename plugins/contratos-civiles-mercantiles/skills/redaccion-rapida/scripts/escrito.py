@@ -1,6 +1,6 @@
 """Mesa de trabajo de la redacción rápida: prepara la carpeta, ensambla las secciones y crea el Word.
 
-Solo usa la biblioteca estándar de Python (funciona en Cowork, Claude Code, Windows, macOS y Linux).
+Solo usa la biblioteca estándar de Python (funciona en Claude Code, Windows, macOS y Linux).
 
   python escrito.py iniciar --tipo demanda --cliente garcia [--dir .]
       Crea <dir>/redaccion/<tipo>-<cliente>-<AAAAMMDD-HHMMSS>/ con secciones/ y fuentes/,

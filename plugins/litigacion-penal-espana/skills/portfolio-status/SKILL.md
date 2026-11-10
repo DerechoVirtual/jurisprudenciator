@@ -135,7 +135,7 @@ Marcadores automáticos, **en este orden de precedencia**:
 
 📊 **¿Verlo como dashboard?** Si N > 10, ofrecer artifact con: contador de días del art. 324 por
 asunto arriba del todo, tabla color-coded sortable por riesgo/plazo/fase, gráfico de distribución por
-fase, nota del revisor. En Cowork renderiza inline.
+fase, nota del revisor.
 
 > ⚠️ **Si el dashboard sale del entorno del despacho, va despersonalizado**: solo slugs, delitos y
 > fechas. Nunca nombres. Art. 10 RGPD.

@@ -30,7 +30,7 @@ Cita solo lo que devuelva Jurisprudenciator.
 
 Busca el perfil en este orden y usa el primero que exista:
 
-1. El archivo `~/.claude/plugins/config/derecho-virtual/perfil-estilo.md` (Claude Code y Cowork).
+1. El archivo `~/.claude/plugins/config/derecho-virtual/perfil-estilo.md` (Claude Code).
 2. Un documento llamado `perfil-estilo.md` en el conocimiento del proyecto de Claude en el que se trabaja.
 3. Lo que Claude recuerde del estilo del abogado (memoria de Claude).
 
@@ -85,7 +85,7 @@ en el perfil.
 
 ## Paso 4 — Guardarlo
 
-- Si puedes escribir archivos persistentes (Claude Code, Cowork), guárdalo en
+- Si puedes escribir archivos persistentes (por ejemplo, en Claude Code), guárdalo en
   `~/.claude/plugins/config/derecho-virtual/perfil-estilo.md`, creando las carpetas si no existen.
 - Si no (chat de Claude), entrega el archivo `perfil-estilo.md` y pide al abogado que lo añada al
   conocimiento de su proyecto de Claude; ofrécele también que Claude recuerde los puntos clave.

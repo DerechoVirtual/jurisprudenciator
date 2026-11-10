@@ -1,6 +1,6 @@
 # Jurisprudenciator para Claude
 
-Plugins de Jurisprudenciator para la app de Claude (chat y Cowork): el conector de jurisprudencia y
+Plugins de Jurisprudenciator para la app de Claude: el conector de jurisprudencia y
 legislación española, un plugin por orden jurisdiccional (civil, penal, contencioso-administrativo y
 laboral), otro de extranjería y dos de contratos: civiles y mercantiles, y laborales con la asesoría de
 empresa. Cada skill consulta Jurisprudenciator antes de escribir una cita: sentencias con su párrafo

@@ -156,7 +156,7 @@ Corrige con Edit solo lo que falle y vuelve a ensamblar. No reescribas secciones
 
 ## Sin subagentes
 
-Si en este entorno no puedes lanzar subagentes (por ejemplo, en el chat sin Cowork), sigue los
+Si en este entorno no puedes lanzar subagentes (por ejemplo, en un chat que no los ofrezca), sigue los
 mismos pasos tú solo: redacta las secciones del plan una a una en sus archivos, haz las consultas
 de cada sección en paralelo y ensambla con el script. Si tampoco puedes ejecutar código, entrega
 el texto completo con el formato del escrito y avisa de que hay que pasarlo a Word.

@@ -124,7 +124,7 @@ Marcadores automáticos:
 > 6. **Cerrar asuntos terminados** — si la lista incluye candidatos a cerrar
 > 7. **Dashboard interactivo** — montar `create_artifact` con la cartera (recomendable si N>10)
 
-📊 **¿Verlo como dashboard?** Si N > 10, ofrecer artifact con: summary stats arriba, tabla color-coded sortable por caducidad/riesgo/plazo, gráfico de distribución por materia y Administración, nota del revisor. En Cowork renderiza inline. **Sin datos personales:** usar `[CLIENTE]` y descriptores de materia.
+📊 **¿Verlo como dashboard?** Si N > 10, ofrecer artifact con: summary stats arriba, tabla color-coded sortable por caducidad/riesgo/plazo, gráfico de distribución por materia y Administración, nota del revisor. **Sin datos personales:** usar `[CLIENTE]` y descriptores de materia.
 
 ## Variantes
 
