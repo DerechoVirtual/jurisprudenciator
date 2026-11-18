@@ -1,70 +1,70 @@
 ---
 name: abono-gastos-diligencias-preliminares-propiedad-1401
-description: Prepara o revisa el escrito de justificación de gastos y, si procede, indemnización por perjuicios de una comunidad de propietarios u otro interviniente en diligencias preliminares civiles. Solicita su abono con cargo a la caución del solicitante. Requiere Jurisprudenciator.
+description: "Redacta el escrito «Abono de gastos de diligencias preliminares de propiedad horizontal» (formulario 1401 de medidas cautelares y diligencias preliminares, revisado el 17-11-2026): pide los datos, decide las opciones, aplica las correcciones y comprueba las normas en el BOE. Requiere Jurisprudenciator."
 ---
 
 # Abono de gastos de diligencias preliminares de propiedad horizontal
 
-Usa esta skill para presentar una relación de gastos ante el tribunal que tramita las diligencias preliminares ya practicadas o denegadas al estimar la oposición. El modelo editable del escrito está al final de la página.
+> Formulario 1401 del plugin **Medidas cautelares y diligencias preliminares** · revisado el 17-11-2026. Uso interno.
 
-## Jurisprudenciator obligatorio
+## Paso 0: Jurisprudenciator en esta skill (obligatorio)
 
-1. Llama a `estado` antes de redactar. Si el conector no responde, detén el trabajo e indica cómo [conectar Jurisprudenciator](https://jurisprudenciator.com/instalacion).
-2. Consulta los arts. 256.3 y 262.1–2 de la LEC con `buscar_articulo` en la redacción aplicable al expediente. Si hay dudas sobre la carátula judicial, consulta el art. 84 de la LOPJ y contrástalo con la resolución del expediente.
-3. Si se discuten la inclusión de una partida, su relación causal o el alcance de la caución, busca resoluciones pertinentes con `buscar_sentencias` y `leer_sentencias`. Si aportan una cita, compruébala con `buscar_por_cita` y lee la resolución antes de utilizarla. En las consultas omite los datos identificativos de las partes.
-4. Antes de entregar el borrador, revisa los pasajes jurídicos anonimizados con `verificar_escrito` y corrige las incidencias. Si falla una comprobación imprescindible, indica cuál y deja el escrito pendiente de verificación.
+**Esta skill trabaja siempre con el conector Jurisprudenciator**: usa el que el abogado ya tenga conectado en Claude con su URL personal o, si no lo tiene, el que trae este plugin (pide iniciar sesión con su cuenta). Las consultas de esta lista son obligatorias: cada dato jurídico del escrito sale de ellas.
 
-## Datos y documentos del expediente
+- **Texto vigente de cada norma que cita el formulario** → `buscar_articulo` (en la redacción vigente a la fecha que importe en el caso).
+- **Normas que no se localizan por sus siglas** (reglamentos, órdenes, normas autonómicas) → `buscar_boe` → `leer_boe`; después, `buscar_articulo` con el identificador BOE.
+- **Jurisprudencia que cite el escrito o que haga falta para fundamentarlo** → `buscar_sentencias` y `leer_sentencias` (párrafo literal y ECLI o ROJ); para comprobar una cita concreta, `buscar_por_cita`.
+- **Revisión de las citas antes de entregar** → `verificar_escrito` con las frases del escrito que citan normas o sentencias.
+- **Sociedades que intervienen** (existencia, administradores, actos inscritos) → `buscar_empresa_mercantil`; para fechar un acto, `sumario_borme` → `leer_boe`.
+- **Inmuebles** (referencia catastral, superficie, uso) → `consultar_catastro` (y `callejero_catastro` para localizar la dirección).
 
-Pide en una sola tanda la información que falte:
+Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ, datos registrales o catastrales, convenio…).
 
-- **Expediente.** Número y año, órgano y sección según la última resolución, persona que instó las diligencias y copia del auto que las acordó.
-- **Interviniente.** Persona o comunidad que soportó los gastos, calidad en que intervino y acreditación de la representación cuando sea necesaria.
-- **Actuación.** Qué pidió el solicitante, qué colaboración exigió el tribunal, fecha de práctica o terminación y copia del acta, diligencia o resolución pertinente. Si la oposición se estimó, solicita el auto de denegación.
-- **Caución.** Importe fijado y constancia de su prestación, si consta. Comprueba si ya se resolvió sobre su aplicación y cuándo se notificó el auto.
-- **Partidas.** Para cada gasto: fecha, concepto, quién lo pagó, importe, justificante y relación con la diligencia. Si se alegan perjuicios adicionales, pide prueba del nexo causal y una forma comprobable de cuantificarlos.
+**Puerta obligatoria: sin Jurisprudenciator no se trabaja.**
 
-## Decide qué pedir
+1. Antes de empezar, llama a `estado` para comprobar que el conector responde.
+2. Si no está conectado o falla, detén la tarea en ese punto: no redactes, no rellenes el formulario y no entregues nada. Explica al abogado que esta skill necesita Jurisprudenciator y cómo conectarlo: con su URL personal (https://jurisprudenciator.lexiaipro.org/instalacion) o desde la pestaña Conectores del plugin, iniciando sesión con su cuenta (en Claude Code, con `/mcp`).
+3. Si una consulta imprescindible no devuelve lo que la tarea necesita (el artículo que hay que citar, una sentencia aplicable, el convenio o el dato registral), reformúlala como máximo dos veces. Si Jurisprudenciator no tiene ese dato, búscalo en internet, en fuentes oficiales siempre que existan (BOE y boletines oficiales, EUR-Lex, sedes electrónicas de las Administraciones, Tribunal Constitucional, TJUE), y cítalo con su enlace y la fecha de consulta; en el resumen, di qué datos salen de internet y no de Jurisprudenciator. Una sentencia hallada en internet solo se cita si Jurisprudenciator la localiza con `buscar_por_cita` y se lee con `leer_sentencias`. Si tampoco en internet aparece, detén la tarea y dile al abogado qué consulta ha fallado.
+4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas pendientes de verificar. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
 
-- **Gastos acreditados.** Incluye solo los ocasionados por la intervención. Identifica por separado los costes habituales de la comunidad y las partidas aún por justificar. Si una factura acredita el precio pero no el pago y este es relevante, deja pendiente el justificante.
-- **Perjuicios.** Inclúyelos en un apartado separado si se pueden probar y cuantificar. Revisa que un mismo concepto no figure en ambos apartados. Presenta subtotal de gastos, subtotal de perjuicios y total, conciliados con sus justificantes.
-- **Caución.** Si consta su prestación, solicita su aplicación a las partidas acreditadas. Si el saldo es incierto o inferior a la suma justificada, identifica la diferencia y deja al letrado la revisión de su cauce. Si ya existe auto de aplicación, verifica su notificación, el remedio procesal y el plazo que corresponda antes de preparar otro escrito.
-- **Plazos.** Los cinco días del art. 262.1 LEC se refieren a la resolución del tribunal. El mes del art. 256.3 LEC se vincula a la interposición de la demanda principal y al destino del remanente conforme al art. 262.2. Comprueba por separado los plazos de cualquier traslado o requerimiento notificado en el expediente.
+**Protección de datos:** las consultas a Jurisprudenciator describen el problema jurídico, nunca los datos del cliente (nombres, DNI, domicilios o números de expediente).
 
-## Modelo editable
+## Qué tienes en esta carpeta
 
-**AL [ÓRGANO Y SECCIÓN IDENTIFICADOS EN EL EXPEDIENTE]**
+- `formulario.md`: el texto del formulario revisado, con las marcas de la revisión.
+- `marco.md`: guía del tema con las reglas y plazos vigentes comprobados en el BOE.
 
-**Diligencias preliminares n.º [NÚMERO/AÑO]**
+## Datos que hay que pedir al usuario
 
-Comparece [NOMBRE], en calidad de [CONDICIÓN O REPRESENTACIÓN ACREDITADA] de [COMUNIDAD O PERSONA INTERVINIENTE], y formula solicitud de abono de los gastos derivados de su intervención en estas diligencias.
+Pídelos en una sola tanda. Si un dato aparece varias veces, aclara a qué persona o acto corresponde cada vez.
 
-**Primero. Actuación que motivó los gastos**
+- [ ] SEDE
+- [ ] NOMBRE Y APELLIDOS
+- [ ] IMPORTE
+- [ ] LUGAR
+- [ ] DÍA
+- [ ] MES
+- [ ] AÑO
+- [ ] Otros 5 datos sin etiqueta, marcados `[COMPLETAR]`. Su contexto en el formulario: «…, PLAZA N.º»; «…ente escrito presento relación de gastos»; «…€ en atención a:»; «… en atención a: [COMPLETAR]. Documentos:»; «…. Que acuerde aprobar la lista de gastos»
 
-En el auto de [FECHA] se acordó [DESCRIPCIÓN DE LA DILIGENCIA] a instancia de [SOLICITANTE]. Para cumplir lo acordado, [INTERVINIENTE] realizó [ACTUACIÓN CONCRETA] el [FECHA]. Se acompaña [ACTA O RESOLUCIÓN] como documento n.º [NÚMERO].
+## Correcciones de la revisión (2)
 
-[SI SE ESTIMÓ LA OPOSICIÓN, IDENTIFICAR EL AUTO Y DESCRIBIR LAS ACTUACIONES QUE GENERARON LOS GASTOS.]
+El formulario lleva notas de revisión. Aplica lo que dicen y **quítalas** del escrito final.
 
-**Segundo. Justificación y cuantía**
+## Normas que cita el formulario
 
-Se reclama [TOTAL DE GASTOS] € por las partidas desglosadas a continuación. Cada partida se corresponde con una actuación necesaria para atender la diligencia.
+Compruébalas **todas** con `buscar_articulo` antes de dejarlas en el escrito. Si una ha cambiado, usa la redacción vigente y dilo:
 
-| Concepto y relación con la diligencia | Fecha | Importe | Justificante |
-| --- | --- | ---: | --- |
-| [DESCRIPCIÓN Y NEXO] | [FECHA] | [IMPORTE] € | Doc. [NÚMERO] |
+- art. 256.3 de la LEC
 
-[SI PROCEDE, AÑADIR UN APARTADO DE PERJUICIOS CON EL HECHO GENERADOR, SU PRUEBA, EL CÁLCULO Y SU SUBTOTAL.]
+## Flujo
 
-**Fundamento de la petición**
-
-La solicitud se formula al amparo de los arts. 256.3 y 262.1 de la Ley de Enjuiciamiento Civil. [IDENTIFICAR, SI CONSTA, LA RESOLUCIÓN QUE FIJÓ LA CAUCIÓN Y SU IMPORTE CONSIGNADO.]
-
-**SOLICITO AL TRIBUNAL** que incorpore la relación de partidas y los justificantes, dé audiencia a quien instó las diligencias y resuelva sobre la aplicación de la caución, acordando el abono a [BENEFICIARIO] de [IMPORTE TOTAL ACREDITADO] €, en la medida que corresponda.
-
-[FIRMA, LUGAR Y FECHA]
-
-## Entrega y control final
-
-Entrega el borrador editable en Word si está disponible, con un índice de documentos. Adapta el encabezamiento y la comparecencia a la representación de ese expediente. Elimina las instrucciones editoriales del modelo, conserva marcadores visibles para los datos esenciales pendientes y acompaña una nota breve con las fuentes verificadas, las partidas excluidas y el estado de la caución.
-
-Referencias oficiales para revalidar el escrito. [Art. 256 LEC](https://www.boe.es/buscar/act.php?id=BOE-A-2000-323#a256) · [Art. 262 LEC](https://www.boe.es/buscar/act.php?id=BOE-A-2000-323#a262) · [Art. 84 LOPJ](https://www.boe.es/buscar/act.php?id=BOE-A-1985-12666#a84)
+1. **Paso 0**: comprueba Jurisprudenciator (arriba).
+2. Lee `formulario.md` entero, con su cabecera, y la parte de `marco.md` que afecte al caso (plazos, órgano, procedimiento, MASC si es una demanda civil).
+3. Pide los datos de la lista. Lo que el usuario no sepa se queda como hueco visible.
+4. Decide las elecciones y los párrafos opcionales según los hechos. Redacta las partes que el original no traía.
+5. Aplica los avisos y las notas de revisión. Comprueba con `buscar_articulo` cada norma citada y, si citas jurisprudencia, localízala con `buscar_sentencias` o `buscar_por_cita` y léela con `leer_sentencias`.
+6. Indica el plazo y el cauce: desde cuándo cuenta, cuándo vence y ante qué órgano se presenta.
+7. Antes de entregarlo, pasa `verificar_escrito` con las frases del escrito que citan normas o sentencias y corrige lo que señale.
+8. Entrega el escrito en **Word (.docx)** con formato de escrito (usa la skill de Word disponible) y, si es corto, también en el chat.
+9. Cierra con: datos pendientes, partes redactadas por ti, normas y sentencias comprobadas con Jurisprudenciator y, si algún dato sale de internet, cuál es y su enlace.

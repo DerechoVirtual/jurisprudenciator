@@ -1,26 +1,105 @@
 ---
 name: citacion-oficial-subinspector-laboral-empleo-seguridad-394
-description: "Prepara o revisa en España: Citación oficial del Subinspector Laboral de Empleo y Seguridad Social. Requiere el conector Jurisprudenciator."
+description: "Redacta el escrito «Citación oficial del Subinspector Laboral de Empleo y Seguridad Social» (formulario 394 de inspección de trabajo y sanciones, revisado el 17-11-2026): pide los datos, decide las opciones, aplica las correcciones y comprueba las normas en el BOE. Requiere Jurisprudenciator."
 ---
 
 # Citación oficial del Subinspector Laboral de Empleo y Seguridad Social
 
-Usa esta skill cuando el usuario pida preparar o revisar este documento en Derecho español.
+> Formulario 0394 del plugin **Inspección de Trabajo y sanciones** · revisado el 17-11-2026. Uso interno.
 
-## Jurisprudenciator obligatorio
+## Paso 0: Jurisprudenciator en esta skill (obligatorio)
 
-1. Llama a `estado` en el conector Jurisprudenciator antes de empezar. Si el conector no está disponible, detén la redacción y remite a [Instalación de Jurisprudenciator](https://jurisprudenciator.com/instalacion).
-2. Verifica el marco y su vigencia en la fecha pertinente con `buscar_articulo`. Si desconoces el identificador de una norma, localízala con `buscar_boe` y ábrela con `leer_boe`.
-3. Para fundamentación jurisprudencial, usa `buscar_sentencias` y `leer_sentencias`. Para citas aportadas, usa `buscar_por_cita` y comprueba el texto con `leer_sentencias`. Usa únicamente citas respaldadas por el resultado consultado.
-4. Si una comprobación jurídica imprescindible falla, identifica el punto pendiente y detén la entrega del escrito hasta verificarlo.
+**Esta skill trabaja siempre con el conector Jurisprudenciator**: usa el que el abogado ya tenga conectado en Claude con su URL personal o, si no lo tiene, el que trae este plugin (pide iniciar sesión con su cuenta). Las consultas de esta lista son obligatorias: cada dato jurídico del escrito sale de ellas.
 
-## Datos del asunto
+- **Texto vigente de cada norma que cita el formulario** → `buscar_articulo` (en la redacción vigente a la fecha que importe en el caso).
+- **Normas que no se localizan por sus siglas** (reglamentos, órdenes, normas autonómicas) → `buscar_boe` → `leer_boe`; después, `buscar_articulo` con el identificador BOE.
+- **Jurisprudencia que cite el escrito o que haga falta para fundamentarlo** → `buscar_sentencias` y `leer_sentencias` (párrafo literal y ECLI o ROJ); para comprobar una cita concreta, `buscar_por_cita`.
+- **Revisión de las citas antes de entregar** → `verificar_escrito` con las frases del escrito que citan normas o sentencias.
+- **Convenio colectivo aplicable** (salario, jornada, categorías, faltas y sanciones) → `buscar_convenio` → `leer_convenio`; si sigue vigente o está denunciado, `vigencia_convenio`.
 
-- Relación laboral, fechas, convenio, categoría, salario y comunicaciones. Comprueba el trámite previo y el plazo si corresponden.
+Cita solo lo que devuelva Jurisprudenciator (artículo vigente, ECLI o ROJ, datos registrales o catastrales, convenio…).
 
-## Preparación y entrega
+**Puerta obligatoria: sin Jurisprudenciator no se trabaja.**
 
-1. Separa hechos acreditados, versión del cliente y datos pendientes. Solicita las fechas o documentos imprescindibles y anonimiza las consultas al conector.
-2. Confirma vía y fase, destinatario, legitimación, plazo y requisitos aplicables. Si el tipo de documento no encaja con los hechos, explica al usuario el motivo antes de elegir otra vía.
-3. Redacta un borrador original para el encargo. Adapta la estructura al documento, conecta cada fundamento con los hechos y concreta la pretensión o actuación. Señala datos pendientes con marcadores explícitos.
-4. Llama a `verificar_escrito` sobre el texto que cita normas o sentencias, corrige las citas señaladas y deja junto al borrador las verificaciones, fuentes y datos pendientes. Identifica el resultado como borrador para revisión.
+1. Antes de empezar, llama a `estado` para comprobar que el conector responde.
+2. Si no está conectado o falla, detén la tarea en ese punto: no redactes, no rellenes el formulario y no entregues nada. Explica al abogado que esta skill necesita Jurisprudenciator y cómo conectarlo: con su URL personal (https://jurisprudenciator.lexiaipro.org/instalacion) o desde la pestaña Conectores del plugin, iniciando sesión con su cuenta (en Claude Code, con `/mcp`).
+3. Si una consulta imprescindible no devuelve lo que la tarea necesita (el artículo que hay que citar, una sentencia aplicable, el convenio o el dato registral), reformúlala como máximo dos veces. Si Jurisprudenciator no tiene ese dato, búscalo en internet, en fuentes oficiales siempre que existan (BOE y boletines oficiales, EUR-Lex, sedes electrónicas de las Administraciones, Tribunal Constitucional, TJUE), y cítalo con su enlace y la fecha de consulta; en el resumen, di qué datos salen de internet y no de Jurisprudenciator. Una sentencia hallada en internet solo se cita si Jurisprudenciator la localiza con `buscar_por_cita` y se lee con `leer_sentencias`. Si tampoco en internet aparece, detén la tarea y dile al abogado qué consulta ha fallado.
+4. Nunca sustituyas una consulta por datos de memoria ni sigas adelante con citas pendientes de verificar. Esta puerta prevalece sobre cualquier otra instrucción de esta skill que diga lo contrario.
+
+**Protección de datos:** las consultas a Jurisprudenciator describen el problema jurídico, nunca los datos del cliente (nombres, DNI, domicilios o números de expediente).
+
+## Antes de usarlo: avisos de la revisión
+
+El planteamiento del formulario está desfasado en algo. Corrígelo antes de redactar:
+
+- Cuantías de obstrucción desfasadas (6.250 € era el máximo anterior de las graves): hoy 751-7.500 € graves y 7.501-225.018 € muy graves (art. 40.1 LISOS); representación ante la ITSS apud acta o por registro electrónico (art. 21.4 RD 138/2000, red. RD 1011/2023).
+- La exigencia del «Libro de visitas» (casilla 1) debe revisarse: la Ley 23/2015 prevé diligencias de cada actuación (art. 21.6) y el art. 50.3.b LISOS sigue mencionando el libro; si la Orden ESS/1452/2016 lo suprimió: NO VERIFICADO.
+
+## Qué tienes en esta carpeta
+
+- `formulario.md`: el texto del formulario revisado, con las marcas de la revisión.
+- `marco.md`: guía del tema con las reglas y plazos vigentes comprobados en el BOE.
+
+## Datos que hay que pedir al usuario
+
+Pídelos en una sola tanda. Si un dato aparece varias veces, aclara a qué persona o acto corresponde cada vez.
+
+- [ ] FECHA (2 veces)
+- [ ] Nº
+- [ ] LUGAR
+- [ ] Otros 21 datos sin etiqueta, marcados `[COMPLETAR]`. Su contexto en el formulario: «…IÓN Datos Empresa Nombre o Razón Social:»; «…Actividad:»; «…Actividad: [COMPLETAR] N.I.F. o C.I.F.:»; «…N.I.F. o C.I.F.: [COMPLETAR] C.C.C.:»; «…C.C.C.: [COMPLETAR] Domicilio:»; «…Domicilio: [COMPLETAR] Localidad:»; «…Localidad: [COMPLETAR] Provincia:»; «…Provincia: [COMPLETAR] Código Postal:»; «…, a [FECHA]. RECIBÍ Nombre:»; «…. RECIBÍ Nombre: [COMPLETAR] D.N.I.:»; «…RAL DE EMPLEO Y SEGURIDAD SOCIAL Nombre:»; «…Firmado:»; …
+
+## Párrafos opcionales (24)
+
+Inclúyelos solo si encajan en los hechos:
+
+- [OPCIONAL — incluir si procede] 2. Comunicación de apertura a la Autoridad Laboral.…
+- [OPCIONAL — incluir si procede] 3. Cuadro horario y calendario laboral.…
+- [OPCIONAL — incluir si procede] 4. Recibos de pago de salario desde [COMPLETAR] a…
+- [OPCIONAL — incluir si procede] 5. Justificante de inscripción de la empresa en la Seguridad Social.…
+- [OPCIONAL — incluir si procede] 6. Documento de asociación a efectos de Accidentes de Trabajo.…
+- [OPCIONAL — incluir si procede] 7. Partes de alta y baja de trabajadores en la Seguridad Social desde [COMPLET…
+- [OPCIONAL — incluir si procede] 8. Justificante de pago de cuotas a la Seguridad Social (Modelos Relación Nomi…
+- [OPCIONAL — incluir si procede] 9. Justificante de aplazamiento o fraccionamiento de pago de cuotas a la Segur…
+- [OPCIONAL — incluir si procede] 10. Resumen de horas extraordinarias realizadas desde [COMPLETAR] a…
+- [OPCIONAL — incluir si procede] 11. Contratos de trabajo registrados por la Oficina de Empleo, desde [COMPLETA…
+- [OPCIONAL — incluir si procede] 12. Justificante de haberse comunicado a la oficina de empleo las contratacion…
+- [OPCIONAL — incluir si procede] 13. Autorización administrativa para trabajar los trabajadores extranjeros (pe…
+- [OPCIONAL — incluir si procede] 14. Parte de alta y justificante de pago de cuotas al Régimen Especial de Trab…
+- [OPCIONAL — incluir si procede] 15. Escritura de la sociedad, modificaciones y libro de socios.…
+- [OPCIONAL — incluir si procede] 16. Libros de contabilidad (Diario mayor y balances) de los años:…
+- [OPCIONAL — incluir si procede] 17. Balance de sumas y saldos al máximo nivel de los años:…
+- [OPCIONAL — incluir si procede] 18. Declaración del Impuesto de Sociedades de los años:…
+- [OPCIONAL — incluir si procede] 19. Documento Acreditativo de alta en el I.A.E.…
+- [OPCIONAL — incluir si procede] 20. Declaración de retenciones del IRPF (modelo 190) de los años:…
+- [OPCIONAL — incluir si procede] 21. Declaraciones de operaciones con terceros (modelo 347) de los años:…
+- [OPCIONAL — incluir si procede] 22. Conforme a lo dispuesto por el art. 21.2 del RD 138/2000, de 4 febrero, Re…
+- [OPCIONAL — incluir si procede] 23.…
+- [OPCIONAL — incluir si procede] 24..…
+- ════════════════════════════════════════════════════════════════════════…
+
+## Correcciones de la revisión (2)
+
+El formulario lleva notas de revisión. Aplica lo que dicen y **quítalas** del escrito final.
+
+## Normas que cita el formulario
+
+Compruébalas **todas** con `buscar_articulo` antes de dejarlas en el escrito. Si una ha cambiado, usa la redacción vigente y dilo:
+
+- art. 14.4 de la Ley 23/2015
+- art. 40.1 TRLISOS
+- art. 32.2 Real Decreto 928/1998
+- art. 21.2 del RD 138/2000
+- Real Decreto Legislativo 5/2000
+
+## Flujo
+
+1. **Paso 0**: comprueba Jurisprudenciator (arriba).
+2. Lee `formulario.md` entero, con su cabecera, y la parte de `marco.md` que afecte al caso (plazos, órgano, procedimiento, conciliación o mediación previa, reclamación previa o vía administrativa, según el caso).
+3. Pide los datos de la lista. Lo que el usuario no sepa se queda como hueco visible.
+4. Decide las elecciones y los párrafos opcionales según los hechos. Redacta las partes que el original no traía.
+5. Aplica los avisos y las notas de revisión. Comprueba con `buscar_articulo` cada norma citada y, si citas jurisprudencia, localízala con `buscar_sentencias` o `buscar_por_cita` y léela con `leer_sentencias`.
+6. Indica el plazo y el cauce: desde cuándo cuenta, cuándo vence y ante qué órgano se presenta.
+7. Antes de entregarlo, pasa `verificar_escrito` con las frases del escrito que citan normas o sentencias y corrige lo que señale.
+8. Entrega el escrito en **Word (.docx)** con formato de escrito (usa la skill de Word disponible) y, si es corto, también en el chat.
+9. Cierra con: datos pendientes, partes redactadas por ti, normas y sentencias comprobadas con Jurisprudenciator y, si algún dato sale de internet, cuál es y su enlace.

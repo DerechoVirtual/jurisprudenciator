@@ -1,0 +1,26 @@
+# Formulario 0836 · Certificación de la sentencia para recurrir en casación
+
+- Año del modelo: 2013
+- Revisión 17-11-2026: 8 campos de relleno marcados en blanco
+
+> Cómo leerlo: [EN MAYÚSCULAS] = dato que hay que rellenar; [ELEGIR: a / b] = elegir una opción y borrar las demás; [OPCIONAL — incluir si procede] = el párrafo siguiente solo si encaja en el caso; [NOTA DE REVISIÓN: …] = corrección o aviso normativo de la revisión, no forma parte del escrito.
+
+---
+
+Rollo de Apelación n.º [NÚMERO]
+
+A LA AUDIENCIA PROVINCIAL DE [LOCALIDAD], SECCIÓN [COMPLETAR]
+
+(para ante el Letrado de la Administración de Justicia)
+
+D./Dña. [NOMBRE Y APELLIDOS], Procurador/a de los Tribunales, en nombre y representación de D./Dña. [NOMBRE Y APELLIDOS], según tengo debidamente acreditado en el procedimiento referenciado, ante la Sala comparezco y como mejor proceda en derecho DIGO:
+
+Que teniendo esta parte intención de presentar recurso de casación, mediante el presente escrito, y según exige el art. 481.2 de la LEC, intereso que se expida y se me entregue certificación de la sentencia n.º [NÚMERO] de fecha [FECHA] dictada en el presente rollo de apelación.
+
+Por lo expuesto,
+
+SUPLICO A LA SALA: Que tenga por presentado este escrito, lo admita y acuerde el Letrado de la Administración de Justicia expedir y entregarme certificación de la sentencia indicada.
+
+Es justicia que pido en [LUGAR], a [DÍA] de [MES] de [AÑO].
+
+========================================================================

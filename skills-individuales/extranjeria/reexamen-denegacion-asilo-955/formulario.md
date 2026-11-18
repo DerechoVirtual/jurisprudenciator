@@ -1,0 +1,59 @@
+# Formulario 0955 · Reexamen de la denegación de asilo
+
+- Año del modelo: 2008
+- Revisión 17-11-2026: 1 puntualizaciones normativas añadidas en el texto; 2 llamadas a nota sin texto retiradas; 2 desplegables convertidos en elección en blanco; 1 bloques de opciones sin texto dejados en blanco con sus rótulos; 9 campos de relleno marcados en blanco
+- Avisos de la revisión: Asilo: desde el 12-6-2026 se aplica el Reglamento (UE) 2024/1347. Las razones humanitarias del art. 37.b) Ley 12/2009 se desarrollan en el art. 128.1.a) RD 1155/2024.
+
+> Cómo leerlo: [EN MAYÚSCULAS] = dato que hay que rellenar; [ELEGIR: a / b] = elegir una opción y borrar las demás; [OPCIONAL — incluir si procede] = el párrafo siguiente solo si encaja en el caso; [NOTA DE REVISIÓN: …] = corrección o aviso normativo de la revisión, no forma parte del escrito.
+
+---
+
+AL/A LA EXCMO./A. SR/A. MINISTRO/A DEL INTERIOR
+
+Expediente de solicitud de derecho de asilo n.º:
+
+Interesado:
+
+[ELEGIR UNA OPCIÓN Y REDACTARLA: Comparecer por sí mismo / Comparecer en representación — el texto de cada opción no venía en el formulario original]
+
+Que ante esa Autoridad comparezco [ELEGIR: en nombre de mi mandante / en mi propio nombre] y
+
+EXPONE
+
+PRIMERO
+
+Que en fecha [FECHA] formuló ante [ÓRGANO] petición de protección internacional derivada de asilo por causa de que [COMPLETAR].
+
+SEGUNDO
+
+En justificación de la concurrencia de las circunstancias fácticas antedichas, este interesado presentó [COMPLETAR].
+
+TERCERO
+
+Sin embargo, ese órgano administrativo ha dictado resolución de fecha [FECHA] por la que ha desestimado la expresada solicitud.
+
+FUNDAMENTOS JURIDICOS
+
+PRIMERO. CONCURRENCIA DE LOS REQUISITOS LEGALES NECESARIOS PARA EL OTORGAMIENTO DEL ASILO
+
+Del relato fáctico expuesto más arriba, se deduce con claridad la concurrencia en este interesado de las circunstancias que habilitan legalmente para el otorgamiento del asilo y, en concreto, la concurrencia de graves actos de persecución de los previstos en el art. 6.1 de la Ley 12/2009, de 30 de octubre, reguladora del derecho de asilo y de la protección subsidiaria, realizados en alguna de las formas previstas en el apartado 2 del mismo art. 6, y por [ELEGIR: uno / varios] de los motivos previstos en los arts. 3, 6.3 y 7 de la Ley 12/2009, de 30 de octubre, esto es, raza, religión, nacionalidad, opiniones políticas, pertenencia a determinado grupo social, de género u orientación sexual [COMPLETAR] por [COMPLETAR].
+
+SEGUNDO. INCONCURRENCIA DE LAS CIRCUNSTANCIAS QUE DAN LUGAR A LA DENEGACIÓN O EXCLUSIÓN, EN CUANTO AL FONDO, DE LA SOLICITUD
+
+En el presente caso no concurre ninguna de las circunstancias previstas en los arts. 1 F) y 33.2 de la Convención de Ginebra, que habilitan para la denegación de la solicitud, o para exclusión de los beneficios de la protección internacional, según son desarrolladas en los arts. 9 y 11 de la Ley 12/2009.
+
+TERCERO. FALTA DE EXIGENCIA DE PRUEBA PLENA DE LOS HECHOS ALEGADOS
+
+Para el reconocimiento de la condición de refugiado, y otorgamiento correlativo del derecho de asilo, no es necesaria una prueba plena, agotadora o exhaustiva, sino que, como establece el art. 26.2 de la Ley 12/2009 y la jurisprudencia viene declarando, en aplicación de la legislación anterior, bastará con que aparezcan indicios suficientes de persecución o de daños graves, según la naturaleza de cada caso, para deducir que el solicitante cumple los requisitos legales. En el mismo sentido, el art. 9 del Real Decreto 203/1995, de 10 de febrero, por el que se aprueba el Reglamento de aplicación de la Ley Reguladora del derecho de Asilo y de la condición de Refugiado, vigente en cuanto no contradiga la Ley 12/2009 [NOTA DE REVISIÓN (comprobar): El RD 203/1995 sigue figurando vigente y los arts. 3, 6, 7, 9, 11 y 26.2 de la Ley 12/2009 no han cambiado. Sin embargo, desde el 12-6-2026 la Directiva 2011/95/UE está derogada y se aplica directamente el Reglamento (UE) 2024/1347: añadirlo como norma de referencia sobre persecución y daños graves. No he verificado si España ha adaptado la Ley 12/2009 ni la aplicación del Reglamento (UE) 2024/1348 (procedimientos). Fuente: Ley 12/2009 (BOE-A-2009-17242); RD 203/1995 (BOE-A-1995-5542); Reglamento (UE) 2024/1347, art. 41 (CELEX 32024R1347).], exige tan sólo proporcionar un relato verosímil de la persecución sufrida y prueba pertinente, o indicios suficientes, de las circunstancias que justificarían el otorgamiento de asilo.
+
+En suma, como la jurisprudencia viene declarando, en materia de asilo las exigencias de prueba son menos potentes que en la generalidad de los procedimientos administrativos, bastando así la mera existencia de un principio de prueba (entre otras, Sentencias del Tribunal Supremo, Sala Tercera, de 5 de abril de 2001, 3 de abril de 2002 y 25 de septiembre de 2000).
+
+Por todo lo expresado, este interesado
+
+SOLICITA DE ESE MINISTERIO DEL INTERIOR
+
+que admita el presente escrito y que, previo reexamen de la solicitud formulada, reconsidere y anule la decisión anterior y otorgue el asilo, por concurrir las circunstancias legalmente exigidas para ello, con todos los efectos jurídicos inherentes a dicha declaración.
+
+En [LUGAR], a [FECHA].
+
+Fdo: D./Dña. [NOMBRE Y APELLIDOS]

@@ -1,0 +1,62 @@
+# Formulario 0726 · Remoción del albacea
+
+- Año del modelo: 2015
+- Revisión 17-11-2026: 1 puntualizaciones normativas añadidas en el texto; restos de formato retirados; notas del formulario agrupadas al final (1); 1 bloques de opciones sin texto dejados en blanco con sus rótulos; 1 bloques de alternativas señalados; 28 campos de relleno marcados en blanco
+
+> Cómo leerlo: [EN MAYÚSCULAS] = dato que hay que rellenar; [ELEGIR: a / b] = elegir una opción y borrar las demás; [OPCIONAL — incluir si procede] = el párrafo siguiente solo si encaja en el caso; [NOTA DE REVISIÓN: …] = corrección o aviso normativo de la revisión, no forma parte del escrito.
+
+---
+
+Escrito por el que se promueve expediente de jurisdicción voluntaria para que se acuerde mediante resolución judicial la remoción del albacea nombrado por causa de su negligente actuación.
+
+Formulario adaptado a la reforma procesal de la LO 1/2025.
+
+A LA SECCIÓN CIVIL DEL TRIBUNAL DE INSTANCIA [COMPLETAR] DE [LOCALIDAD]
+
+[NOTA DE REVISIÓN: Regla general: el TI tiene Sección Única, de Civil y de Instrucción; solo en los partidos que fija la Ley 38/1988 hay Sección Civil separada. Donde no la haya: «A LA SECCIÓN ÚNICA, DE CIVIL Y DE INSTRUCCIÓN, DEL TRIBUNAL DE INSTANCIA DE…». Fuente: LOPJ art. 84.2 (redacc. LO 1/2025, BOE-A-2025-76).]
+
+[ELEGIR UNA DE LAS ALTERNATIVAS QUE SIGUEN Y SUPRIMIR LAS DEMÁS]
+
+D./Dña. [NOMBRE Y APELLIDOS], Procurador/a y de D./Dña. [NOMBRE Y APELLIDOS], ante el Tribunal comparezco y como mejor en Derecho proceda, DIGO: (1)
+
+D./Dña. [NOMBRE Y APELLIDOS], con DNI [DNI/NIE], de profesión [PROFESIÓN], y domicilio en [LOCALIDAD], calle [CALLE], nº [NÚMERO], ante el Tribunal comparezco y como mejor en Derecho proceda, DIGO:
+
+Que por medio del presente escrito, y de conformidad el art. 91.1.2º de la Ley 15/2015, de 2 de julio, de la Jurisdicción Voluntaria (en lo sucesivo, LJV), promuevo expediente en solicitud de remoción de albacea. Todo ello, en base a los siguientes
+
+Hechos y consideraciones jurídicas:
+
+1.ª) Que mediante testamento abierto otorgado ante el Notario de [COMPLETAR] D./Dña. [NOMBRE Y APELLIDOS], en fecha [FECHA] por la madre de mi mandante Dña. [NOMBRE Y APELLIDOS], fue nombrado albacea con carácter universal y amplias facultades D. [COMPLETAR], con el objeto de hacer cumplir la voluntad testamentaria de aquella tras su fallecimiento, y custodiar sus bienes hasta su reparto a los correspondientes herederos.
+
+2.ª) En el mismo testamento mi representado fue instituido como heredero al igual que sus otros [COMPLETAR] hermanos de doble vínculo:
+
+-
++
+Añadir más párrafos iguales
+
+D./Dña. [NOMBRE Y APELLIDOS], con domicilio en [LOCALIDAD], calle [CALLE], nº [NÚMERO].
+
+3.ª) Que el pasado [FECHA] Dña. falleció como consecuencia de una larga enfermedad, sin que D. renunciara al cargo en el plazo señalado en el art. 898 del Código Civil, que se inició con la comunicación que le realizó mi cliente mediante burofax enviado el [COMPLETAR]. Desde entonces han transcurridos cuatro meses hasta la interposición de la presente solicitud sin que D. haya realizado labor alguna propia de su cargo. En este sentido, no ha respondido a ninguna de las solicitudes o comunicaciones de mi mandante enviadas por correo electrónico, no ha abonado los gastos de funeral y entierro de la fallecida, ni ha adoptado precaución alguna para la conservación y custodia de los bienes que integran el caudal hereditario.
+
+4.ª) Por ello, se acude al expediente previsto el art. 91.1.2º LJV, que establece el cauce procesal para que, conforme a art. 910 del Código Civil, se acuerde mediante resolución judicial la remoción del albacea nombrado por causa de su negligente actuación, al haberse mantenido de manera absolutamente pasiva, desde el momento que debió iniciar sus labores como tal, poniendo en riesgo la integridad de los bienes que conforman la herencia. Asimismo, mi representado está legitimado para solicitar dicha remoción al ser interesado en ella, atendiendo a su condición heredero. El citado art. 91.3 LJV se remite a las normas comunes de la Ley de Jurisdicción Voluntaria, arts. 17, 18 y 19 LJV, que determinan la celebración de comparecencia con citación de interesados, por los trámites establecidos en los arts. 437 y ss. de la Ley de Enjuiciamiento Civil.
+
+5.ª) Que es competente la sección civil del Tribunal de Instancia al que me dirijo conforme al art. 91.3 LJV en relación con lo dispuesto en el art. 85.1º LOPJ, al encontrarse en su partido judicial el último domicilio de la causante en el momento de su fallecimiento.
+
+6.ª) Se acompañan a este escrito copia auténtica del testamento, burofax enviado por mi mandante, conjunto de correos electrónico enviados al albacea sin respuesta, y factura reclamada por la funeraria que se ocupó del entierro de Dña. [NOMBRE Y APELLIDOS].
+
+Por todo lo expuesto, al amparo del art. 910 del Código Civil, y del art. 91 LJV,
+
+SUPLICO AL TRIBUNAL
+
+Que teniendo por presentado este escrito y documentos que lo acompañan y por promovido expediente de jurisdicción voluntaria, previa la convocatoria de comparecencia prevista en el art. 18 LJV, con citación de los herederos citados, del albacea nombrado, y de quien se estime pertinente, así como la práctica de las diligencias necesarias; se dicte auto acordando la remoción de D. [COMPLETAR], en el cargo de albacea, nombrado por Dña. en testamento otorgado el [COMPLETAR] ante el Notario de de [COMPLETAR] D./Dña. [NOMBRE Y APELLIDOS].
+
+Por ser de Justicia que pido en [LUGAR], a [FECHA].
+
+[ELEGIR: Firma del solicitante]
+
+Firma de Abogado/a	Firma de Procurador/a
+
+NOTAS DEL FORMULARIO
+
+(1) La exigencia de abogado y procurador para plantear expediente de jurisdicción voluntaria variará, según el art. 3.2 LJV, en función del expediente de que se trate, y la exigencia legal al respecto. En todo caso, aun cuando no sea necesario, las partes que lo deseen podrán actuar asistidas o representadas por Abogado y Procurador, respectivamente. En el supuesto específico del presente escrito el art. 91.2 LJV, exige esos requisitos para la tramitación del expediente cuando se trate de un haber hereditario con valor superior a 6.000 euros.
+
+========================================================================

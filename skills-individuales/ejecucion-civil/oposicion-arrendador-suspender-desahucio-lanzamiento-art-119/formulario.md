@@ -1,0 +1,78 @@
+# Formulario 0119 · Oposición del arrendador a suspender el desahucio y lanzamiento (art. 1 RDL 11/2020)
+
+- Año del modelo: 2022
+- Revisión 17-11-2026: 1 citas normativas corregidas tras comprobarlas en el BOE; 2 puntualizaciones normativas añadidas en el texto; 30 campos de relleno marcados en blanco
+- Avisos de la revisión: Medida COVID caducada: la suspensión de los arts. 1/1 bis RDL 11/2020 dejó de surtir efecto el 31-12-2025 (BOE-A-2020-4208; prórrogas de los RDL 16/2025 y 2/2026 derogadas, BOE-A-2026-2024 y BOE-A-2026-4667); hoy se pide al amparo del art. 2 RDL 29/2026 (hasta 31-12-2030, BOE-A-2026-20823) o se invoca la enervación extraordinaria del art. 22.6 LEC.
+
+> Cómo leerlo: [EN MAYÚSCULAS] = dato que hay que rellenar; [ELEGIR: a / b] = elegir una opción y borrar las demás; [OPCIONAL — incluir si procede] = el párrafo siguiente solo si encaja en el caso; [NOTA DE REVISIÓN: …] = corrección o aviso normativo de la revisión, no forma parte del escrito.
+
+---
+
+Formulario adaptado a la reforma procesal de la LO 1/2025.
+
+Procedimiento de desahucio núm [Nº DE PROCEDIMIENTO]
+
+A LA SECCIÓN CIVIL DEL TRIBUNAL DE INSTANCIA DE [SEDE], PLAZA N.º [COMPLETAR]
+
+[NOTA DE REVISIÓN: Regla general: el TI tiene Sección Única, de Civil y de Instrucción; solo en los partidos que fija la Ley 38/1988 hay Sección Civil separada. Donde no la haya: «A LA SECCIÓN ÚNICA, DE CIVIL Y DE INSTRUCCIÓN, DEL TRIBUNAL DE INSTANCIA DE…». Fuente: LOPJ art. 84.2 (redacc. LO 1/2025, BOE-A-2025-76).]
+
+[NOTA DE REVISIÓN: El Tribunal de Instancia es único por partido judicial (art. 84.1 LOPJ); lo que se numera es la plaza dentro de la Sección (DT 1.ª LO 1/2025). En escritos iniciales (demanda, solicitud, petición monitoria) no se indica plaza: «…DEL TRIBUNAL DE INSTANCIA DE [partido]», para reparto. Fuente: LOPJ art. 84.1-2 (redacc. LO 1/2025, BOE-A-2025-76; consolidado BOE-A-1985-12666) y LO 1/2025 DT 1.ª (plazas con la numeración del juzgado de procedencia).]
+
+D. /Dña., Procurador/a de los Tribunales, en nombre y representación de D. /Dña., según tengo debidamente acreditado en el procedimiento referenciado, ante el Tribunal comparezco y como mejor proceda en derecho DIGO:
+
+Que mediante el presente escrito y al amparo de lo dispuesto en el art. 1.2 del Real Decreto-ley 11/2020, de 31 de marzo, modificado por RDL 2/2022 [NOTA DE REVISIÓN: La suspensión extraordinaria de los arts. 1 y 1 bis RDL 11/2020 dejó de surtir efecto el 31-12-2025 (texto consolidado vigente; los RDL 16/2025 y 2/2026 fueron derogados por el Congreso). Desde el 8-10-2026 rige el art. 2 RDL 29/2026 (suspensión hasta el 31-12-2030, también en ejecuciones en curso, DT 2.ª) y la enervación extraordinaria por la Administración del art. 22.6 LEC. Fuente: RDL 11/2020, arts. 1 y 1 bis, BOE-A-2020-4208 (redacción tras BOE-A-2026-4667); BOE-A-2026-2024; RDL 29/2026, BOE-A-2026-20823 (convalidado: BOE-A-2026-23755), art. 2 y DT 2.ª; LEC (Ley 1/2000), BOE-A-2000-323, art. 22.6.], de 22 de febrero y por Real Decreto-ley 20/2022, de 27 diciembre, por el que se adoptan medidas urgentes complementarias en el ámbito social y económico para hacer frente al COVID-19, habiendo recibido traslado de la solicitud de la contraparte de suspensión extraordinaria del procedimiento de desahucio y lanzamiento, mediante el presente escrito formulo OPOSICIÓN A LA SUSPENSIÓN EXTRAORDINARIA SOLICITADA ( en su caso, con alegación de la situación de vulnerabilidad económica de mi representado/a), en base a los siguientes
+
+HECHOS Y FUNDAMENTOS
+
+PRIMERO .- Por resolución de fecha [FECHA]. se fijó la celebración de la vista de este juicio de desahucio para el próximo día [FECHA], habiendo solicitado la parte arrendataria la suspensión extraordinaria del procedimiento de desahucio por escrito presentado en fecha [FECHA], del que se ha dado traslado a esta representación.
+
+SEGUNDO .- (oposición por falta de vulnerabilidad económica del arrendatario.. [COMPLETAR]) Esta parte formula oposición a la solicitud extraordinaria de suspensión del art. 1 del RDL 11/2020, con fundamento en que la parte arrendataria no se encuentra en situación de vulnerabilidad económica en los términos establecidos en el art. 5.1.a) y b) del RDL 11/2020 y en que el interesado no ha aportado la documentación necesaria para acreditar dichos extremos conforme al art. 6 del citado RDL 11/2020, lo cual es una carga que incumbe al inquilino según establece el art. 1.2 del mismo texto legal.
+
+En cuanto a la falta del cumplimiento de requisitos, debemos oponernos a la suspensión extraordinaria al no cumplirse el requisito establecido en el art. 5.1.a) del RDL 11/2020, pues de la documentación aportada, y sin perjuicio de la falta de acreditación actualizada de los ingresos del arrendatario a los que se hará referencia posteriormente, se constata que el cónyuge del arrendatario, y por ende la unidad familiar, tiene unos ingresos superiores a tres veces el IPREM, constando que reside en la vivienda y forma parte de la unidad familiar según lo dispuesto en el art. 5.2 del RDL 11/2020. Por tanto, no es suficiente que el arrendatario esté percibiendo el subsidio de desempleo, como se alega sin acreditarse, puesto que los ingresos computables son los del conjunto de los miembros de la unidad familiar, y de la documentación aportada se constata que son superiores a los establecidos legalmente para definir la situación de vulnerabilidad económica que podría justificar la suspensión, por lo que la solicitud es del todo improcedente.
+
+En segundo lugar, tampoco se cumple el requisito del art. 5.1.b) del RDL 11/2020, puesto que la renta arrendaticia mensual no alcanza en modo alguno el 35 por ciento de los ingresos netos del conjunto de la unidad familiar. En efecto, la renta arrendaticia, impagada desde el mes de [COMPLETAR], asciende a [IMPORTE] euros mensuales, y los gastos que debería satisfacer el arrendatario según el contrato que se acompañó como documento [COMPLETAR] de la demanda, por gastos y suministros básicos asciende a [IMPORTE] euros de media mensual, según se constata de las tres últimas facturas de luz, gas, agua y teléfono aportadas por el arrendatario. Por tanto, en modo alguno se alcanza el 35 por ciento de los ingresos del conjunto de la unidad familiar, lo cual es un requisito preceptivo para definir la situación de vulnerabilidad económica, que en este caso tampoco se cumple.
+
+Todo ello determina por sí la improcedencia de la suspensión extraordinaria solicitada por la contraparte, al margen de la falta de acreditación que alegamos a continuación, que también determina la improcedencia de la pretensión suspensiva de la demandada.
+
+TERCERO.- (oposición por falta de acreditación…) Esta parte se opone asimismo a la pretensión de suspensión, por cuanto que no se satisface la carga establecida en el art. 1.2 del RDL 11/2020, que exige que sea la persona arrendataria quien acredite que se encuentra en alguna de las situaciones de vulnerabilidad económica. Al respecto, y pese a que el art. 6 del RDL 11/2020 facilita al arrendatario que pueda acreditar su situación, en este caso no se justifican mínimamente el cumplimiento de dichos requisitos.
+
+Por una parte, el certificado aportado sobre la situación de desempleo de la parte arrendataria está fechado seis meses antes de la solicitud de suspensión, de manera que en modo alguno puede entenderse que refleje de forma fidedigna su situación actual, ni mucho menos que se justifique que la situación persiste en el mes anterior a la solicitud como exige el art. 5.1.a) del RDL 11/2020. Este requisito es más exigible si cabe en el contexto actual, donde ha transcurrido mucho tiempo desde que finalizó la situación de estado de alarma y emergencia sanitaria que justificó estas medidas excepcionales, por lo que debe acreditarse de forma actualizada la situación de desempleo tal como se establece en el citado art. 5.1.a).
+
+Por otra parte, consta el empadronamiento de tres miembros de la unidad familiar y que el cónyuge del arrendatario percibe ingresos superiores al triplo del IPREM, según se desprende de la documentación aportada.
+
+Tampoco se aporta nota simple del servicio de índices del Registro de la Propiedad de todos los miembros de la unidad familiar, exigida en el art. 6.1.d) del RDL 11/2020, lo cual impide la acreditación de que no existe alternativa habitacional, cuya prueba incumbe al arrendatario.
+
+Finalmente, no se aporta la declaración responsable del deudor o deudores relativa al cumplimiento de los requisitos exigidos para considerarse sin recursos económicos suficientes según el RDL 11/2020, lo cual es un documento preceptivo para acreditar la situación de vulnerabilidad y falta de alternativa habitacional, mayormente ante la manifiesta insuficiencia del resto de documentos aportados, por lo cual debe denegarse la petición de suspensión extraordinaria también por estos motivos.
+
+CUARTO.- ( alegación de la situación de vulnerabilidad del arrendador…) Además de no quedar acreditada la situación de vulnerabilidad del arrendatario, esta parte debe alegar encontrarse igualmente en la situación de vulnerabilidad económica descrita en la letra a) del artículo 5.1, con manifiesto riesgo de incrementar dicha situación de vulnerabilidad en caso de que se adopte la medida de suspensión del procedimiento de desahucio y del lanzamiento.
+
+Debemos subrayar que mi representado y su familia se han visto gravemente afectados por la situación de emergencia sanitaria derivada del COVID-19, siendo los únicos ingresos de la unidad familiar los de mi representado, trabajador por cuenta propia, quien ha pasado a la situación de desempleo al hacer cerrado su bar, y no haber podido reiniciar la actividad por la situación de crisis económica derivada. Esta actividad era la única fuente de ingresos de la familia, lo cual supone una pérdida total de sus ingresos, no alcanzando por ello el conjunto de los ingresos de los miembros de la unidad familiar los límites establecidos en el art. 5 del RDL 11/2020.
+
+La unidad familiar, de acuerdo a la definición del art. 5.2 del RDL 11/2020, está compuesta por lo siguientes miembros [COMPLETAR]. Acompaño como documentos número [Nº DE DOCUMENTO] libro de familia (o documento acreditativo de pareja de hecho) y certificado de empadronamiento actual con referencia a los seis meses anteriores. Los ingresos de la unidad familiar en el mes anterior a la solicitud de la moratoria son los derivados del subsidio de desempleo, percibido por mi representado tras finalizar la percepción de las prestaciones contributivas, por importe de [IMPORTE] euros mensuales en doce pagas, tal como acredito por el certificado expedido por la entidad gestora de las prestaciones que acompaño como documento número [Nº DE DOCUMENTO]. Por tanto, tratándose de unidad familiar compuesta por [COMPLETAR], no se alcanza el límite de [COMPLETAR] veces el IPREM previsto en el art. 5.1.a), subapartado (en cada caso se indicará v.gr. i, ii, iii, iv ó v).
+
+No existe alternativa habitacional para mi representado, pues está viviendo en un piso de alquiler, donde satisface una renta arrendaticia mensual de [IMPORTE] euros y los gastos que debe satisfacer por gastos y suministros básicos asciende a [IMPORTE] euros de media mensual, según se acredita con los documentos acompañados como número [NÚMERO] consistentes en los tres últimos recibos de renta y las tres últimas facturas de luz, gas, agua y teléfono. El importe de la renta arrendaticia, más los gastos y suministros, es muy superior al 35 por ciento de los únicos ingresos de la unidad familiar de mi representado expresados anteriormente.
+
+La vivienda arrendada es la única alternativa habitacional de que dispone en este momento la familia, al no ser propietarios ni usufructuarios de vivienda alguna en España, tal como se acredita por la nota simple del servicio de índices del Registro de la Propiedad de todos los miembros de la unidad familiar, que se acompaña como documento número [Nº DE DOCUMENTO].
+
+Por todo lo expuesto, y de conformidad a lo dispuesto en el art. 1 del RDL 11/2020, se solicita que no se dé lugar a la suspensión extraordinaria del lanzamiento también por la situación de vulnerabilidad de mi mandante, puesto que la persona arrendataria lleva un total de [Nº] meses sin satisfacer la renta arrendaticia, siendo totalmente injusto que mi representado se vea privado de este ingreso y de la vivienda de su propiedad, en tanto que su hogar es igualmente vulnerable sin alternativa habitacional, siendo que mi representado ha perdido totalmente su fuente de ingresos como consecuencia de los efectos de la exposición del COVID-19, acreditándose que se encuentra en la situación definida en el art. 5 del RDL 11/2020, y aportándose los documentos indicados en el art. 6 del citado RDL 11/2020, según se recoge en el otrosí de este escrito, consistentes en la documentación ya expresada anteriormente y la declaración responsable prevenida en el art. 6.1.e) de mi representado relativa al cumplimiento de los requisitos exigidos para considerarse sin recursos económicos suficientes conforme a lo prevenido en el RDL 11/2020, solicitándose que por el Letrado de la Administración de Justicia se comunique a los servicios sociales esta circunstancia, a cuyo efecto mi representado presta consentimiento expreso de acuerdo a lo establecido en el art. 150.4 de la LEC.
+
+QUINTO.- Por todo lo anterior, se solicita que, tras los trámites legales, se dicte auto en el que se desestime la suspensión extraordinaria solicitada por el inquilino, acordando la continuación del procedimiento conforme a lo establecido en el art. 1.4 del RDL 11/2020.
+
+Por lo expuesto,
+
+SUPLICO AL TRIBUNAL: Que tenga por presentado este escrito con los documentos que acompaño y copia de todo ello, lo admita y, tras los trámites legales, acuerde desestimar la suspensión extraordinaria del plazo de lanzamiento en este procedimiento de desahucio por no acreditarse la situación de vulnerabilidad del arrendatario (y/o por la situación de vulnerabilidad del arrendador), acordando continuar el procedimiento.
+
+(caso de alegar situación de vulnerabilidad del arrendador…) OTROSÍ DIGO que, a fin de acreditar la situación de vulnerabilidad de mi representado alegada en el hecho cuarto de este escrito, de conformidad a lo dispuesto en el art. 1.2 en relación con los arts. 5 y 6 del RDL 11/2020 acompaño los siguientes documentos:
+
+Documentos número [Nº DE DOCUMENTO]: Certificado de la AEAT de cese de actividad y certificado expedido por la entidad gestora de las prestaciones, en el que figura la cuantía mensual percibida en concepto de prestaciones por desempleo.
+Documento número [Nº DE DOCUMENTO]: Libro de familia (o documento acreditativo de pareja de hecho) [COMPLETAR].
+Documento número [Nº DE DOCUMENTO]: Certificado de empadronamiento relativo a las personas empadronadas en la vivienda, con referencia al momento de la presentación y a los seis meses anteriores.
+Documento número [Nº DE DOCUMENTO]: nota simple del servicio de índices del Registro de la Propiedad de todos los miembros de la unidad familiar
+Documento número [Nº DE DOCUMENTO]: Declaración responsable del arrendatario relativa al cumplimiento de los requisitos exigidos para considerarse sin recursos económicos suficientes según el RDL 11/2020.
+Documentos número [Nº DE DOCUMENTO]: Recibos de alquiler, facturas de luz, gas, agua y teléfono de los tres últimos meses.
+
+Por lo que, AL TRIBUNAL SUPLICO tenga por acompañados estos documentos a efectos de acreditar la situación de vulnerabilidad de mi representado.
+
+En [COMPLETAR]
+
+Firma procurador y abogado

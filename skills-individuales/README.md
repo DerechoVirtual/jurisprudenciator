@@ -1,5 +1,11 @@
 # Skills jurídicas individuales
 
-Cada carpeta contiene una skill autónoma para preparar o revisar un documento concreto de Derecho español. Descarga su `SKILL.md` e instálalo en una carpeta con el nombre de la skill. Configura previamente el [conector Jurisprudenciator](https://jurisprudenciator.com/instalacion), que es obligatorio para ejecutarla.
+Cada carpeta conserva los archivos originales de la skill en el catálogo de formularios corregido el 17 de noviembre de 2026.
 
-El [buscador de skills](https://jurisprudenciator.com/plugins-y-skills/buscador) permite encontrar y abrir cada archivo por tema.
+- `SKILL.md` contiene las instrucciones.
+- `formulario.md` contiene el modelo cuando la skill corresponde a un formulario.
+- `marco.md` contiene el marco jurídico de referencia.
+
+Para instalar una skill individual, copia su carpeta completa. Todas requieren el [conector Jurisprudenciator](https://jurisprudenciator.com/instalacion). Los índices de cada materia enlazan las skills disponibles de su plugin.
+
+Encuentra y abre los archivos desde el [buscador de skills](https://jurisprudenciator.com/plugins-y-skills/buscador).
